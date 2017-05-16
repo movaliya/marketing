@@ -9,6 +9,9 @@
 #import "HomeVW.h"
 #import "ProfileVIEW.h"
 #import "NotificationVW.h"
+#import "StockVW.h"
+#import "OderHistryVW.h"
+#import "CustomerDetailVW.h"
 @interface HomeVW ()
 
 @end
@@ -55,10 +58,15 @@
     else if (aButton.tag == 4)
     {
         // Order History
+        OderHistryVW *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"OderHistryVW"];
+        [self.navigationController pushViewController:vcr animated:YES];
     }
     else if (aButton.tag == 5)
     {
         // Customer
+        CustomerDetailVW *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"CustomerDetailVW"];
+        [self.navigationController pushViewController:vcr animated:YES];
+        
     }
     else if (aButton.tag == 6)
     {
@@ -71,6 +79,8 @@
     else if (aButton.tag == 8)
     {
         // Stock
+        StockVW *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"StockVW"];
+        [self.navigationController pushViewController:vcr animated:YES];
     }
     else if (aButton.tag == 9)
     {

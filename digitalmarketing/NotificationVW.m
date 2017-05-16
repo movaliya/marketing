@@ -26,8 +26,15 @@
     NotifTableView.rowHeight = cell.frame.size.height;
     [NotifTableView registerNib:nib forCellReuseIdentifier:@"Notification_Cell"];
     
+    BOOL internet=[AppDelegate connectedToNetwork];
+    if (internet)
+    {
+        [self getNotification];
+    }
+    else
+        [AppDelegate showErrorMessageWithTitle:@"" message:@"Please check your internet connection or try again later." delegate:nil];
     
-    [self getNotification];
+    
     
     // Do any additional setup after loading the view.
 }
@@ -55,7 +62,6 @@
         [AppDelegate showErrorMessageWithTitle:AlertTitleError message:[response objectForKey:@"ack_msg"] delegate:nil];
     }
 }
-
 
 
 

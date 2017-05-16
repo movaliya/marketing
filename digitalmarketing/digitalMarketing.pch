@@ -17,6 +17,7 @@
 // AFNetworking
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <MobileCoreServices/MobileCoreServices.h>
+#import <QuartzCore/QuartzCore.h>
 
 //AlertView Title
 #define AlertTitle @"Success"
@@ -34,6 +35,10 @@
 #define user_change_password @"22"
 
 #define get_notification @"24"
+#define get_stock @"30"
+#define get_all_orders @"23"
+#define get_ordersDetial @"4"
+#define get_CutomerDetail @"3"
 
 
 
