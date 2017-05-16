@@ -15,9 +15,9 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     
-    BackView.layer.borderWidth = 1.0f;
+    BackView.layer.borderWidth = 0.5f;
     [BackView.layer setMasksToBounds:YES];
-    BackView.layer.borderColor = [UIColor grayColor].CGColor;
+    BackView.layer.borderColor = [UIColor colorWithRed:(132/255.0) green:(132/255.0) blue:(132/255.0) alpha:1.0].CGColor;
     
     BackView.layer.masksToBounds = NO;
     [BackView.layer setShadowColor:[UIColor colorWithRed:(218/255.0) green:(219/255.0) blue:(225/255.0) alpha:1.0].CGColor];

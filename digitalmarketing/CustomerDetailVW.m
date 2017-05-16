@@ -21,6 +21,10 @@
 {
     [super viewDidLoad];
     
+    CustomerTable.layer.borderWidth = 1.0f;
+    CustomerTable.layer.cornerRadius=2.0f;
+    [CustomerTable.layer setMasksToBounds:YES];
+    CustomerTable.layer.borderColor = [UIColor colorWithRed:(132/255.0) green:(132/255.0) blue:(132/255.0) alpha:1.0].CGColor;
     
     serachBar.layer.borderWidth = 1;
     serachBar.layer.borderColor = [UIColor whiteColor].CGColor;
@@ -32,8 +36,8 @@
     [SearchBackView.layer setShadowOffset:CGSizeMake(0.3,0.3)];
     
     UINib *nib = [UINib nibWithNibName:@"Customer_Cell" bundle:nil];
-    Customer_Cell *cell = [[nib instantiateWithOwner:nil options:nil] objectAtIndex:0];
-    CustomerTable.rowHeight = cell.frame.size.height;
+    CustomerTable.estimatedRowHeight = 183;
+    CustomerTable.rowHeight = UITableViewAutomaticDimension;
     [CustomerTable registerNib:nib forCellReuseIdentifier:@"Customer_Cell"];
     
     BOOL internet=[AppDelegate connectedToNetwork];
@@ -79,16 +83,20 @@
     return 1;
 }
 
-
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 10.0; // you can have your own choice, of course
+    return 13.0; // you can have your own choice, of course
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *headerView = [[UIView alloc] init];
     headerView.backgroundColor = [UIColor clearColor];
     return headerView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewAutomaticDimension;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -100,6 +108,9 @@
     {
         cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     }
+    [cell setNeedsUpdateConstraints];
+    [cell updateConstraintsIfNeeded];
+    
     cell.CustomerName.text=[[[customerDict valueForKey:@"cname"] objectAtIndex:indexPath.section] uppercaseString];
     cell.Customer_ID.text=[NSString stringWithFormat:@"#%@",[[customerDict valueForKey:@"id"] objectAtIndex:indexPath.section]];
     cell.Address.text=[[customerDict valueForKey:@"address"] objectAtIndex:indexPath.section];
@@ -112,7 +123,8 @@
     cell.ResigterDate.text=[[customerDict valueForKey:@"created_date"] objectAtIndex:indexPath.section];
     
     
-    
+    [cell setNeedsUpdateConstraints];
+    [cell updateConstraintsIfNeeded];
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     return cell;
 }

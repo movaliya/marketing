@@ -13,9 +13,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
-    BackView.layer.borderWidth = 1.0f;
-    [BackView.layer setMasksToBounds:YES];
-    BackView.layer.borderColor = [UIColor colorWithRed:(132/255.0) green:(132/255.0) blue:(132/255.0) alpha:1.0].CGColor;
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

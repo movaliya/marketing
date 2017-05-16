@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -23,6 +23,10 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tXO-v4-3jx">
                     <rect key="frame" x="0.0" y="0.0" width="281.5" height="667"/>
                     <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gm1-Uo-nfZ">
+                            <rect key="frame" x="0.0" y="182" width="281.5" height="485"/>
+                            <color key="backgroundColor" red="0.96470588239999999" green="0.96862745100000003" blue="0.99607843139999996" alpha="1" colorSpace="calibratedRGB"/>
+                        </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="adJ-1E-P1A">
                             <rect key="frame" x="18" y="31" width="26" height="22"/>
                             <constraints>
@@ -48,9 +52,9 @@
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="ucE-hw-wWg">
-                            <rect key="frame" x="0.0" y="176" width="281.5" height="491"/>
-                            <color key="backgroundColor" red="0.96470588239999999" green="0.96862745100000003" blue="0.99607843139999996" alpha="1" colorSpace="calibratedRGB"/>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ucE-hw-wWg">
+                            <rect key="frame" x="0.0" y="176" width="282" height="491"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <color key="separatorColor" red="0.96470588239999999" green="0.96862745100000003" blue="0.99607843139999996" alpha="1" colorSpace="calibratedRGB"/>
                             <inset key="separatorInset" minX="25" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </tableView>
@@ -72,11 +76,15 @@
                         <constraint firstItem="LGf-Kt-JYz" firstAttribute="centerX" secondItem="tXO-v4-3jx" secondAttribute="centerX" id="7yT-Yc-am2"/>
                         <constraint firstAttribute="trailing" secondItem="ucE-hw-wWg" secondAttribute="trailing" id="832-MK-uDo"/>
                         <constraint firstAttribute="trailing" secondItem="B1a-an-1v4" secondAttribute="trailing" constant="20" id="9f7-yd-DGb"/>
+                        <constraint firstItem="Gm1-Uo-nfZ" firstAttribute="leading" secondItem="tXO-v4-3jx" secondAttribute="leading" id="FB5-t8-eQ2"/>
                         <constraint firstItem="ucE-hw-wWg" firstAttribute="top" secondItem="B1a-an-1v4" secondAttribute="bottom" constant="2" id="RFK-4m-9E4"/>
                         <constraint firstItem="adJ-1E-P1A" firstAttribute="top" secondItem="tXO-v4-3jx" secondAttribute="top" constant="31" id="Y0L-yb-hit"/>
+                        <constraint firstAttribute="trailing" secondItem="Gm1-Uo-nfZ" secondAttribute="trailing" id="cM0-Ze-SyC"/>
                         <constraint firstItem="il1-8z-1XP" firstAttribute="top" secondItem="adJ-1E-P1A" secondAttribute="bottom" constant="24" id="dZd-4M-7j2"/>
                         <constraint firstAttribute="bottom" secondItem="ucE-hw-wWg" secondAttribute="bottom" id="gfE-1p-FHD"/>
+                        <constraint firstItem="Gm1-Uo-nfZ" firstAttribute="top" secondItem="B1a-an-1v4" secondAttribute="bottom" constant="8" id="gsB-Lw-tGq"/>
                         <constraint firstItem="il1-8z-1XP" firstAttribute="leading" secondItem="tXO-v4-3jx" secondAttribute="leading" constant="29" id="iMB-Vp-V9g"/>
+                        <constraint firstAttribute="bottom" secondItem="Gm1-Uo-nfZ" secondAttribute="bottom" id="inN-RS-7wR"/>
                         <constraint firstItem="B1a-an-1v4" firstAttribute="leading" secondItem="tXO-v4-3jx" secondAttribute="leading" constant="20" id="rcA-AD-N47"/>
                         <constraint firstItem="B1a-an-1v4" firstAttribute="top" secondItem="LGf-Kt-JYz" secondAttribute="bottom" constant="29" id="tGQ-Ck-Pum"/>
                         <constraint firstItem="LGf-Kt-JYz" firstAttribute="top" secondItem="tXO-v4-3jx" secondAttribute="top" constant="30" id="xDY-dR-e99"/>
@@ -104,7 +112,7 @@
                 <outlet property="Username_LBL" destination="il1-8z-1XP" id="T1b-k7-0RF"/>
                 <outlet property="drawerTableView" destination="ucE-hw-wWg" id="UN4-Hz-JGY"/>
             </connections>
-            <point key="canvasLocation" x="-4" y="14"/>
+            <point key="canvasLocation" x="-4.5" y="13.5"/>
         </view>
     </objects>
     <resources>

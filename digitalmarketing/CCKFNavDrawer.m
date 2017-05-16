@@ -327,6 +327,32 @@
 
 #pragma mark - Table view data source
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *headerView = [[UIView alloc] init];
+    headerView.backgroundColor = [UIColor clearColor];
+    UILabel *LineLBL=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 1)];
+    LineLBL.backgroundColor=[UIColor colorWithRed:(209/255.0) green:(209/255.0) blue:(209/255.0) alpha:1.0];
+    
+    UILabel *TextLBL=[[UILabel alloc]initWithFrame:CGRectMake(20, 10, SCREEN_WIDTH, 15)];
+    TextLBL.text=@"Communicate";
+    TextLBL.font=[UIFont boldSystemFontOfSize:15];
+    TextLBL.textColor=[UIColor colorWithRed:(109/255.0) green:(109/255.0) blue:(109/255.0) alpha:1.0];
+    [headerView addSubview:TextLBL];
+
+    [headerView addSubview:LineLBL];
+    return headerView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section == 4)
+    {
+        return 35;
+    }
+    return 0.0; // you can have your own choice, of course
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (SCREEN_HEIGHT==480)
@@ -341,14 +367,14 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    
-        if (section == 4)
-        {
-            return @"Communicate";
-        }
+    if (section == 4)
+    {
+        return @"Communicate";
+    }
     
     return @"";
 }
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
@@ -445,6 +471,7 @@
     cell.Title_LBL.text=[TitleArr objectAtIndex:indexPath.section];
     cell.IconIMG.image=[UIImage imageNamed:[ImgArr objectAtIndex:indexPath.section]];
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    cell.backgroundColor=[UIColor clearColor];
     
     return cell;
 }

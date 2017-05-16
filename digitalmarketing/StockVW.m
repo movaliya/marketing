@@ -17,9 +17,13 @@
 @synthesize SearchBackView,TitleBack_View,StockTable;
 @synthesize SerachBar;
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    
+    StockTable.layer.borderWidth = 1.0f;
+    StockTable.layer.cornerRadius=2.0f;
+    [StockTable.layer setMasksToBounds:YES];
+    StockTable.layer.borderColor = [UIColor colorWithRed:(132/255.0) green:(132/255.0) blue:(132/255.0) alpha:1.0].CGColor;
     
     SerachBar.layer.borderWidth = 1;
     SerachBar.layer.borderColor = [UIColor whiteColor].CGColor;
@@ -87,18 +91,6 @@
     return 1;
 }
 
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 10.0; // you can have your own choice, of course
-}
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    UIView *headerView = [[UIView alloc] init];
-    headerView.backgroundColor = [UIColor clearColor];
-    return headerView;
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Stock_Cell";
@@ -128,8 +120,6 @@
 #pragma mark - SerachBarDelegate
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-   
-    
    // topCategoriesDic=[Searchdic mutableCopy];
     [searchBar resignFirstResponder];
     [StockTable reloadData];

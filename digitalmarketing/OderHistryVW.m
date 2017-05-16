@@ -23,8 +23,6 @@
 {
     [super viewDidLoad];
     UINib *nib = [UINib nibWithNibName:@"OrderHistry_Cell" bundle:nil];
-    OrderHistry_Cell *cell = [[nib instantiateWithOwner:nil options:nil] objectAtIndex:0];
-    Histry_Table.rowHeight = cell.frame.size.height;
     [Histry_Table registerNib:nib forCellReuseIdentifier:@"OrderHistry_Cell"];
     
     BOOL internet=[AppDelegate connectedToNetwork];
@@ -73,11 +71,14 @@
 {
     return 1;
 }
-
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
+{
+    return 237;
+}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 10.0; // you can have your own choice, of course
+    return 13.0; // you can have your own choice, of course
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
@@ -105,7 +106,6 @@
     cell.TotalAmount.text=[NSString stringWithFormat:@"Rs.%@",[[OrderHistryDict valueForKey:@"total_amount"] objectAtIndex:indexPath.section]];
     cell.Discount.text=[NSString stringWithFormat:@"Rs.%@",[[OrderHistryDict valueForKey:@"discount"] objectAtIndex:indexPath.section]];
     cell.GrandTotal.text=[NSString stringWithFormat:@"Rs.%@",[[OrderHistryDict valueForKey:@"grand_total"] objectAtIndex:indexPath.section]];
-    
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     return cell;
 }
@@ -126,15 +126,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
