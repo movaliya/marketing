@@ -127,7 +127,7 @@
     cell.PriceLBL.text=[NSString stringWithFormat:@"%@",[[ProductDict valueForKey:@"sell_price"]objectAtIndex:indexPath.section]];
     
     
-    if ([[WithSelectArr objectAtIndex:indexPath.section] isEqualToString:@"YES"])
+    if ([[WithSelectArr objectAtIndex:indexPath.section] isEqualToString:[[ProductDict valueForKey:@"id"] objectAtIndex:indexPath.section]])
     {
         [cell.CheckBoxBtn setImage:[UIImage imageNamed:@"EnbleCheckBox"] forState:UIControlStateNormal];
     }
@@ -147,20 +147,30 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-   
     if (tableView==ProductTable)
     {
-        if ([[WithSelectArr objectAtIndex:indexPath.section] isEqualToString:@"YES"])
+        if (![[WithSelectArr objectAtIndex:indexPath.section] isEqualToString:@"NO"])
         {
             [WithSelectArr replaceObjectAtIndex:indexPath.section withObject:@"NO"];
-            NSInteger indx=[withSelectMain indexOfObject:[NSString stringWithFormat:@"%ld",(long)indexPath.section]];
+            
+            NSArray *idarr=[withSelectMain valueForKey:@"id"];
+            NSInteger indx=[idarr indexOfObject:[[ProductDict valueForKey:@"id"] objectAtIndex:indexPath.section]];
             [withSelectMain removeObjectAtIndex:indx];
         }
         else
         {
-            [WithSelectArr replaceObjectAtIndex:indexPath.section withObject:@"YES"];
-            [withSelectMain addObject:[NSString stringWithFormat:@"%ld",(long)indexPath.section]];
+            [WithSelectArr replaceObjectAtIndex:indexPath.section withObject:[[ProductDict valueForKey:@"id"] objectAtIndex:indexPath.section]];
+            
+            NSMutableDictionary *Productdict = [[NSMutableDictionary alloc] init];
+            
+            [Productdict setObject:[[ProductDict valueForKey:@"material_name"]objectAtIndex:indexPath.section] forKey:@"name"];
+            [Productdict setObject:[[ProductDict valueForKey:@"id"]objectAtIndex:indexPath.section] forKey:@"id"];
+            [Productdict setObject:[[ProductDict valueForKey:@"sell_price"]objectAtIndex:indexPath.section] forKey:@"price"];
+            [Productdict setObject:[[ProductDict valueForKey:@"minimum_stock_qty"]objectAtIndex:indexPath.section] forKey:@"qty"];
+            [withSelectMain addObject:Productdict];
+            
         }
+        [_delegate ChkProductValue:withSelectMain];
         
         [ProductTable reloadData];
     }
@@ -169,17 +179,18 @@
 -(void)Chkbox_click:(id)sender
 {
     UIButton *senderButton = (UIButton *)sender;
-    NSLog(@"%ld",(long)senderButton.tag);
     
-    if ([[WithSelectArr objectAtIndex:senderButton.tag] isEqualToString:@"YES"])
+    if (![[WithSelectArr objectAtIndex:senderButton.tag] isEqualToString:@"NO"])
     {
         [WithSelectArr replaceObjectAtIndex:senderButton.tag withObject:@"NO"];
-        NSInteger indx=[withSelectMain indexOfObject:[NSString stringWithFormat:@"%ld",(long)senderButton.tag]];
+        
+        NSArray *idarr=[withSelectMain valueForKey:@"id"];
+        NSInteger indx=[idarr indexOfObject:[[ProductDict valueForKey:@"id"] objectAtIndex:senderButton.tag]];
         [withSelectMain removeObjectAtIndex:indx];
     }
     else
     {
-        [WithSelectArr replaceObjectAtIndex:senderButton.tag withObject:@"YES"];
+        [WithSelectArr replaceObjectAtIndex:senderButton.tag withObject:[[ProductDict valueForKey:@"id"] objectAtIndex:senderButton.tag]];
         
         NSMutableDictionary *Productdict = [[NSMutableDictionary alloc] init];
         
@@ -188,13 +199,10 @@
         [Productdict setObject:[[ProductDict valueForKey:@"sell_price"]objectAtIndex:senderButton.tag] forKey:@"price"];
         [Productdict setObject:[[ProductDict valueForKey:@"minimum_stock_qty"]objectAtIndex:senderButton.tag] forKey:@"qty"];
         [withSelectMain addObject:Productdict];
-        
     }
     [_delegate ChkProductValue:withSelectMain];
 
     [ProductTable reloadData];
-    
-      NSLog(@"withSelectMain---%@",withSelectMain);
 }
 
 #pragma mark - SerachBarDelegate
@@ -262,10 +270,12 @@
     [ProductTable reloadData];
     [searchBar resignFirstResponder];
 }
+
 - (IBAction)CancelSearchBtn_Action:(id)sender
 {
      [SearchBR resignFirstResponder];
 }
+
 - (IBAction)BackBtn_Action:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -275,15 +285,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
