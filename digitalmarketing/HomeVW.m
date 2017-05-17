@@ -12,6 +12,8 @@
 #import "StockVW.h"
 #import "OderHistryVW.h"
 #import "CustomerDetailVW.h"
+#import "CreateOrderVW.h"
+#import "DispatchHistoryVW.h"
 @interface HomeVW ()
 
 @end
@@ -54,6 +56,8 @@
     else if (aButton.tag == 3)
     {
         // Create Order
+        CreateOrderVW *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"CreateOrderVW"];
+        [self.navigationController pushViewController:vcr animated:YES];
     }
     else if (aButton.tag == 4)
     {
@@ -89,6 +93,8 @@
     else if (aButton.tag == 10)
     {
         // Dispatch History
+        DispatchHistoryVW *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"DispatchHistoryVW"];
+        [self.navigationController pushViewController:vcr animated:YES];
     }
     else if (aButton.tag == 11)
     {

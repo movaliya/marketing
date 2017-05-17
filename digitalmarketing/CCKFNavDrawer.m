@@ -399,7 +399,7 @@
     if (indexPath.section==0)
     {
         cell.IconWidth.constant=19;
-        cell.IconHeight.constant=17;
+        cell.IconHeight.constant=15;
        // cell.IconX.constant=8;
         //cell.ImgLblGap.constant=16;
         

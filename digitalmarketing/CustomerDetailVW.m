@@ -21,10 +21,10 @@
 {
     [super viewDidLoad];
     
-    CustomerTable.layer.borderWidth = 1.0f;
-    CustomerTable.layer.cornerRadius=2.0f;
-    [CustomerTable.layer setMasksToBounds:YES];
-    CustomerTable.layer.borderColor = [UIColor colorWithRed:(132/255.0) green:(132/255.0) blue:(132/255.0) alpha:1.0].CGColor;
+   // CustomerTable.layer.borderWidth = 1.0f;
+   // CustomerTable.layer.cornerRadius=2.0f;
+   // [CustomerTable.layer setMasksToBounds:YES];
+   // CustomerTable.layer.borderColor = [UIColor colorWithRed:(132/255.0) green:(132/255.0) blue:(132/255.0) alpha:1.0].CGColor;
     
     serachBar.layer.borderWidth = 1;
     serachBar.layer.borderColor = [UIColor whiteColor].CGColor;
