@@ -14,6 +14,10 @@
 #import "CustomerDetailVW.h"
 #import "CreateOrderVW.h"
 #import "DispatchHistoryVW.h"
+#import "CreateDispatchVW.h"
+#import "CreateInwardOrderVW.h"
+#import "InwardHistryVW.h"
+
 @interface HomeVW ()
 
 @end
@@ -74,11 +78,15 @@
     }
     else if (aButton.tag == 6)
     {
-        // Inward
+        // Create Inward order
+        CreateInwardOrderVW *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"CreateInwardOrderVW"];
+        [self.navigationController pushViewController:vcr animated:YES];
     }
     else if (aButton.tag == 7)
     {
         // Inward History
+        InwardHistryVW *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"InwardHistryVW"];
+        [self.navigationController pushViewController:vcr animated:YES];
     }
     else if (aButton.tag == 8)
     {
@@ -88,7 +96,9 @@
     }
     else if (aButton.tag == 9)
     {
-        // Dispatch
+        // Create Dispatch
+        CreateDispatchVW *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"CreateDispatchVW"];
+        [self.navigationController pushViewController:vcr animated:YES];
     }
     else if (aButton.tag == 10)
     {

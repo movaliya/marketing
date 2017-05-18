@@ -1,22 +1,21 @@
 //
-//  CreateOrderVW.m
+//  CreateInwardOrderVW.m
 //  digitalmarketing
 //
-//  Created by Mango SW on 17/05/2017.
+//  Created by Mango SW on 18/05/2017.
 //  Copyright © 2017 jkinfoway. All rights reserved.
 //
 
-#import "CreateOrderVW.h"
+#import "CreateInwardOrderVW.h"
 #import "digitalMarketing.pch"
 #import "SerachProductVW.h"
 #import "OrderDetail_Cell.h"
 
-@interface CreateOrderVW ()<SerachProductVWDelegate>
-
+@interface CreateInwardOrderVW ()<SerachProductVWDelegate>
 
 @end
 
-@implementation CreateOrderVW
+@implementation CreateInwardOrderVW
 @synthesize SearchProBackView,SelectCustomerBackView,ProductTitleBackView;
 @synthesize CreateOrderBtn,CutomerView,CustomerTBL,SelectCutomer_Button;
 @synthesize ProductTBL;
@@ -26,8 +25,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    
     CustomerPhoneLBL.text=@"";
     CustomerAdressLBL.text=@"";
     CutomerNameLBL.text=@"";
@@ -80,20 +77,20 @@
     OrderDetail_Cell *cell = [[nib instantiateWithOwner:nil options:nil] objectAtIndex:0];
     ProductTBL.rowHeight = cell.frame.size.height;
     [ProductTBL registerNib:nib forCellReuseIdentifier:@"OrderDetail_Cell"];
-
 }
--(void)getCutomerDetail
+
+-(void)getVender
 {
     NSMutableDictionary *dictParams = [[NSMutableDictionary alloc] init];
     [dictParams setObject:Base_Key  forKey:@"key"];
-    [dictParams setObject:get_CutomerDetail  forKey:@"s"];
+    [dictParams setObject:get_vendor  forKey:@"s"];
     
     [CommonWS AAwebserviceWithURL:[NSString stringWithFormat:@"%@",BaseUrl] withParam:dictParams withCompletion:^(NSDictionary *response, BOOL success1)
      {
-         [self handleCutomerDTResponse:response];
+         [self handleVenderResponse:response];
      }];
 }
-- (void)handleCutomerDTResponse:(NSDictionary*)response
+- (void)handleVenderResponse:(NSDictionary*)response
 {
     if ([[[response objectForKey:@"ack"]stringValue ] isEqualToString:@"1"])
     {
@@ -115,7 +112,7 @@
     {
         if (!CheckSUCCESS)
         {
-           [self getCutomerDetail];
+            [self getVender];
         }
         
     }
@@ -164,9 +161,9 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     //if (tableView==CustomerTBL)
-   // {
-      //  return nil;
-   // }
+    // {
+    //  return nil;
+    // }
     UIView *v = [UIView new];
     [v setBackgroundColor:[UIColor clearColor]];
     return v;
@@ -236,7 +233,7 @@
 {
     if (tableView==CustomerTBL)
     {
-       CutomerView.hidden=YES;
+        CutomerView.hidden=YES;
         
         // Take Cutomer Detail From Here.
         [SelectCutomer_Button setTitle:[[customerDict valueForKey:@"cname"]objectAtIndex:indexPath.row ]forState:UIControlStateNormal];
@@ -270,9 +267,9 @@
 
 - (void)ChkProductValue:(NSMutableArray *)ProductDict
 {
-   // NSLog(@"value====%@",ProductDict);
+    // NSLog(@"value====%@",ProductDict);
     
-   // NSString *jsonString = [ProductDict JSONRepresentation];
+    // NSString *jsonString = [ProductDict JSONRepresentation];
     ProductArry=[[NSMutableArray alloc]initWithArray:ProductDict];
     
     totalAmount=0;
@@ -285,7 +282,6 @@
     }
     
     self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%ld",(long)totalQTY];
-    self.TotalAmount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
     self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
     
     NSError * err;
@@ -299,7 +295,7 @@
 {
     if ([CutomerID isEqualToString:@""])
     {
-         [AppDelegate showErrorMessageWithTitle:@"Error!" message:@"Please Select Customer." delegate:nil];
+        [AppDelegate showErrorMessageWithTitle:@"Error!" message:@"Please Select Customer." delegate:nil];
     }
     else if (ProductArry.count==0)
     {
@@ -310,7 +306,7 @@
         BOOL internet=[AppDelegate connectedToNetwork];
         if (internet)
         {
-            [self CreateOrder];
+            [self CreateInwardOrder];
         }
         else
             [AppDelegate showErrorMessageWithTitle:@"" message:@"Please check your internet connection or try again later." delegate:nil];
@@ -318,31 +314,28 @@
     
     
 }
--(void)CreateOrder
+-(void)CreateInwardOrder
 {
-
+    
     NSDictionary *UserSaveData=[[NSUserDefaults standardUserDefaults]objectForKey:@"LoginUserDic"];
     NSMutableDictionary *dictParams = [[NSMutableDictionary alloc] init];
     [dictParams setObject:Base_Key  forKey:@"key"];
-    [dictParams setObject:Create_Order  forKey:@"s"];
+    [dictParams setObject:add_inward  forKey:@"s"];
     
-    [dictParams setObject:CutomerID  forKey:@"customer_id"];
+    [dictParams setObject:CutomerID  forKey:@"vendor_id"];
     [dictParams setObject:[UserSaveData valueForKey:@"id"] forKey:@"sales_id"];
     
-    [dictParams setObject:@"0"  forKey:@"discount"];
-    [dictParams setObject:@"0"  forKey:@"discount_type"];
-    
     [dictParams setObject:[NSString stringWithFormat:@"%ld",(long)totalAmount]  forKey:@"grand_total"];
-    [dictParams setObject:[NSString stringWithFormat:@"%ld",(long)totalAmount]  forKey:@"total_amount"];
-    [dictParams setObject:[NSString stringWithFormat:@"%ld",(long)totalQTY]  forKey:@"total_qty"];
+    [dictParams setObject:[NSString stringWithFormat:@"%ld",(long)totalQTY]  forKey:@"qty"];
+    [dictParams setObject:@""  forKey:@""];
     [dictParams setObject:ProductJSONString  forKey:@"product"];
-   
+    
     [CommonWS AAwebserviceWithURL:[NSString stringWithFormat:@"%@",BaseUrl] withParam:dictParams withCompletion:^(NSDictionary *response, BOOL success1)
      {
-         [self handleGetPROResponse:response];
+         [self handleInwardResponse:response];
      }];
 }
-- (void)handleGetPROResponse:(NSDictionary*)response
+- (void)handleInwardResponse:(NSDictionary*)response
 {
     if ([[[response objectForKey:@"ack"]stringValue ] isEqualToString:@"1"])
     {
@@ -358,10 +351,19 @@
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
 
 @end

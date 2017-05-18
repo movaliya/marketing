@@ -11,6 +11,7 @@
 @interface CustomerDetailVW : UIViewController
 {
     NSDictionary *customerDict;
+    NSMutableDictionary *Searchdic;
 }
 @property (weak, nonatomic) IBOutlet UISearchBar *serachBar;
 @property (weak, nonatomic) IBOutlet UIView *SearchBackView;

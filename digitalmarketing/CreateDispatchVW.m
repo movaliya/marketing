@@ -1,30 +1,32 @@
 //
-//  CreateOrderVW.m
+//  CreateDispatchVW.m
 //  digitalmarketing
 //
-//  Created by Mango SW on 17/05/2017.
+//  Created by Mango SW on 18/05/2017.
 //  Copyright © 2017 jkinfoway. All rights reserved.
 //
 
-#import "CreateOrderVW.h"
+#import "CreateDispatchVW.h"
+
 #import "digitalMarketing.pch"
 #import "SerachProductVW.h"
 #import "OrderDetail_Cell.h"
 
-@interface CreateOrderVW ()<SerachProductVWDelegate>
+@interface CreateDispatchVW ()<SerachProductVWDelegate>
 
 
 @end
 
-@implementation CreateOrderVW
-@synthesize SearchProBackView,SelectCustomerBackView,ProductTitleBackView;
-@synthesize CreateOrderBtn,CutomerView,CustomerTBL,SelectCutomer_Button;
-@synthesize ProductTBL;
 
+@implementation CreateDispatchVW
+
+@synthesize SearchProBackView,CustomerVIEW,ProductTitleBackView,PopUpCustomerVW;
+@synthesize CustomerTBL,selectCutomer_BTN,CreateDispatch_Btn;
+@synthesize ProductTBL;
 @synthesize CustomerPhoneLBL,CustomerAdressLBL,CutomerNameLBL,CustomerStateCityLBL;
 
-- (void)viewDidLoad
-{
+
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     
@@ -34,14 +36,14 @@
     CustomerStateCityLBL.text=@"";
     
     CheckSUCCESS=NO;
-    [SelectCustomerBackView.layer setCornerRadius:3.0f];
-    SelectCustomerBackView.layer.borderWidth = 1.0f;
-    SelectCustomerBackView.layer.borderColor = [UIColor clearColor].CGColor;
+    [CustomerVIEW.layer setCornerRadius:3.0f];
+    CustomerVIEW.layer.borderWidth = 1.0f;
+    CustomerVIEW.layer.borderColor = [UIColor clearColor].CGColor;
     
-    [SelectCustomerBackView.layer setShadowColor:[UIColor colorWithRed:(218/255.0) green:(219/255.0) blue:(225/255.0) alpha:1.0].CGColor];
-    [SelectCustomerBackView.layer setShadowOpacity:0.8];
-    [SelectCustomerBackView.layer setShadowRadius:1.0];
-    [SelectCustomerBackView.layer setShadowOffset:CGSizeMake(0.3,0.3)];
+    [CustomerVIEW.layer setShadowColor:[UIColor colorWithRed:(218/255.0) green:(219/255.0) blue:(225/255.0) alpha:1.0].CGColor];
+    [CustomerVIEW.layer setShadowOpacity:0.8];
+    [CustomerVIEW.layer setShadowRadius:1.0];
+    [CustomerVIEW.layer setShadowOffset:CGSizeMake(0.3,0.3)];
     
     [SearchProBackView.layer setCornerRadius:3.0f];
     SearchProBackView.layer.borderWidth = 1.0f;
@@ -60,27 +62,41 @@
     [ProductTitleBackView.layer setShadowRadius:1.0];
     [ProductTitleBackView.layer setShadowOffset:CGSizeMake(0.3,0.3)];
     
-    [CreateOrderBtn.layer setCornerRadius:3.0f];
-    CreateOrderBtn.layer.borderWidth = 1.0f;
-    [CreateOrderBtn.layer setMasksToBounds:YES];
-    CreateOrderBtn.layer.borderColor = [UIColor clearColor].CGColor;
+    [CreateDispatch_Btn.layer setCornerRadius:3.0f];
+    CreateDispatch_Btn.layer.borderWidth = 1.0f;
+    [CreateDispatch_Btn.layer setMasksToBounds:YES];
+    CreateDispatch_Btn.layer.borderColor = [UIColor clearColor].CGColor;
     
-    [CutomerView.layer setCornerRadius:3.0f];
-    CutomerView.layer.borderWidth = 1.0f;
-    CutomerView.layer.borderColor = [UIColor clearColor].CGColor;
-    [CutomerView.layer setShadowColor:[UIColor grayColor].CGColor];
-    [CutomerView.layer setShadowOpacity:0.8];
-    [CutomerView.layer setShadowRadius:2.0];
-    [CutomerView.layer setShadowOffset:CGSizeMake(10,10)];
+    [PopUpCustomerVW.layer setCornerRadius:3.0f];
+    PopUpCustomerVW.layer.borderWidth = 1.0f;
+    PopUpCustomerVW.layer.borderColor = [UIColor clearColor].CGColor;
+    [PopUpCustomerVW.layer setShadowColor:[UIColor grayColor].CGColor];
+    [PopUpCustomerVW.layer setShadowOpacity:0.8];
+    [PopUpCustomerVW.layer setShadowRadius:2.0];
+    [PopUpCustomerVW.layer setShadowOffset:CGSizeMake(10,10)];
     
-    CutomerView.hidden=YES;
+    PopUpCustomerVW.hidden=YES;
     CutomerID=@"";
     
     UINib *nib = [UINib nibWithNibName:@"OrderDetail_Cell" bundle:nil];
     OrderDetail_Cell *cell = [[nib instantiateWithOwner:nil options:nil] objectAtIndex:0];
     ProductTBL.rowHeight = cell.frame.size.height;
     [ProductTBL registerNib:nib forCellReuseIdentifier:@"OrderDetail_Cell"];
-
+}
+- (IBAction)SelectCutomerBtn_Action:(id)sender
+{
+    PopUpCustomerVW.hidden=NO;
+    BOOL internet=[AppDelegate connectedToNetwork];
+    if (internet)
+    {
+        if (!CheckSUCCESS)
+        {
+            [self getCutomerDetail];
+        }
+        
+    }
+    else
+        [AppDelegate showErrorMessageWithTitle:@"" message:@"Please check your internet connection or try again later." delegate:nil];
 }
 -(void)getCutomerDetail
 {
@@ -107,22 +123,12 @@
         [AppDelegate showErrorMessageWithTitle:AlertTitleError message:[response objectForKey:@"ack_msg"] delegate:nil];
     }
 }
-- (IBAction)SelectCustomerBtn_POPUP_Action:(id)sender
+- (IBAction)Search_Pro_Btn_Action:(id)sender
 {
-    CutomerView.hidden=NO;
-    BOOL internet=[AppDelegate connectedToNetwork];
-    if (internet)
-    {
-        if (!CheckSUCCESS)
-        {
-           [self getCutomerDetail];
-        }
-        
-    }
-    else
-        [AppDelegate showErrorMessageWithTitle:@"" message:@"Please check your internet connection or try again later." delegate:nil];
+    SerachProductVW *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"SerachProductVW"];
+    vcr.delegate=self;
+    [self.navigationController pushViewController:vcr animated:YES];
 }
-
 #pragma mark UITableView delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -164,9 +170,9 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     //if (tableView==CustomerTBL)
-   // {
-      //  return nil;
-   // }
+    // {
+    //  return nil;
+    // }
     UIView *v = [UIView new];
     [v setBackgroundColor:[UIColor clearColor]];
     return v;
@@ -224,7 +230,7 @@
         cell.ProductQTY.text=[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section];
         
         NSInteger totalValue=[[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:indexPath.section] integerValue];
-        cell.ProductAmount.text=[NSString stringWithFormat:@"%ld",(long)totalValue];
+        cell.ProductAmount.text=[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section];
         
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         return cell;
@@ -236,10 +242,10 @@
 {
     if (tableView==CustomerTBL)
     {
-       CutomerView.hidden=YES;
+        PopUpCustomerVW.hidden=YES;
         
         // Take Cutomer Detail From Here.
-        [SelectCutomer_Button setTitle:[[customerDict valueForKey:@"cname"]objectAtIndex:indexPath.row ]forState:UIControlStateNormal];
+        [selectCutomer_BTN setTitle:[[customerDict valueForKey:@"cname"]objectAtIndex:indexPath.row ]forState:UIControlStateNormal];
         CutomerID=[[customerDict valueForKey:@"id"]objectAtIndex:indexPath.row];
         CutomerNameLBL.text=[[customerDict valueForKey:@"cname"]objectAtIndex:indexPath.row ];
         CustomerAdressLBL.text=[[customerDict valueForKey:@"address"]objectAtIndex:indexPath.row ];
@@ -261,18 +267,12 @@
     return 50;
     
 }
-- (IBAction)SearchProBtn_action:(id)sender
-{
-    SerachProductVW *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"SerachProductVW"];
-    vcr.delegate=self;
-    [self.navigationController pushViewController:vcr animated:YES];
-}
 
 - (void)ChkProductValue:(NSMutableArray *)ProductDict
 {
-   // NSLog(@"value====%@",ProductDict);
+    // NSLog(@"value====%@",ProductDict);
     
-   // NSString *jsonString = [ProductDict JSONRepresentation];
+    // NSString *jsonString = [ProductDict JSONRepresentation];
     ProductArry=[[NSMutableArray alloc]initWithArray:ProductDict];
     
     totalAmount=0;
@@ -285,7 +285,6 @@
     }
     
     self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%ld",(long)totalQTY];
-    self.TotalAmount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
     self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
     
     NSError * err;
@@ -295,11 +294,11 @@
     [ProductTBL reloadData];
     
 }
-- (IBAction)CreateOrderBtn_Action:(id)sender
+- (IBAction)CreateDispatch_Action:(id)sender
 {
     if ([CutomerID isEqualToString:@""])
     {
-         [AppDelegate showErrorMessageWithTitle:@"Error!" message:@"Please Select Customer." delegate:nil];
+        [AppDelegate showErrorMessageWithTitle:@"Error!" message:@"Please Select Customer." delegate:nil];
     }
     else if (ProductArry.count==0)
     {
@@ -310,39 +309,33 @@
         BOOL internet=[AppDelegate connectedToNetwork];
         if (internet)
         {
-            [self CreateOrder];
+            [self CreateDispatch];
         }
         else
             [AppDelegate showErrorMessageWithTitle:@"" message:@"Please check your internet connection or try again later." delegate:nil];
     }
-    
-    
 }
--(void)CreateOrder
-{
 
+-(void)CreateDispatch
+{
+   
     NSDictionary *UserSaveData=[[NSUserDefaults standardUserDefaults]objectForKey:@"LoginUserDic"];
     NSMutableDictionary *dictParams = [[NSMutableDictionary alloc] init];
     [dictParams setObject:Base_Key  forKey:@"key"];
-    [dictParams setObject:Create_Order  forKey:@"s"];
+    [dictParams setObject:Add_dispatch_Order  forKey:@"s"];
     
     [dictParams setObject:CutomerID  forKey:@"customer_id"];
     [dictParams setObject:[UserSaveData valueForKey:@"id"] forKey:@"sales_id"];
     
-    [dictParams setObject:@"0"  forKey:@"discount"];
-    [dictParams setObject:@"0"  forKey:@"discount_type"];
-    
-    [dictParams setObject:[NSString stringWithFormat:@"%ld",(long)totalAmount]  forKey:@"grand_total"];
-    [dictParams setObject:[NSString stringWithFormat:@"%ld",(long)totalAmount]  forKey:@"total_amount"];
-    [dictParams setObject:[NSString stringWithFormat:@"%ld",(long)totalQTY]  forKey:@"total_qty"];
+    [dictParams setObject:@"0"  forKey:@"dispatch_date"];
     [dictParams setObject:ProductJSONString  forKey:@"product"];
-   
+    
     [CommonWS AAwebserviceWithURL:[NSString stringWithFormat:@"%@",BaseUrl] withParam:dictParams withCompletion:^(NSDictionary *response, BOOL success1)
      {
-         [self handleGetPROResponse:response];
+         [self handleDispatchResponse:response];
      }];
 }
-- (void)handleGetPROResponse:(NSDictionary*)response
+- (void)handleDispatchResponse:(NSDictionary*)response
 {
     if ([[[response objectForKey:@"ack"]stringValue ] isEqualToString:@"1"])
     {
@@ -354,14 +347,23 @@
         [AppDelegate showErrorMessageWithTitle:AlertTitleError message:[response objectForKey:@"ack_msg"] delegate:nil];
     }
 }
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 - (IBAction)BackBtn_Action:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
 }
+*/
 
 @end

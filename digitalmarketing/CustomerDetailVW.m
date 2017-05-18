@@ -65,6 +65,7 @@
     if ([[[response objectForKey:@"ack"]stringValue ] isEqualToString:@"1"])
     {
         customerDict=[response valueForKey:@"result"];
+        Searchdic=[response valueForKey:@"result"];
         [CustomerTable reloadData];
     }
     else
@@ -137,7 +138,98 @@
 {
     [serachBar resignFirstResponder];
 }
+#pragma mark - SerachBarDelegate
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    // topCategoriesDic=[Searchdic mutableCopy];
+    [searchBar resignFirstResponder];
+    [CustomerTable reloadData];
+    
+}
 
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    // searchBar.showsCancelButton = YES;
+    // [searchBar resignFirstResponder];
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+{
+    [CustomerTable reloadData];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    customerDict=[Searchdic mutableCopy];
+    if([searchText isEqualToString:@""] || searchText==nil)
+    {
+        customerDict=[Searchdic mutableCopy];
+        [CustomerTable reloadData];
+        return;
+    }
+    
+    NSMutableArray *resultObjectsArray = [NSMutableArray array];
+    for(NSDictionary *wine in customerDict)
+    {
+        NSString *wineName = [wine objectForKey:@"cname"];
+        NSString *winePhone = [wine objectForKey:@"phone"];
+        
+        NSCharacterSet* notDigits = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
+        if ([searchText rangeOfCharacterFromSet:notDigits].location == NSNotFound)
+        {
+            NSRange range = [winePhone rangeOfString:searchText options:NSCaseInsensitiveSearch];
+            if(range.location != NSNotFound)
+                [resultObjectsArray addObject:wine];
+        }
+        else
+        {
+            NSRange range = [wineName rangeOfString:searchText options:NSCaseInsensitiveSearch];
+            if(range.location != NSNotFound)
+                [resultObjectsArray addObject:wine];
+        }
+        
+       
+    }
+    
+    customerDict=[resultObjectsArray mutableCopy];
+    [CustomerTable reloadData];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    customerDict=[Searchdic mutableCopy];
+    if([searchBar.text isEqualToString:@""] || searchBar.text==nil)
+    {
+        customerDict=[Searchdic mutableCopy];
+        [CustomerTable reloadData];
+        return;
+    }
+    NSMutableArray *resultObjectsArray = [NSMutableArray array];
+    for(NSDictionary *wine in customerDict)
+    {
+        
+        NSString *wineName = [wine objectForKey:@"cname"];
+        NSString *winePhone = [wine objectForKey:@"phone"];
+        
+        NSCharacterSet* notDigits = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
+        if ([searchBar.text rangeOfCharacterFromSet:notDigits].location == NSNotFound)
+        {
+            NSRange range = [winePhone rangeOfString:searchBar.text options:NSCaseInsensitiveSearch];
+            if(range.location != NSNotFound)
+                [resultObjectsArray addObject:wine];
+        }
+        else
+        {
+            NSRange range = [wineName rangeOfString:searchBar.text options:NSCaseInsensitiveSearch];
+            if(range.location != NSNotFound)
+                [resultObjectsArray addObject:wine];
+        }
+    }
+    
+    customerDict=[resultObjectsArray mutableCopy];
+    [CustomerTable reloadData];
+    [searchBar resignFirstResponder];
+}
 - (IBAction)BackBtn_Action:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];

@@ -88,6 +88,12 @@
 		534D25231ECB4CBB00F00B47 /* CustomerDetailVW.m in Sources */ = {isa = PBXBuildFile; fileRef = 534D25221ECB4CBB00F00B47 /* CustomerDetailVW.m */; };
 		534D25271ECB4ECB00F00B47 /* Customer_Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 534D25251ECB4ECB00F00B47 /* Customer_Cell.m */; };
 		534D25281ECB4ECB00F00B47 /* Customer_Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 534D25261ECB4ECB00F00B47 /* Customer_Cell.xib */; };
+		534E5F111ECD801B00C50261 /* CreateDispatchVW.m in Sources */ = {isa = PBXBuildFile; fileRef = 534E5F101ECD801B00C50261 /* CreateDispatchVW.m */; };
+		534E5F1B1ECDB3E200C50261 /* CreateInwardOrderVW.m in Sources */ = {isa = PBXBuildFile; fileRef = 534E5F1A1ECDB3E200C50261 /* CreateInwardOrderVW.m */; };
+		534E5F1E1ECDC1CF00C50261 /* InwardHistryVW.m in Sources */ = {isa = PBXBuildFile; fileRef = 534E5F1D1ECDC1CF00C50261 /* InwardHistryVW.m */; };
+		534E5F221ECDC2FD00C50261 /* InwardHitry_CELL.m in Sources */ = {isa = PBXBuildFile; fileRef = 534E5F201ECDC2FD00C50261 /* InwardHitry_CELL.m */; };
+		534E5F231ECDC2FD00C50261 /* InwardHitry_CELL.xib in Resources */ = {isa = PBXBuildFile; fileRef = 534E5F211ECDC2FD00C50261 /* InwardHitry_CELL.xib */; };
+		534E5F261ECDC7E100C50261 /* InwardHTYDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 534E5F251ECDC7E100C50261 /* InwardHTYDetail.m */; };
 		53523A731EC972FB00EE41E9 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 53523A721EC972FB00EE41E9 /* logo.png */; };
 		53523A761EC98D0200EE41E9 /* ProfileVIEW.m in Sources */ = {isa = PBXBuildFile; fileRef = 53523A751EC98D0200EE41E9 /* ProfileVIEW.m */; };
 		53523A781EC99BF800EE41E9 /* splash.png in Resources */ = {isa = PBXBuildFile; fileRef = 53523A771EC99BF800EE41E9 /* splash.png */; };
@@ -271,6 +277,17 @@
 		534D25241ECB4ECB00F00B47 /* Customer_Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Customer_Cell.h; sourceTree = "<group>"; };
 		534D25251ECB4ECB00F00B47 /* Customer_Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Customer_Cell.m; sourceTree = "<group>"; };
 		534D25261ECB4ECB00F00B47 /* Customer_Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Customer_Cell.xib; sourceTree = "<group>"; };
+		534E5F0F1ECD801B00C50261 /* CreateDispatchVW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateDispatchVW.h; sourceTree = "<group>"; };
+		534E5F101ECD801B00C50261 /* CreateDispatchVW.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateDispatchVW.m; sourceTree = "<group>"; };
+		534E5F191ECDB3E200C50261 /* CreateInwardOrderVW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateInwardOrderVW.h; sourceTree = "<group>"; };
+		534E5F1A1ECDB3E200C50261 /* CreateInwardOrderVW.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateInwardOrderVW.m; sourceTree = "<group>"; };
+		534E5F1C1ECDC1CF00C50261 /* InwardHistryVW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InwardHistryVW.h; sourceTree = "<group>"; };
+		534E5F1D1ECDC1CF00C50261 /* InwardHistryVW.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InwardHistryVW.m; sourceTree = "<group>"; };
+		534E5F1F1ECDC2FD00C50261 /* InwardHitry_CELL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InwardHitry_CELL.h; sourceTree = "<group>"; };
+		534E5F201ECDC2FD00C50261 /* InwardHitry_CELL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InwardHitry_CELL.m; sourceTree = "<group>"; };
+		534E5F211ECDC2FD00C50261 /* InwardHitry_CELL.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InwardHitry_CELL.xib; sourceTree = "<group>"; };
+		534E5F241ECDC7E100C50261 /* InwardHTYDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InwardHTYDetail.h; sourceTree = "<group>"; };
+		534E5F251ECDC7E100C50261 /* InwardHTYDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InwardHTYDetail.m; sourceTree = "<group>"; };
 		53523A721EC972FB00EE41E9 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		53523A741EC98D0200EE41E9 /* ProfileVIEW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileVIEW.h; sourceTree = "<group>"; };
 		53523A751EC98D0200EE41E9 /* ProfileVIEW.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileVIEW.m; sourceTree = "<group>"; };
@@ -345,32 +362,20 @@
 				530DC5E41EC88213000D4CA2 /* IQKeyboardManager */,
 				530DC5521EC872C1000D4CA2 /* AppDelegate.h */,
 				530DC5531EC872C1000D4CA2 /* AppDelegate.m */,
-				530DC5661EC873AC000D4CA2 /* LogInVW.h */,
-				530DC5671EC873AC000D4CA2 /* LogInVW.m */,
-				530DC61C1EC88373000D4CA2 /* ForgotPassVW.h */,
-				530DC61D1EC88373000D4CA2 /* ForgotPassVW.m */,
-				53523A741EC98D0200EE41E9 /* ProfileVIEW.h */,
-				53523A751EC98D0200EE41E9 /* ProfileVIEW.m */,
+				534E5F161ECD80CB00C50261 /* Login */,
+				534E5F171ECD80DB00C50261 /* Profile */,
 				530DC6301EC89BFD000D4CA2 /* HomeVW.h */,
 				530DC6311EC89BFD000D4CA2 /* HomeVW.m */,
-				536CAE5B1ECC1A3900104E8E /* CreateOrderVW.h */,
-				536CAE5C1ECC1A3900104E8E /* CreateOrderVW.m */,
+				534E5F151ECD80A500C50261 /* CreateOrder */,
 				53E046911ECC3A6E0081DE05 /* SerachProductVW.h */,
 				53E046921ECC3A6E0081DE05 /* SerachProductVW.m */,
-				53E046991ECC84EF0081DE05 /* DispatchHistoryVW.h */,
-				53E0469A1ECC84EF0081DE05 /* DispatchHistoryVW.m */,
-				53E046A11ECCA17B0081DE05 /* DispatchHRTYDetailVW.h */,
-				53E046A21ECCA17B0081DE05 /* DispatchHRTYDetailVW.m */,
-				534D25211ECB4CBB00F00B47 /* CustomerDetailVW.h */,
-				534D25221ECB4CBB00F00B47 /* CustomerDetailVW.m */,
-				534D25111ECB141100F00B47 /* OderHistryVW.h */,
-				534D25121ECB141100F00B47 /* OderHistryVW.m */,
-				534D25141ECB2BC900F00B47 /* OrderDetailVW.h */,
-				534D25151ECB2BC900F00B47 /* OrderDetailVW.m */,
+				534E5F181ECDB3AA00C50261 /* Inward */,
+				534E5F0E1ECD7FF400C50261 /* Dispatch */,
+				534E5F121ECD805B00C50261 /* CustomerDetail */,
+				534E5F131ECD807300C50261 /* OrderHistry */,
+				534E5F141ECD808D00C50261 /* Stock */,
 				53523A921EC9F7EE00EE41E9 /* NotificationVW.h */,
 				53523A931EC9F7EE00EE41E9 /* NotificationVW.m */,
-				534D25021ECAC7D500F00B47 /* StockVW.h */,
-				534D25031ECAC7D500F00B47 /* StockVW.m */,
 				530DC5581EC872C1000D4CA2 /* Main.storyboard */,
 				530DC61F1EC88A74000D4CA2 /* digitalMarketing.pch */,
 				530DC56B1EC879C9000D4CA2 /* Images */,
@@ -660,6 +665,90 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		534E5F0E1ECD7FF400C50261 /* Dispatch */ = {
+			isa = PBXGroup;
+			children = (
+				534E5F0F1ECD801B00C50261 /* CreateDispatchVW.h */,
+				534E5F101ECD801B00C50261 /* CreateDispatchVW.m */,
+				53E046991ECC84EF0081DE05 /* DispatchHistoryVW.h */,
+				53E0469A1ECC84EF0081DE05 /* DispatchHistoryVW.m */,
+				53E046A11ECCA17B0081DE05 /* DispatchHRTYDetailVW.h */,
+				53E046A21ECCA17B0081DE05 /* DispatchHRTYDetailVW.m */,
+			);
+			name = Dispatch;
+			sourceTree = "<group>";
+		};
+		534E5F121ECD805B00C50261 /* CustomerDetail */ = {
+			isa = PBXGroup;
+			children = (
+				534D25211ECB4CBB00F00B47 /* CustomerDetailVW.h */,
+				534D25221ECB4CBB00F00B47 /* CustomerDetailVW.m */,
+			);
+			name = CustomerDetail;
+			sourceTree = "<group>";
+		};
+		534E5F131ECD807300C50261 /* OrderHistry */ = {
+			isa = PBXGroup;
+			children = (
+				534D25111ECB141100F00B47 /* OderHistryVW.h */,
+				534D25121ECB141100F00B47 /* OderHistryVW.m */,
+				534D25141ECB2BC900F00B47 /* OrderDetailVW.h */,
+				534D25151ECB2BC900F00B47 /* OrderDetailVW.m */,
+			);
+			name = OrderHistry;
+			sourceTree = "<group>";
+		};
+		534E5F141ECD808D00C50261 /* Stock */ = {
+			isa = PBXGroup;
+			children = (
+				534D25021ECAC7D500F00B47 /* StockVW.h */,
+				534D25031ECAC7D500F00B47 /* StockVW.m */,
+			);
+			name = Stock;
+			sourceTree = "<group>";
+		};
+		534E5F151ECD80A500C50261 /* CreateOrder */ = {
+			isa = PBXGroup;
+			children = (
+				536CAE5B1ECC1A3900104E8E /* CreateOrderVW.h */,
+				536CAE5C1ECC1A3900104E8E /* CreateOrderVW.m */,
+			);
+			name = CreateOrder;
+			sourceTree = "<group>";
+		};
+		534E5F161ECD80CB00C50261 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				530DC5661EC873AC000D4CA2 /* LogInVW.h */,
+				530DC5671EC873AC000D4CA2 /* LogInVW.m */,
+				530DC61C1EC88373000D4CA2 /* ForgotPassVW.h */,
+				530DC61D1EC88373000D4CA2 /* ForgotPassVW.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		534E5F171ECD80DB00C50261 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				53523A741EC98D0200EE41E9 /* ProfileVIEW.h */,
+				53523A751EC98D0200EE41E9 /* ProfileVIEW.m */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
+		534E5F181ECDB3AA00C50261 /* Inward */ = {
+			isa = PBXGroup;
+			children = (
+				534E5F191ECDB3E200C50261 /* CreateInwardOrderVW.h */,
+				534E5F1A1ECDB3E200C50261 /* CreateInwardOrderVW.m */,
+				534E5F1C1ECDC1CF00C50261 /* InwardHistryVW.h */,
+				534E5F1D1ECDC1CF00C50261 /* InwardHistryVW.m */,
+				534E5F241ECDC7E100C50261 /* InwardHTYDetail.h */,
+				534E5F251ECDC7E100C50261 /* InwardHTYDetail.m */,
+			);
+			name = Inward;
+			sourceTree = "<group>";
+		};
 		53523A791EC9DD8D00EE41E9 /* HomeIcon */ = {
 			isa = PBXGroup;
 			children = (
@@ -702,6 +791,9 @@
 				53E0469C1ECC85FC0081DE05 /* DispatchHSTY_CELL.h */,
 				53E0469D1ECC85FC0081DE05 /* DispatchHSTY_CELL.m */,
 				53E0469E1ECC85FC0081DE05 /* DispatchHSTY_CELL.xib */,
+				534E5F1F1ECDC2FD00C50261 /* InwardHitry_CELL.h */,
+				534E5F201ECDC2FD00C50261 /* InwardHitry_CELL.m */,
+				534E5F211ECDC2FD00C50261 /* InwardHitry_CELL.xib */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -775,6 +867,7 @@
 				53E046981ECC3FA60081DE05 /* Product_Cell.xib in Resources */,
 				53523A8D1EC9DE8000EE41E9 /* profile.png in Resources */,
 				53523A8F1EC9DE8F00EE41E9 /* stock.png in Resources */,
+				534E5F231ECDC2FD00C50261 /* InwardHitry_CELL.xib in Resources */,
 				530DC5D21EC881AF000D4CA2 /* KVNProgressView.xib in Resources */,
 				534D25101ECB13C100F00B47 /* OrderHistry_Cell.xib in Resources */,
 				530DC62D1EC89989000D4CA2 /* MenuCell.xib in Resources */,
@@ -822,6 +915,7 @@
 				53523A941EC9F7EE00EE41E9 /* NotificationVW.m in Sources */,
 				530DC5931EC88157000D4CA2 /* SDWebImageDownloader.m in Sources */,
 				530DC6141EC88271000D4CA2 /* IQUIView+IQKeyboardToolbar.m in Sources */,
+				534E5F1B1ECDB3E200C50261 /* CreateInwardOrderVW.m in Sources */,
 				530DC5B81EC8816C000D4CA2 /* UIProgressView+AFNetworking.m in Sources */,
 				530DC59B1EC88157000D4CA2 /* UIImageView+WebCache.m in Sources */,
 				530DC5B41EC8816C000D4CA2 /* AFNetworkActivityIndicatorManager.m in Sources */,
@@ -845,6 +939,8 @@
 				530DC6111EC88271000D4CA2 /* IQPreviousNextView.m in Sources */,
 				530DC6291EC89989000D4CA2 /* CCKFNavDrawer.m in Sources */,
 				530DC62B1EC89989000D4CA2 /* DrawerView.m in Sources */,
+				534E5F261ECDC7E100C50261 /* InwardHTYDetail.m in Sources */,
+				534E5F221ECDC2FD00C50261 /* InwardHitry_CELL.m in Sources */,
 				530DC62C1EC89989000D4CA2 /* MenuCell.m in Sources */,
 				53E046971ECC3FA60081DE05 /* Product_Cell.m in Sources */,
 				53E046A31ECCA17B0081DE05 /* DispatchHRTYDetailVW.m in Sources */,
@@ -852,6 +948,7 @@
 				530DC6131EC88271000D4CA2 /* IQToolbar.m in Sources */,
 				530DC6041EC88259000D4CA2 /* IQTextView.m in Sources */,
 				530DC5941EC88157000D4CA2 /* SDWebImageDownloaderOperation.m in Sources */,
+				534E5F1E1ECDC1CF00C50261 /* InwardHistryVW.m in Sources */,
 				530DC5F41EC8822C000D4CA2 /* IQUITextFieldView+Additions.m in Sources */,
 				530DC5B51EC8816C000D4CA2 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				530DC5CA1EC8818A000D4CA2 /* AFNetworkReachabilityManager.m in Sources */,
@@ -879,6 +976,7 @@
 				530DC5CD1EC8818A000D4CA2 /* AFURLResponseSerialization.m in Sources */,
 				53E046931ECC3A6E0081DE05 /* SerachProductVW.m in Sources */,
 				530DC5E31EC881D3000D4CA2 /* UIImage+KVNImageEffects.m in Sources */,
+				534E5F111ECD801B00C50261 /* CreateDispatchVW.m in Sources */,
 				530DC5681EC873AC000D4CA2 /* LogInVW.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

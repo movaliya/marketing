@@ -1,28 +1,27 @@
 //
-//  DispatchHRTYDetailVW.m
+//  InwardHTYDetail.m
 //  digitalmarketing
 //
-//  Created by Mango SW on 17/05/2017.
+//  Created by Mango SW on 18/05/2017.
 //  Copyright © 2017 jkinfoway. All rights reserved.
 //
 
-#import "DispatchHRTYDetailVW.h"
+#import "InwardHTYDetail.h"
 #import "digitalMarketing.pch"
 #import <QuartzCore/QuartzCore.h>
 #import "OrderDetail_Cell.h"
 
-@interface DispatchHRTYDetailVW ()
+@interface InwardHTYDetail ()
 
 @end
 
-@implementation DispatchHRTYDetailVW
+@implementation InwardHTYDetail
 @synthesize DetailBackView,CutomerName,OrderDate,OrderStatus,OrderNamuber,TotalAmount,TotalQTY,GrandTotal,Discount;
 @synthesize TitleBackView,OrderDetailTable;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [DetailBackView.layer setCornerRadius:3.0f];
     DetailBackView.layer.borderWidth = 1.0f;
     [DetailBackView.layer setMasksToBounds:YES];
@@ -57,24 +56,25 @@
     BOOL internet=[AppDelegate connectedToNetwork];
     if (internet)
     {
-        [self getDispatchDetial];
+        [self getInwardDetial];
     }
     else
         [AppDelegate showErrorMessageWithTitle:@"" message:@"Please check your internet connection or try again later." delegate:nil];
 }
--(void)getDispatchDetial
+-(void)getInwardDetial
 {
+
     NSMutableDictionary *dictParams = [[NSMutableDictionary alloc] init];
     [dictParams setObject:Base_Key  forKey:@"key"];
-    [dictParams setObject:get_dispatch_item  forKey:@"s"];
-    [dictParams setObject:self.Dispatch_id  forKey:@"dispatch_id"];
+    [dictParams setObject:get_inward_store_item  forKey:@"s"];
+    [dictParams setObject:self.inward_id  forKey:@"inward_id"];
     
     [CommonWS AAwebserviceWithURL:[NSString stringWithFormat:@"%@",BaseUrl] withParam:dictParams withCompletion:^(NSDictionary *response, BOOL success1)
      {
-         [self handleOderDetailResponse:response];
+         [self handleInwardDetialResponse:response];
      }];
 }
-- (void)handleOderDetailResponse:(NSDictionary*)response
+- (void)handleInwardDetialResponse:(NSDictionary*)response
 {
     if ([[[response objectForKey:@"ack"]stringValue ] isEqualToString:@"1"])
     {
@@ -82,13 +82,10 @@
         OrderDetailDict=[response valueForKey:@"result"];
         OrderProductDict=[OrderDetailDict valueForKey:@"products"];
         
-        CutomerName.text=[OrderDetailDict valueForKey:@"customer_name"];
-        OrderNamuber.text=[NSString stringWithFormat:@"Order Number :%@",[OrderDetailDict valueForKey:@"customer_id"]];
-        OrderDate.text=[NSString stringWithFormat:@"Order Date :%@",[OrderDetailDict valueForKey:@"dispatch_date"]];
-        OrderStatus.text=@"";
+        CutomerName.text=[OrderDetailDict valueForKey:@"vendor_name"];
+        OrderNamuber.text=[NSString stringWithFormat:@"Inward Number :#%@",[OrderDetailDict valueForKey:@"id"]];
+        OrderDate.text=[NSString stringWithFormat:@"Inward Date :%@",[OrderDetailDict valueForKey:@"adate"]];
         TotalQTY.text=[NSString stringWithFormat:@"Nos.%@",[OrderDetailDict valueForKey:@"total_qty"]];
-        TotalAmount.text=[NSString stringWithFormat:@"Rs.%@",[OrderDetailDict valueForKey:@"totalprice"] ];
-       // Discount.text=@"";
         GrandTotal.text=[NSString stringWithFormat:@"Rs.%@",[OrderDetailDict valueForKey:@"grand_total"]];
         
         [DetailBackView setHidden:NO];
@@ -138,12 +135,12 @@
         
     }
     
-    cell.ProductName.text=[[OrderProductDict valueForKey:@"pro_name"] objectAtIndex:indexPath.section];
+    cell.ProductName.text=[[OrderProductDict valueForKey:@"product_name"] objectAtIndex:indexPath.section];
     
-    cell.ProductPrice.text=[[OrderProductDict valueForKey:@"unitprice"] objectAtIndex:indexPath.section];
+    cell.ProductPrice.text=[[OrderProductDict valueForKey:@"product_price"] objectAtIndex:indexPath.section];
     
-    cell.ProductQTY.text=[[OrderProductDict valueForKey:@"pro_qty"] objectAtIndex:indexPath.section];
-    cell.ProductAmount.text=[[OrderProductDict valueForKey:@"totalprice"] objectAtIndex:indexPath.section];
+    cell.ProductQTY.text=[[OrderProductDict valueForKey:@"receive_qty"] objectAtIndex:indexPath.section];
+    cell.ProductAmount.text=[[OrderProductDict valueForKey:@"product_total"] objectAtIndex:indexPath.section];
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     return cell;
@@ -162,7 +159,8 @@
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }

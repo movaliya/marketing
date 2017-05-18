@@ -1,15 +1,14 @@
 //
-//  CreateOrderVW.h
+//  CreateInwardOrderVW.h
 //  digitalmarketing
 //
-//  Created by Mango SW on 17/05/2017.
+//  Created by Mango SW on 18/05/2017.
 //  Copyright © 2017 jkinfoway. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface CreateOrderVW : UIViewController
-
+@interface CreateInwardOrderVW : UIViewController
 {
     NSDictionary *customerDict;
     NSMutableArray *ProductArry;
@@ -36,5 +35,4 @@
 @property (weak, nonatomic) IBOutlet UILabel *CustomerAdressLBL;
 @property (weak, nonatomic) IBOutlet UILabel *CustomerStateCityLBL;
 @property (weak, nonatomic) IBOutlet UILabel *CustomerPhoneLBL;
-
 @end
