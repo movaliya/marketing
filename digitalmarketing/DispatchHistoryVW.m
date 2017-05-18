@@ -23,7 +23,8 @@
     
     UINib *nib = [UINib nibWithNibName:@"DispatchHSTY_CELL" bundle:nil];
     [DispatchHstyTLB registerNib:nib forCellReuseIdentifier:@"DispatchHSTY_CELL"];
-    
+    DispatchHstyTLB.estimatedRowHeight = 183;
+    DispatchHstyTLB.rowHeight = UITableViewAutomaticDimension;
     
     BOOL internet=[AppDelegate connectedToNetwork];
     if (internet)
@@ -72,7 +73,7 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
-    return 237;
+    return UITableViewAutomaticDimension;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -96,6 +97,9 @@
         cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
     }
+    [cell setNeedsUpdateConstraints];
+    [cell updateConstraintsIfNeeded];
+    
     
     cell.CutomerName.text=[[DispatchHistyDict valueForKey:@"customer_name"] objectAtIndex:indexPath.section];
     cell.OrderNumber.text=[NSString stringWithFormat:@"Order Number :#%@",[[DispatchHistyDict valueForKey:@"id"] objectAtIndex:indexPath.section]];
@@ -103,10 +107,23 @@
     
     cell.LRNumber.text=[[DispatchHistyDict valueForKey:@"lr_number"] objectAtIndex:indexPath.section];
     cell.Remarks.text=[[DispatchHistyDict valueForKey:@"remark"] objectAtIndex:indexPath.section];
+    
+    if ([cell.LRNumber.text isEqualToString:@""])
+    {
+        cell.LRNumberHight.constant=0;
+        cell.LRNoTop.constant=0;
+    }
+    if ([cell.Remarks.text isEqualToString:@""])
+    {
+        cell.RemarkHight.constant=0;
+        cell.RemarkTop.constant=0;
+    }
 
     cell.TotalQTY.text=[NSString stringWithFormat:@"Nos.%@",[[DispatchHistyDict valueForKey:@"total_qty"] objectAtIndex:indexPath.section]];
     cell.GrandTotal.text=[NSString stringWithFormat:@"Rs.%@",[[DispatchHistyDict valueForKey:@"grand_total"] objectAtIndex:indexPath.section]];
     
+    [cell setNeedsUpdateConstraints];
+    [cell updateConstraintsIfNeeded];
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     return cell;
 }

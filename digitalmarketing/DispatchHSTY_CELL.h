@@ -18,4 +18,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *TotalQTY;
 @property (weak, nonatomic) IBOutlet UILabel *GrandTotal;
 
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *LRNumberHight;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *RemarkHight;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *LRNoTop;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *RemarkTop;
 @end

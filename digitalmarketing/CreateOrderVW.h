@@ -37,4 +37,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *CustomerStateCityLBL;
 @property (weak, nonatomic) IBOutlet UILabel *CustomerPhoneLBL;
 
+
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *TitleHight;
+
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *TitleTop1;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *TitleTop2;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *TitleTop3;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *TitleTop4;
 @end

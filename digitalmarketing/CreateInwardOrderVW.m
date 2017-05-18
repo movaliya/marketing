@@ -19,16 +19,25 @@
 @synthesize SearchProBackView,SelectCustomerBackView,ProductTitleBackView;
 @synthesize CreateOrderBtn,CutomerView,CustomerTBL,SelectCutomer_Button;
 @synthesize ProductTBL;
+@synthesize TitleTop1,TitleTop2,TitleTop3,TitleTop4,TitleHight;
+
 
 @synthesize CustomerPhoneLBL,CustomerAdressLBL,CutomerNameLBL,CustomerStateCityLBL;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     CustomerPhoneLBL.text=@"";
     CustomerAdressLBL.text=@"";
     CutomerNameLBL.text=@"";
     CustomerStateCityLBL.text=@"";
+    
+    TitleTop1.constant=0;
+    TitleTop2.constant=0;
+    TitleTop3.constant=0;
+    TitleTop4.constant=0;
+    TitleHight.constant=10;
     
     CheckSUCCESS=NO;
     [SelectCustomerBackView.layer setCornerRadius:3.0f];
@@ -235,6 +244,9 @@
     {
         CutomerView.hidden=YES;
         
+        [self.view setNeedsUpdateConstraints];
+        [self.view updateConstraintsIfNeeded];
+        
         // Take Cutomer Detail From Here.
         [SelectCutomer_Button setTitle:[[customerDict valueForKey:@"cname"]objectAtIndex:indexPath.row ]forState:UIControlStateNormal];
         CutomerID=[[customerDict valueForKey:@"id"]objectAtIndex:indexPath.row];
@@ -245,6 +257,16 @@
         NSString *State=[[customerDict valueForKey:@"state"]objectAtIndex:indexPath.row ];
         NSString *Country=[[customerDict valueForKey:@"country"]objectAtIndex:indexPath.row ];
         CustomerStateCityLBL.text=[NSString stringWithFormat:@"%@,%@,%@",city,State,Country];
+        
+        TitleTop1.constant=15;
+        TitleTop2.constant=8;
+        TitleTop3.constant=8;
+        TitleTop4.constant=8;
+        TitleHight.constant=18;
+        
+        
+        [self.view setNeedsUpdateConstraints];
+        [self.view updateConstraintsIfNeeded];
         
     }
 }
