@@ -11,8 +11,9 @@
 
 @interface HomeVW : UIViewController<CCKFNavDrawerDelegate>
 {
-    
+    BOOL CheckAttendence;
 }
+@property (weak, nonatomic) IBOutlet UIButton *AttendenceIcon_Btn;
 @property (strong, nonatomic) IBOutlet UIScrollView *HomeScroll;
 
 @property (strong, nonatomic) CCKFNavDrawer *rootNav;

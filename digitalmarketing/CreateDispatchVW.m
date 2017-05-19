@@ -111,7 +111,7 @@
 {
     NSMutableDictionary *dictParams = [[NSMutableDictionary alloc] init];
     [dictParams setObject:Base_Key  forKey:@"key"];
-    [dictParams setObject:get_CutomerDetail  forKey:@"s"];
+    [dictParams setObject:get_ordered_customer  forKey:@"s"];
     
     [CommonWS AAwebserviceWithURL:[NSString stringWithFormat:@"%@",BaseUrl] withParam:dictParams withCompletion:^(NSDictionary *response, BOOL success1)
      {

@@ -87,7 +87,7 @@
         OrderDate.text=[NSString stringWithFormat:@"Order Date :%@",[OrderDetailDict valueForKey:@"dispatch_date"]];
         OrderStatus.text=@"";
         TotalQTY.text=[NSString stringWithFormat:@"Nos.%@",[OrderDetailDict valueForKey:@"total_qty"]];
-        TotalAmount.text=[NSString stringWithFormat:@"Rs.%@",[OrderDetailDict valueForKey:@"totalprice"] ];
+        //TotalAmount.text=[NSString stringWithFormat:@"Rs.%@",[OrderDetailDict valueForKey:@"totalprice"] ];
        // Discount.text=@"";
         GrandTotal.text=[NSString stringWithFormat:@"Rs.%@",[OrderDetailDict valueForKey:@"grand_total"]];
         

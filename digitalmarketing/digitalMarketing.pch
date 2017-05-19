@@ -45,11 +45,15 @@
 #define get_all_dispatch @"5"
 #define get_dispatch_item @"29"
 #define Add_dispatch_Order @"11"
+#define get_ordered_customer @"32"
+
 
 #define get_vendor @"3"
 #define add_inward @"17"
 #define get_all_inward_store @"18"
 #define get_inward_store_item @"28"
+
+#define add_attendance @"35"
 
 
 

@@ -54,17 +54,24 @@
     
     self.appDelegate = [AppDelegate sharedInstance];
     
+    
+    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+
+    NSString *makeStrVersion=[NSString stringWithFormat:@"Version %@",appVersion];
     if ([self.appDelegate isUserLoggedIn] == NO)
     {
-        TitleArr=[[NSMutableArray alloc] initWithObjects:@"Export Database",@"Import Database",@"Logout",@"My Account",@"Share",@"Send", nil];
+        TitleArr=[[NSMutableArray alloc] initWithObjects:makeStrVersion, nil];
+        //TitleArr=[[NSMutableArray alloc] initWithObjects:@"Export Database",@"Import Database",@"Logout",@"My Account",@"Share",@"Send", nil];
     }
     else
     {
-        TitleArr=[[NSMutableArray alloc] initWithObjects:@"Export Database",@"Import Database",@"Logout",@"My Account",@"Share",@"Send", nil];
+        //TitleArr=[[NSMutableArray alloc] initWithObjects:@"Export Database",@"Import Database",@"Logout",@"My Account",@"Share",@"Send", nil];
+         TitleArr=[[NSMutableArray alloc] initWithObjects:makeStrVersion, nil];
     }
     
     
-    ImgArr=[[NSMutableArray alloc] initWithObjects:@"ExportIcon",@"importicon",@"importicon",@"settingicon",@"shareicon",@"sendIcon" ,nil];
+    //ImgArr=[[NSMutableArray alloc] initWithObjects:@"ExportIcon",@"importicon",@"importicon",@"settingicon",@"shareicon",@"sendIcon" ,nil];
+     ImgArr=[[NSMutableArray alloc] initWithObjects:@"VersionIcon",nil];
     
     
     [self setUpDrawer];
@@ -101,16 +108,22 @@
 {
     self.appDelegate = [AppDelegate sharedInstance];
     
+    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    
+    NSString *makeStrVersion=[NSString stringWithFormat:@"Version %@",appVersion];
     if ([self.appDelegate isUserLoggedIn] == NO)
     {
-        TitleArr=[[NSMutableArray alloc] initWithObjects:@"Export Database",@"Import Database",@"Logout",@"My Account",@"Share",@"Send", nil];
+        //TitleArr=[[NSMutableArray alloc] initWithObjects:@"Export Database",@"Import Database",@"Logout",@"My Account",@"Share",@"Send", nil];
+         TitleArr=[[NSMutableArray alloc] initWithObjects:makeStrVersion, nil];
     }
     else
     {
-        TitleArr=[[NSMutableArray alloc] initWithObjects:@"Export Database",@"Import Database",@"Logout",@"My Account",@"Share",@"Send", nil];
+        //TitleArr=[[NSMutableArray alloc] initWithObjects:@"Export Database",@"Import Database",@"Logout",@"My Account",@"Share",@"Send", nil];
+         TitleArr=[[NSMutableArray alloc] initWithObjects:makeStrVersion, nil];
     }
     
-    ImgArr=[[NSMutableArray alloc] initWithObjects:@"ExportIcon",@"importicon",@"importicon",@"settingicon",@"shareicon",@"sendIcon" ,nil];
+    //ImgArr=[[NSMutableArray alloc] initWithObjects:@"ExportIcon",@"importicon",@"importicon",@"settingicon",@"shareicon",@"sendIcon" ,nil];
+    ImgArr=[[NSMutableArray alloc] initWithObjects:@"VersionIcon",nil];
     
     [self.drawerView.drawerTableView reloadData];
     
@@ -361,10 +374,10 @@
     }
     else
     {
-        return 50;
+        return 45;
     }
 }
-
+/*
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if (section == 4)
@@ -374,7 +387,7 @@
     
     return @"";
 }
-
+*/
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
