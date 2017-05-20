@@ -23,6 +23,7 @@
 @synthesize CreateOrderBtn,CutomerView,CustomerTBL,SelectCutomer_Button;
 @synthesize ProductTBL;
 @synthesize TitleHight,TitleTop1,TitleTop2,TitleTop3,TitleTop4;
+@synthesize OrderDetailDICTPass;
 
 @synthesize CustomerPhoneLBL,CustomerAdressLBL,CutomerNameLBL,CustomerStateCityLBL;
 
@@ -88,6 +89,60 @@
     UpdateOrderCell *cell = [[nib instantiateWithOwner:nil options:nil] objectAtIndex:0];
     ProductTBL.rowHeight = cell.frame.size.height;
     [ProductTBL registerNib:nib forCellReuseIdentifier:@"UpdateOrderCell"];
+    
+    
+    if (OrderDetailDICTPass)
+    {
+        TitleTop1.constant=15;
+        TitleTop2.constant=8;
+        TitleTop3.constant=8;
+        TitleTop4.constant=8;
+        TitleHight.constant=18;
+        
+        [self.view setNeedsUpdateConstraints];
+        [self.view updateConstraintsIfNeeded];
+        
+        // Take Cutomer Detail From Here.
+        [SelectCutomer_Button setTitle:[OrderDetailDICTPass valueForKey:@"customer_name"]forState:UIControlStateNormal];
+        CutomerID=[OrderDetailDICTPass valueForKey:@"id"];
+        CutomerNameLBL.text=[OrderDetailDICTPass valueForKey:@"customer_name"];
+        CustomerAdressLBL.text=[OrderDetailDICTPass valueForKey:@"address"];
+        CustomerPhoneLBL.text=[OrderDetailDICTPass valueForKey:@"contact_number"];
+        NSString *city=[OrderDetailDICTPass valueForKey:@"city"];
+        NSString *State=[OrderDetailDICTPass valueForKey:@"state"];
+        NSString *Country=[OrderDetailDICTPass valueForKey:@"country"];
+        CustomerStateCityLBL.text=[NSString stringWithFormat:@"%@,%@,%@",city,State,Country];
+        
+        [self.view setNeedsUpdateConstraints];
+        [self.view updateConstraintsIfNeeded];
+        
+        
+        
+        self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%@",[OrderDetailDICTPass valueForKey:@"total_qty"]];
+        self.TotalAmount_LBL.text=[NSString stringWithFormat:@"Rs.%@",[OrderDetailDICTPass valueForKey:@"total_amount"] ];
+        self.Discount_LBL.text=[NSString stringWithFormat:@"Rs.%@",[OrderDetailDICTPass valueForKey:@"discount"]];
+        self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%@",[OrderDetailDICTPass valueForKey:@"grand_total"]];
+        
+        totalAmount=[[OrderDetailDICTPass valueForKey:@"grand_total"]integerValue];
+        totalQTY=[[OrderDetailDICTPass valueForKey:@"total_qty"] integerValue];
+        
+        ProductDictPass=[OrderDetailDICTPass valueForKey:@"products"];
+        NSMutableArray *tempArray=[[NSMutableArray alloc]init];
+        for (int ii=0; ii<ProductDictPass.count; ii++)
+        {
+            NSMutableDictionary *Productdict = [[NSMutableDictionary alloc] init];
+            [Productdict setObject:[[ProductDictPass valueForKey:@"pro_name"]objectAtIndex:ii] forKey:@"name"];
+            [Productdict setObject:[[ProductDictPass valueForKey:@"id"]objectAtIndex:ii] forKey:@"id"];
+            [Productdict setObject:[[ProductDictPass valueForKey:@"unitprice"]objectAtIndex:ii] forKey:@"price"];
+            [Productdict setObject:[[ProductDictPass valueForKey:@"pro_qty"]objectAtIndex:ii] forKey:@"qty"];
+            [tempArray addObject:Productdict];
+        }
+        ProductArry=[[NSMutableArray alloc]initWithArray:tempArray];
+        NSError * err;
+        NSData * jsonData = [NSJSONSerialization dataWithJSONObject:ProductArry options:0 error:&err];
+        ProductJSONString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        [ProductTBL reloadData];
+    }
     
 }
 
@@ -239,6 +294,29 @@
         NSInteger totalValue=[[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:indexPath.section] integerValue];
         cell.ProductAmount.text=[NSString stringWithFormat:@"%ld",(long)totalValue];
         
+        /*
+        if (ProductArry.count==0)
+        {
+            cell.ProductName.text=[[ProductDictPass valueForKey:@"pro_name"] objectAtIndex:indexPath.section];
+            
+            cell.ProductPrice.text=[[ProductDictPass valueForKey:@"unitprice"] objectAtIndex:indexPath.section];
+            
+            cell.ProductQTY.text=[[ProductDictPass valueForKey:@"pro_qty"] objectAtIndex:indexPath.section];
+            cell.ProductAmount.text=[[ProductDictPass valueForKey:@"totalprice"] objectAtIndex:indexPath.section];
+        }
+        else
+        {
+            cell.ProductName.text=[[ProductArry valueForKey:@"name"] objectAtIndex:indexPath.section];
+            
+            cell.ProductPrice.text=[[ProductArry valueForKey:@"price"] objectAtIndex:indexPath.section];
+            
+            cell.ProductQTY.text=[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section];
+            cell.ProductQTY.tag=indexPath.section;
+            
+            NSInteger totalValue=[[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:indexPath.section] integerValue];
+            cell.ProductAmount.text=[NSString stringWithFormat:@"%ld",(long)totalValue];
+        }
+        */
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         return cell;
     }
@@ -335,25 +413,25 @@
         BOOL internet=[AppDelegate connectedToNetwork];
         if (internet)
         {
-            [self CreateOrder];
+            //[self CreateOrder];
         }
         else
             [AppDelegate showErrorMessageWithTitle:@"" message:@"Please check your internet connection or try again later." delegate:nil];
     }
-    
     
 }
 
 -(void)CreateOrder
 {
     
+    
     NSDictionary *UserSaveData=[[NSUserDefaults standardUserDefaults]objectForKey:@"LoginUserDic"];
     NSMutableDictionary *dictParams = [[NSMutableDictionary alloc] init];
     [dictParams setObject:Base_Key  forKey:@"key"];
-    [dictParams setObject:Create_Order  forKey:@"s"];
+    [dictParams setObject:update_order_detail  forKey:@"s"];
     
     [dictParams setObject:CutomerID  forKey:@"customer_id"];
-    [dictParams setObject:[UserSaveData valueForKey:@"id"] forKey:@"sales_id"];
+    [dictParams setObject:[UserSaveData valueForKey:@"id"] forKey:@"id"];
     
     [dictParams setObject:@"0"  forKey:@"discount"];
     [dictParams setObject:@"0"  forKey:@"discount_type"];
@@ -384,7 +462,7 @@
 
 - (IBAction)BackBtn_Action:(id)sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:NO];
 }
 
 

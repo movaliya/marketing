@@ -39,6 +39,8 @@
 
 #define get_stock @"30"
 #define Create_Order @"6"
+#define update_order_detail @"7"
+
 #define get_all_orders @"23"
 #define get_ordersDetial @"4"
 #define get_CutomerDetail @"16"

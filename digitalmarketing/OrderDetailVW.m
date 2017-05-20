@@ -171,8 +171,13 @@
 }
 - (IBAction)Edit_Btn_Action:(id)sender
 {
-    UpdateOrderVW *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"UpdateOrderVW"];
-    [self.navigationController pushViewController:vcr animated:NO];
+    if (OrderDetailDict.count!=0)
+    {
+        UpdateOrderVW *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"UpdateOrderVW"];
+        vcr.OrderDetailDICTPass=[OrderDetailDict mutableCopy];
+        [self.navigationController pushViewController:vcr animated:NO];
+    }
+    
 }
 
 - (IBAction)BackBtn_Action:(id)sender

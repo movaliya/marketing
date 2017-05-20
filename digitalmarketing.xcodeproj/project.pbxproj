@@ -370,8 +370,6 @@
 				530DC5E41EC88213000D4CA2 /* IQKeyboardManager */,
 				530DC5521EC872C1000D4CA2 /* AppDelegate.h */,
 				530DC5531EC872C1000D4CA2 /* AppDelegate.m */,
-				B170723F1ED0160A00D6CEAA /* UpdateOrderVW.h */,
-				B17072401ED0160A00D6CEAA /* UpdateOrderVW.m */,
 				534E5F161ECD80CB00C50261 /* Login */,
 				534E5F171ECD80DB00C50261 /* Profile */,
 				530DC6301EC89BFD000D4CA2 /* HomeVW.h */,
@@ -384,8 +382,7 @@
 				534E5F121ECD805B00C50261 /* CustomerDetail */,
 				534E5F131ECD807300C50261 /* OrderHistry */,
 				534E5F141ECD808D00C50261 /* Stock */,
-				53523A921EC9F7EE00EE41E9 /* NotificationVW.h */,
-				53523A931EC9F7EE00EE41E9 /* NotificationVW.m */,
+				536FF8AB1ED097D20095A3EA /* Notification */,
 				530DC5581EC872C1000D4CA2 /* Main.storyboard */,
 				530DC61F1EC88A74000D4CA2 /* digitalMarketing.pch */,
 				530DC56B1EC879C9000D4CA2 /* Images */,
@@ -704,6 +701,8 @@
 				534D25121ECB141100F00B47 /* OderHistryVW.m */,
 				534D25141ECB2BC900F00B47 /* OrderDetailVW.h */,
 				534D25151ECB2BC900F00B47 /* OrderDetailVW.m */,
+				B170723F1ED0160A00D6CEAA /* UpdateOrderVW.h */,
+				B17072401ED0160A00D6CEAA /* UpdateOrderVW.m */,
 			);
 			name = OrderHistry;
 			sourceTree = "<group>";
@@ -809,6 +808,15 @@
 				534E5F211ECDC2FD00C50261 /* InwardHitry_CELL.xib */,
 			);
 			name = Cell;
+			sourceTree = "<group>";
+		};
+		536FF8AB1ED097D20095A3EA /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				53523A921EC9F7EE00EE41E9 /* NotificationVW.h */,
+				53523A931EC9F7EE00EE41E9 /* NotificationVW.m */,
+			);
+			name = Notification;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

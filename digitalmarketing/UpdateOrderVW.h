@@ -18,8 +18,11 @@
     NSInteger totalQTY;
     NSString *ProductJSON;
     NSString *ProductJSONString;
+    
+    NSMutableDictionary *ProductDictPass;
 
 }
+@property (strong, nonatomic) NSMutableDictionary *OrderDetailDICTPass;
 
 @property (weak, nonatomic) IBOutlet UIButton *SelectCutomer_Button;
 @property (weak, nonatomic) IBOutlet UIView *SelectCustomerBackView;
