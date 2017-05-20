@@ -47,6 +47,9 @@
     }
     else
         [AppDelegate showErrorMessageWithTitle:@"" message:@"Please check your internet connection or try again later." delegate:nil];
+    
+    
+    
 }
 
 -(void)getCutomerDetail
@@ -123,6 +126,8 @@
     cell.MobileNumber.text=[[customerDict valueForKey:@"phone"] objectAtIndex:indexPath.section];
     cell.ResigterDate.text=[[customerDict valueForKey:@"created_date"] objectAtIndex:indexPath.section];
     
+    [cell.Call_Btn addTarget:self action:@selector(CallBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    cell.Call_Btn.tag=indexPath.section;
     
     [cell setNeedsUpdateConstraints];
     [cell updateConstraintsIfNeeded];
@@ -133,6 +138,23 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
+}
+-(void)CallBtnClick:(id)sender
+{
+    NSString *phoneNumber = [[customerDict valueForKey:@"phone"] objectAtIndex:[sender tag]];
+    
+    NSURL *phoneUrl = [NSURL URLWithString:[@"telprompt://" stringByAppendingString:phoneNumber]];
+    NSURL *phoneFallbackUrl = [NSURL URLWithString:[@"tel://" stringByAppendingString:phoneNumber]];
+    
+    if ([UIApplication.sharedApplication canOpenURL:phoneUrl]) {
+        [UIApplication.sharedApplication openURL:phoneUrl];
+    } else if ([UIApplication.sharedApplication canOpenURL:phoneFallbackUrl]) {
+        [UIApplication.sharedApplication openURL:phoneFallbackUrl];
+    } else
+    {
+        // Show an error message: Your device can not do phone calls.
+        [AppDelegate showErrorMessageWithTitle:@"Error..!" message:@"Your device can not do phone calls." delegate:nil];
+    }
 }
 - (IBAction)searchBtn_action:(id)sender
 {

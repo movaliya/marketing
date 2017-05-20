@@ -9,6 +9,7 @@
 #import "NotificationVW.h"
 #import "Notification_Cell.h"
 #import "digitalMarketing.pch"
+#import "OrderDetailVW.h"
 
 @interface NotificationVW ()
 
@@ -40,9 +41,12 @@
 }
 -(void)getNotification
 {
+    NSDictionary *UserSaveData=[[NSUserDefaults standardUserDefaults]objectForKey:@"LoginUserDic"];
     NSMutableDictionary *dictParams = [[NSMutableDictionary alloc] init];
     [dictParams setObject:Base_Key  forKey:@"key"];
     [dictParams setObject:get_notification  forKey:@"s"];
+    [dictParams setObject:[UserSaveData valueForKey:@"id"]  forKey:@"sales_id"];
+
     
     [CommonWS AAwebserviceWithURL:[NSString stringWithFormat:@"%@",BaseUrl] withParam:dictParams withCompletion:^(NSDictionary *response, BOOL success1)
      {
@@ -53,7 +57,7 @@
 {
     if ([[[response objectForKey:@"ack"]stringValue ] isEqualToString:@"1"])
     {
-        NotificationDic=[response mutableCopy];
+        NotificationDic=[response valueForKey:@"result"];
         [NotifTableView reloadData];
     }
     else
@@ -97,14 +101,26 @@
         cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
     }
+    cell.Customer_name.text=[[NotificationDic valueForKey:@"customer_name"] objectAtIndex:indexPath.section];
+    cell.Order_Number.text=[NSString stringWithFormat:@"Order Number :%@",[[NotificationDic valueForKey:@"order_no"] objectAtIndex:indexPath.section]];
+    cell.Order_date.text=[NSString stringWithFormat:@"Order Date :%@",[[NotificationDic valueForKey:@"order_date"] objectAtIndex:indexPath.section]];
+    cell.OderStatus.text=[[NotificationDic valueForKey:@"status_slug"] objectAtIndex:indexPath.section];
+    cell.TotalQTY.text=[NSString stringWithFormat:@"Nos.%@",[[NotificationDic valueForKey:@"total_qty"] objectAtIndex:indexPath.section]];
+    cell.TotalAmount.text=[NSString stringWithFormat:@"Rs.%@",[[NotificationDic valueForKey:@"total_amount"] objectAtIndex:indexPath.section]];
+    cell.Discount.text=[NSString stringWithFormat:@"Rs.%@",[[NotificationDic valueForKey:@"discount"] objectAtIndex:indexPath.section]];
+    cell.GrandTotal.text=[NSString stringWithFormat:@"Rs.%@",[[NotificationDic valueForKey:@"grand_total"] objectAtIndex:indexPath.section]];
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    OrderDetailVW *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"OrderDetailVW"];
+    vcr.order_id=[[NotificationDic valueForKey:@"id"] objectAtIndex:indexPath.section];
+    vcr.CheckNotificationView=@"NotiVW";
+    [self.navigationController pushViewController:vcr animated:YES];
 }
 
 
