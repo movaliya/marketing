@@ -1,22 +1,24 @@
 //
-//  CreateOrderVW.m
+//  UpdateOrderVW.m
 //  digitalmarketing
 //
-//  Created by Mango SW on 17/05/2017.
+//  Created by kaushik on 20/05/17.
 //  Copyright © 2017 jkinfoway. All rights reserved.
 //
 
-#import "CreateOrderVW.h"
+#import "UpdateOrderVW.h"
+#import "UpdateOrderCell.h"
+#import "AppDelegate.h"
 #import "digitalMarketing.pch"
 #import "SerachProductVW.h"
-#import "OrderDetail_Cell.h"
 
-@interface CreateOrderVW ()<SerachProductVWDelegate>
-
-
+@interface UpdateOrderVW ()<SerachProductVWDelegate>
+{
+    BOOL CheckSUCCESS;
+}
 @end
 
-@implementation CreateOrderVW
+@implementation UpdateOrderVW
 @synthesize SearchProBackView,SelectCustomerBackView,ProductTitleBackView;
 @synthesize CreateOrderBtn,CutomerView,CustomerTBL,SelectCutomer_Button;
 @synthesize ProductTBL;
@@ -27,7 +29,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     
     CustomerPhoneLBL.text=@"";
     CustomerAdressLBL.text=@"";
@@ -83,11 +84,11 @@
     CutomerView.hidden=YES;
     CutomerID=@"";
     
-    UINib *nib = [UINib nibWithNibName:@"OrderDetail_Cell" bundle:nil];
-    OrderDetail_Cell *cell = [[nib instantiateWithOwner:nil options:nil] objectAtIndex:0];
+    UINib *nib = [UINib nibWithNibName:@"UpdateOrderCell" bundle:nil];
+    UpdateOrderCell *cell = [[nib instantiateWithOwner:nil options:nil] objectAtIndex:0];
     ProductTBL.rowHeight = cell.frame.size.height;
-    [ProductTBL registerNib:nib forCellReuseIdentifier:@"OrderDetail_Cell"];
-
+    [ProductTBL registerNib:nib forCellReuseIdentifier:@"UpdateOrderCell"];
+    
 }
 
 -(void)getCutomerDetail
@@ -125,7 +126,7 @@
     {
         if (!CheckSUCCESS)
         {
-           [self getCutomerDetail];
+            [self getCutomerDetail];
         }
         
     }
@@ -174,9 +175,9 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     //if (tableView==CustomerTBL)
-   // {
-      //  return nil;
-   // }
+    // {
+    //  return nil;
+    // }
     UIView *v = [UIView new];
     [v setBackgroundColor:[UIColor clearColor]];
     return v;
@@ -219,8 +220,8 @@
     }
     else
     {
-        static NSString *CellIdentifier = @"OrderDetail_Cell";
-        OrderDetail_Cell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        static NSString *CellIdentifier = @"UpdateOrderCell";
+        UpdateOrderCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         cell=nil;
         if (cell == nil)
         {
@@ -233,6 +234,7 @@
         cell.ProductPrice.text=[[ProductArry valueForKey:@"price"] objectAtIndex:indexPath.section];
         
         cell.ProductQTY.text=[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section];
+        cell.ProductQTY.tag=indexPath.section;
         
         NSInteger totalValue=[[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:indexPath.section] integerValue];
         cell.ProductAmount.text=[NSString stringWithFormat:@"%ld",(long)totalValue];
@@ -247,7 +249,7 @@
 {
     if (tableView==CustomerTBL)
     {
-       CutomerView.hidden=YES;
+        CutomerView.hidden=YES;
         
         TitleTop1.constant=15;
         TitleTop2.constant=8;
@@ -293,9 +295,9 @@
 
 - (void)ChkProductValue:(NSMutableArray *)ProductDict
 {
-   // NSLog(@"value====%@",ProductDict);
+    // NSLog(@"value====%@",ProductDict);
     
-   // NSString *jsonString = [ProductDict JSONRepresentation];
+    // NSString *jsonString = [ProductDict JSONRepresentation];
     ProductArry=[[NSMutableArray alloc]initWithArray:ProductDict];
     
     totalAmount=0;
@@ -322,7 +324,7 @@
 {
     if ([CutomerID isEqualToString:@""])
     {
-         [AppDelegate showErrorMessageWithTitle:@"Error!" message:@"Please Select Customer." delegate:nil];
+        [AppDelegate showErrorMessageWithTitle:@"Error!" message:@"Please Select Customer." delegate:nil];
     }
     else if (ProductArry.count==0)
     {
@@ -344,7 +346,7 @@
 
 -(void)CreateOrder
 {
-
+    
     NSDictionary *UserSaveData=[[NSUserDefaults standardUserDefaults]objectForKey:@"LoginUserDic"];
     NSMutableDictionary *dictParams = [[NSMutableDictionary alloc] init];
     [dictParams setObject:Base_Key  forKey:@"key"];
@@ -360,7 +362,7 @@
     [dictParams setObject:[NSString stringWithFormat:@"%ld",(long)totalAmount]  forKey:@"total_amount"];
     [dictParams setObject:[NSString stringWithFormat:@"%ld",(long)totalQTY]  forKey:@"total_qty"];
     [dictParams setObject:ProductJSONString  forKey:@"product"];
-   
+    
     [CommonWS AAwebserviceWithURL:[NSString stringWithFormat:@"%@",BaseUrl] withParam:dictParams withCompletion:^(NSDictionary *response, BOOL success1)
      {
          [self handleGetPROResponse:response];
@@ -385,9 +387,11 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)didReceiveMemoryWarning {
+
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
+
 
 @end

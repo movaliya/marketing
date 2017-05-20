@@ -1,15 +1,14 @@
 //
-//  CreateOrderVW.h
+//  UpdateOrderVW.h
 //  digitalmarketing
 //
-//  Created by Mango SW on 17/05/2017.
+//  Created by kaushik on 20/05/17.
 //  Copyright © 2017 jkinfoway. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface CreateOrderVW : UIViewController
-
+@interface UpdateOrderVW : UIViewController
 {
     NSDictionary *customerDict;
     NSMutableArray *ProductArry;
@@ -17,8 +16,9 @@
     
     NSInteger totalAmount;
     NSInteger totalQTY;
+    NSString *ProductJSON;
     NSString *ProductJSONString;
-    BOOL CheckSUCCESS;
+
 }
 
 @property (weak, nonatomic) IBOutlet UIButton *SelectCutomer_Button;
