@@ -12,7 +12,7 @@
 #import "digitalMarketing.pch"
 #import "SerachProductVW.h"
 
-@interface UpdateOrderVW ()<SerachProductVWDelegate>
+@interface UpdateOrderVW ()<SerachProductVWDelegate,UITextFieldDelegate>
 {
     BOOL CheckSUCCESS;
 }
@@ -290,6 +290,7 @@
         
         cell.ProductQTY.text=[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section];
         cell.ProductQTY.tag=indexPath.section;
+        cell.ProductQTY.delegate=self;
         
         NSInteger totalValue=[[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:indexPath.section] integerValue];
         cell.ProductAmount.text=[NSString stringWithFormat:@"%ld",(long)totalValue];
@@ -413,7 +414,7 @@
         BOOL internet=[AppDelegate connectedToNetwork];
         if (internet)
         {
-            //[self CreateOrder];
+            [self CreateOrder];
         }
         else
             [AppDelegate showErrorMessageWithTitle:@"" message:@"Please check your internet connection or try again later." delegate:nil];
@@ -471,5 +472,30 @@
     [super didReceiveMemoryWarning];
 }
 
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    return YES;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    NSLog(@"==%@",[ProductArry objectAtIndex:textField.tag]);
+    
+    NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
+    NSDictionary *oldDict = (NSDictionary *)[ProductArry objectAtIndex:textField.tag];
+    [newDict addEntriesFromDictionary:oldDict];
+    [newDict setObject:textField.text forKey:@"qty"];
+    [ProductArry replaceObjectAtIndex:textField.tag withObject:newDict];
+    
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    NSCharacterSet *numbersOnly = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+    NSCharacterSet *characterSetFromTextField = [NSCharacterSet characterSetWithCharactersInString:textField.text];
+    
+    BOOL stringIsValid = [numbersOnly isSupersetOfSet:characterSetFromTextField];
+    return stringIsValid;
+}
 
 @end

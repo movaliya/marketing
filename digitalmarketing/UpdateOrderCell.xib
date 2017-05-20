@@ -16,7 +16,7 @@
             <rect key="frame" x="0.0" y="0.0" width="361" height="47"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="S9E-z3-KVK" id="GZe-RU-ks1">
-                <rect key="frame" x="0.0" y="0.0" width="361" height="46"/>
+                <rect key="frame" x="0.0" y="0.0" width="361" height="46.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jgP-SN-gLK">
@@ -76,10 +76,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="10000" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZlS-xP-KeK">
-                                <rect key="frame" x="236" y="15.5" width="54" height="17"/>
+                                <rect key="frame" x="236" y="0.0" width="54" height="48"/>
                                 <color key="textColor" red="0.51764705879999995" green="0.51764705879999995" blue="0.51764705879999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numbersAndPunctuation"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad"/>
                                 <connections>
                                     <outlet property="delegate" destination="-1" id="iXK-CO-Hee"/>
                                 </connections>
@@ -110,6 +110,7 @@
                             <constraint firstItem="4gw-ud-g2I" firstAttribute="leading" secondItem="ZlS-xP-KeK" secondAttribute="trailing" id="pAO-dC-Qrd"/>
                             <constraint firstItem="z4x-yi-LVy" firstAttribute="leading" secondItem="bU7-c9-Sjv" secondAttribute="trailing" id="pdq-FL-k6o"/>
                             <constraint firstItem="WNe-gD-wK7" firstAttribute="centerY" secondItem="jgP-SN-gLK" secondAttribute="centerY" id="qJK-bc-1hP"/>
+                            <constraint firstItem="ZlS-xP-KeK" firstAttribute="height" secondItem="jgP-SN-gLK" secondAttribute="height" id="wcg-Or-LEf"/>
                             <constraint firstItem="4gw-ud-g2I" firstAttribute="top" secondItem="jgP-SN-gLK" secondAttribute="top" id="zZC-fS-S50"/>
                         </constraints>
                     </view>
