@@ -23,6 +23,17 @@
     [super viewDidLoad];
     
     
+    if( [self.CheckNotificationView isEqualToString:@"NotiVW"])
+    {
+        self.EditIcon_BTN.hidden=YES;
+        self.EditIcon_BTN.enabled=NO;
+    }
+    else
+    {
+        self.EditIcon_BTN.hidden=NO;
+        self.EditIcon_BTN.enabled=YES;
+    }
+   
     [DetailBackView.layer setCornerRadius:3.0f];
     DetailBackView.layer.borderWidth = 1.0f;
     [DetailBackView.layer setMasksToBounds:YES];

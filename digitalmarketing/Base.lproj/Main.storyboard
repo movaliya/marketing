@@ -2170,6 +2170,7 @@
                         <outlet property="CutomerName" destination="Ce3-kC-2ni" id="4EL-yb-Cp4"/>
                         <outlet property="DetailBackView" destination="ZM5-GT-rBQ" id="OrT-6g-e6E"/>
                         <outlet property="Discount" destination="qSE-tc-Lga" id="3DZ-n2-HxF"/>
+                        <outlet property="EditIcon_BTN" destination="Rf1-ku-woZ" id="prH-ie-TNu"/>
                         <outlet property="GrandTotal" destination="DUQ-0O-lA1" id="Anc-6S-xUF"/>
                         <outlet property="OrderDate" destination="HsP-HN-V3S" id="Ebn-zH-8X8"/>
                         <outlet property="OrderDetailTable" destination="BaF-ue-BjX" id="Mib-Bn-uUI"/>
