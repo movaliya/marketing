@@ -22,8 +22,9 @@
     [super viewDidLoad];
     
     UINib *nib = [UINib nibWithNibName:@"InwardHitry_CELL" bundle:nil];
+    InwardHstyTLB.estimatedRowHeight = 183;
+    InwardHstyTLB.rowHeight = UITableViewAutomaticDimension;
     [InwardHstyTLB registerNib:nib forCellReuseIdentifier:@"InwardHitry_CELL"];
-    
     
     BOOL internet=[AppDelegate connectedToNetwork];
     if (internet)
@@ -71,7 +72,8 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
-    return 237;
+   // return 237;
+    return UITableViewAutomaticDimension;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
