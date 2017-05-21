@@ -22,6 +22,7 @@
     NSMutableDictionary *ProductDictPass;
 
 }
+
 @property (strong, nonatomic) NSMutableDictionary *OrderDetailDICTPass;
 
 @property (weak, nonatomic) IBOutlet UIButton *SelectCutomer_Button;
@@ -48,5 +49,17 @@
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *TitleTop2;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *TitleTop3;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *TitleTop4;
+
+- (IBAction)Discount_Click:(id)sender;
+
+@property (strong, nonatomic) IBOutlet UIView *DiscountView;
+@property (strong, nonatomic) IBOutlet UILabel *Qty_LBL;
+@property (strong, nonatomic) IBOutlet UILabel *Amount_LBL;
+@property (strong, nonatomic) IBOutlet UITextField *Discount_TXT;
+@property (strong, nonatomic) IBOutlet UILabel *GrandTotal_LBL;
+- (IBAction)DiscountOK_Click:(id)sender;
+- (IBAction)DiscountCancle_Click:(id)sender;
+
+
 
 @end

@@ -25,6 +25,7 @@
 @synthesize ProductTBL;
 @synthesize TitleHight,TitleTop1,TitleTop2,TitleTop3,TitleTop4;
 @synthesize OrderDetailDICTPass;
+@synthesize Discount_LBL,Discount_TXT,DiscountView;
 
 @synthesize CustomerPhoneLBL,CustomerAdressLBL,CutomerNameLBL,CustomerStateCityLBL;
 
@@ -32,6 +33,7 @@
 {
     [super viewDidLoad];
     
+    DiscountView.hidden=YES;
     CustomerPhoneLBL.text=@"";
     CustomerAdressLBL.text=@"";
     CutomerNameLBL.text=@"";
@@ -527,6 +529,20 @@
     
     BOOL stringIsValid = [numbersOnly isSupersetOfSet:characterSetFromTextField];
     return stringIsValid;
+}
+
+- (IBAction)DiscountOK_Click:(id)sender
+{
+}
+
+- (IBAction)DiscountCancle_Click:(id)sender
+{
+    DiscountView.hidden=YES;
+}
+
+- (IBAction)Discount_Click:(id)sender
+{
+    DiscountView.hidden=NO;
 }
 
 @end
