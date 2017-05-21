@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 #import "digitalMarketing.pch"
 #import "SerachProductVW.h"
+#import "HomeVW.h"
 
 @interface UpdateOrderVW ()<SerachProductVWDelegate,UITextFieldDelegate>
 {
@@ -104,7 +105,7 @@
         
         // Take Cutomer Detail From Here.
         [SelectCutomer_Button setTitle:[OrderDetailDICTPass valueForKey:@"customer_name"]forState:UIControlStateNormal];
-        CutomerID=[OrderDetailDICTPass valueForKey:@"id"];
+        CutomerID=[OrderDetailDICTPass valueForKey:@"customer_id"];
         CutomerNameLBL.text=[OrderDetailDICTPass valueForKey:@"customer_name"];
         CustomerAdressLBL.text=[OrderDetailDICTPass valueForKey:@"address"];
         CustomerPhoneLBL.text=[OrderDetailDICTPass valueForKey:@"contact_number"];
@@ -341,7 +342,7 @@
         
         // Take Cutomer Detail From Here.
         [SelectCutomer_Button setTitle:[[customerDict valueForKey:@"cname"]objectAtIndex:indexPath.row ]forState:UIControlStateNormal];
-        CutomerID=[[customerDict valueForKey:@"id"]objectAtIndex:indexPath.row];
+        CutomerID=[[customerDict valueForKey:@"customer_id"]objectAtIndex:indexPath.row];
         CutomerNameLBL.text=[[customerDict valueForKey:@"cname"]objectAtIndex:indexPath.row ];
         CustomerAdressLBL.text=[[customerDict valueForKey:@"address"]objectAtIndex:indexPath.row ];
         CustomerPhoneLBL.text=[[customerDict valueForKey:@"phone"]objectAtIndex:indexPath.row ];
@@ -425,7 +426,6 @@
 -(void)CreateOrder
 {
     
-    
     NSDictionary *UserSaveData=[[NSUserDefaults standardUserDefaults]objectForKey:@"LoginUserDic"];
     NSMutableDictionary *dictParams = [[NSMutableDictionary alloc] init];
     [dictParams setObject:Base_Key  forKey:@"key"];
@@ -453,7 +453,15 @@
     if ([[[response objectForKey:@"ack"]stringValue ] isEqualToString:@"1"])
     {
         [AppDelegate showErrorMessageWithTitle:AlertTitleError message:[response objectForKey:@"ack_msg"] delegate:nil];
-        [self.navigationController popViewControllerAnimated:YES];
+        
+        
+        for (UIViewController* viewController in self.navigationController.viewControllers) {
+            if ([viewController isKindOfClass:[HomeVW class]] ) {
+                HomeVW *groupViewController = (HomeVW*)viewController;
+                [self.navigationController popToViewController:groupViewController animated:YES];
+            }
+        }
+       
     }
     else
     {
@@ -480,12 +488,35 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     NSLog(@"==%@",[ProductArry objectAtIndex:textField.tag]);
-    
-    NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
-    NSDictionary *oldDict = (NSDictionary *)[ProductArry objectAtIndex:textField.tag];
-    [newDict addEntriesFromDictionary:oldDict];
-    [newDict setObject:textField.text forKey:@"qty"];
-    [ProductArry replaceObjectAtIndex:textField.tag withObject:newDict];
+    if ([textField.text isEqualToString:@""])
+    {
+         [ProductTBL reloadData];
+    }
+    else
+    {
+        NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
+        NSDictionary *oldDict = (NSDictionary *)[ProductArry objectAtIndex:textField.tag];
+        [newDict addEntriesFromDictionary:oldDict];
+        [newDict setObject:textField.text forKey:@"qty"];
+        [ProductArry replaceObjectAtIndex:textField.tag withObject:newDict];
+        
+        totalAmount=0;
+        totalQTY=0;
+        for (NSInteger jj=0; jj<ProductArry.count; jj++)
+        {
+            totalAmount=totalAmount+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:jj] integerValue];
+            
+            totalQTY=totalQTY+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue];
+        }
+        
+        self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%ld",(long)totalQTY];
+        self.TotalAmount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
+        self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
+        NSError * err;
+        NSData * jsonData = [NSJSONSerialization dataWithJSONObject:ProductArry options:0 error:&err];
+        ProductJSONString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        [ProductTBL reloadData];
+    }
     
 }
 
