@@ -296,8 +296,10 @@
         cell.ProductPrice.text=[[ProductArry valueForKey:@"price"] objectAtIndex:indexPath.section];
         
         cell.ProductQTY.text=[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section];
+
         cell.ProductQTY.tag=indexPath.section;
         cell.ProductQTY.delegate=self;
+        cell.QntLine_LBL.tag=indexPath.section;
         
         NSInteger totalValue=[[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:indexPath.section] integerValue];
         cell.ProductAmount.text=[NSString stringWithFormat:@"%ld",(long)totalValue];
@@ -434,7 +436,6 @@
 
 -(void)CreateOrder
 {
-    
     NSDictionary *UserSaveData=[[NSUserDefaults standardUserDefaults]objectForKey:@"LoginUserDic"];
     NSMutableDictionary *dictParams = [[NSMutableDictionary alloc] init];
     [dictParams setObject:Base_Key  forKey:@"key"];
@@ -470,7 +471,6 @@
                 [self.navigationController popToViewController:groupViewController animated:YES];
             }
         }
-       
     }
     else
     {
@@ -494,9 +494,37 @@
     return YES;
 }
 
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+   // NSIndexPath *pathOfTheCell=[NSIndexPath indexPathForRow:0 inSection:[sender tag]];
+   // OfferzoneCell *cell = (OfferzoneCell *)[TBL cellForRowAtIndexPath:pathOfTheCell];
+    
+    for (UIView *view in ProductTBL.subviews)
+    {
+        for (UpdateOrderCell *cell in view.subviews)
+        {
+            if (cell.QntLine_LBL.tag==textField.tag)
+            {
+                cell.QntLine_LBL.backgroundColor=[UIColor colorWithRed:62.0f/255.0f green:64.0f/255.0f blue:149.0f/255.0f alpha:1.0f];
+            }
+            else
+            {
+                cell.QntLine_LBL.backgroundColor=[UIColor colorWithRed:117.0f/255.0f green:117.0f/255.0f blue:117.0f/255.0f alpha:1.0f];
+            }
+        }
+    }
+}
+
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-    NSLog(@"==%@",[ProductArry objectAtIndex:textField.tag]);
+    for (UIView *view in ProductTBL.subviews)
+    {
+        for (UpdateOrderCell *cell in view.subviews)
+        {
+            cell.QntLine_LBL.backgroundColor=[UIColor colorWithRed:117.0f/255.0f green:117.0f/255.0f blue:117.0f/255.0f alpha:1.0f];
+        }
+    }
+    
     if (textField==Discount_TXT)
     {
         if ([textField.text isEqualToString:@""])
@@ -540,7 +568,6 @@
             [ProductTBL reloadData];
         }
     }
-    
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
@@ -590,6 +617,7 @@
     self.Discount_TXT.text=[NSString stringWithFormat:@"%ld",DiscoutINT];;
     self.DiscountGrandTotal_LBL.text=[NSString stringWithFormat:@"%ld Rs",(long)GrandAmount];
 }
+
 -(void)textFieldDidChange :(UITextField *)theTextField
 {
     NSLog( @"text changed: %@", theTextField.text);

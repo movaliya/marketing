@@ -123,6 +123,8 @@
 		B1417A011ED187FB00592486 /* UpdateDispatchVw.m in Sources */ = {isa = PBXBuildFile; fileRef = B1417A001ED187FB00592486 /* UpdateDispatchVw.m */; };
 		B1417A051ED18B1900592486 /* UpdateInwardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1417A031ED18B1900592486 /* UpdateInwardCell.m */; };
 		B1417A061ED18B1900592486 /* UpdateInwardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1417A041ED18B1900592486 /* UpdateInwardCell.xib */; };
+		B1417A0A1ED1ABD800592486 /* UpdateDispatchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1417A081ED1ABD800592486 /* UpdateDispatchCell.m */; };
+		B1417A0B1ED1ABD800592486 /* UpdateDispatchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1417A091ED1ABD800592486 /* UpdateDispatchCell.xib */; };
 		B17072411ED0160A00D6CEAA /* UpdateOrderVW.m in Sources */ = {isa = PBXBuildFile; fileRef = B17072401ED0160A00D6CEAA /* UpdateOrderVW.m */; };
 		B17072451ED01B6500D6CEAA /* UpdateOrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B17072431ED01B6500D6CEAA /* UpdateOrderCell.m */; };
 		B17072461ED01B6500D6CEAA /* UpdateOrderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B17072441ED01B6500D6CEAA /* UpdateOrderCell.xib */; };
@@ -336,6 +338,9 @@
 		B1417A021ED18B1800592486 /* UpdateInwardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateInwardCell.h; sourceTree = "<group>"; };
 		B1417A031ED18B1900592486 /* UpdateInwardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateInwardCell.m; sourceTree = "<group>"; };
 		B1417A041ED18B1900592486 /* UpdateInwardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpdateInwardCell.xib; sourceTree = "<group>"; };
+		B1417A071ED1ABD800592486 /* UpdateDispatchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateDispatchCell.h; sourceTree = "<group>"; };
+		B1417A081ED1ABD800592486 /* UpdateDispatchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateDispatchCell.m; sourceTree = "<group>"; };
+		B1417A091ED1ABD800592486 /* UpdateDispatchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpdateDispatchCell.xib; sourceTree = "<group>"; };
 		B170723F1ED0160A00D6CEAA /* UpdateOrderVW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateOrderVW.h; sourceTree = "<group>"; };
 		B17072401ED0160A00D6CEAA /* UpdateOrderVW.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateOrderVW.m; sourceTree = "<group>"; };
 		B17072421ED01B6500D6CEAA /* UpdateOrderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateOrderCell.h; sourceTree = "<group>"; };
@@ -818,6 +823,9 @@
 				53E0469C1ECC85FC0081DE05 /* DispatchHSTY_CELL.h */,
 				53E0469D1ECC85FC0081DE05 /* DispatchHSTY_CELL.m */,
 				53E0469E1ECC85FC0081DE05 /* DispatchHSTY_CELL.xib */,
+				B1417A071ED1ABD800592486 /* UpdateDispatchCell.h */,
+				B1417A081ED1ABD800592486 /* UpdateDispatchCell.m */,
+				B1417A091ED1ABD800592486 /* UpdateDispatchCell.xib */,
 				534E5F1F1ECDC2FD00C50261 /* InwardHitry_CELL.h */,
 				534E5F201ECDC2FD00C50261 /* InwardHitry_CELL.m */,
 				534E5F211ECDC2FD00C50261 /* InwardHitry_CELL.xib */,
@@ -916,6 +924,7 @@
 				53523A7F1EC9DDF500EE41E9 /* attendence.png in Resources */,
 				53523A871EC9DE4100EE41E9 /* logout.png in Resources */,
 				530DC6171EC88283000D4CA2 /* IQKeyboardManager.bundle in Resources */,
+				B1417A0B1ED1ABD800592486 /* UpdateDispatchCell.xib in Resources */,
 				53523A9A1EC9F88700EE41E9 /* Notification_Cell.xib in Resources */,
 				B1417A061ED18B1900592486 /* UpdateInwardCell.xib in Resources */,
 				53523A781EC99BF800EE41E9 /* splash.png in Resources */,
@@ -967,6 +976,7 @@
 				530DC5F61EC8822C000D4CA2 /* IQUIViewController+Additions.m in Sources */,
 				B17072411ED0160A00D6CEAA /* UpdateOrderVW.m in Sources */,
 				530DC5B61EC8816C000D4CA2 /* UIButton+AFNetworking.m in Sources */,
+				B1417A0A1ED1ABD800592486 /* UpdateDispatchCell.m in Sources */,
 				534D25041ECAC7D500F00B47 /* StockVW.m in Sources */,
 				530DC5541EC872C1000D4CA2 /* AppDelegate.m in Sources */,
 				534D25131ECB141100F00B47 /* OderHistryVW.m in Sources */,
