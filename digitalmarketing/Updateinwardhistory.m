@@ -10,7 +10,7 @@
 #import "digitalMarketing.pch"
 #import "SerachProductVW.h"
 #import "UpdateInwardCell.h"
-
+#import "HomeVW.h"
 @interface Updateinwardhistory ()<SerachProductVWDelegate>
 
 @end
@@ -79,7 +79,8 @@
     [CutomerView.layer setShadowOffset:CGSizeMake(10,10)];
     
     CutomerView.hidden=YES;
-    CutomerID=@"";
+    vendor_id=@"";
+    Inward_id=@"";
     
     UINib *nib = [UINib nibWithNibName:@"UpdateInwardCell" bundle:nil];
     UpdateInwardCell *cell = [[nib instantiateWithOwner:nil options:nil] objectAtIndex:0];
@@ -87,12 +88,13 @@
     [ProductTBL registerNib:nib forCellReuseIdentifier:@"UpdateInwardCell"];
     
     
-    //[self.view setNeedsUpdateConstraints];
-   // [self.view updateConstraintsIfNeeded];
+    [self.view setNeedsUpdateConstraints];
+    [self.view updateConstraintsIfNeeded];
     
     // Take Cutomer Detail From Here.
     [SelectCutomer_Button setTitle:[InwardDetailDICTPass valueForKey:@"vendor_name"]forState:UIControlStateNormal];
-    CutomerID=[InwardDetailDICTPass valueForKey:@"id"];
+    vendor_id=[InwardDetailDICTPass valueForKey:@"vendor_id"];
+    Inward_id=[InwardDetailDICTPass valueForKey:@"id"];
     CutomerNameLBL.text=[InwardDetailDICTPass valueForKey:@"vendor_name"];
     /*
     CustomerAdressLBL.text=[InwardDetailDICTPass valueForKey:@"address"];
@@ -100,7 +102,8 @@
     NSString *city=[InwardDetailDICTPass valueForKey:@"city"];
     NSString *State=[InwardDetailDICTPass valueForKey:@"state"];
     NSString *Country=[InwardDetailDICTPass valueForKey:@"country"];
-    CustomerStateCityLBL.text=[NSString stringWithFormat:@"%@,%@,%@",city,State,Country];
+     CustomerStateCityLBL.text=[NSString stringWithFormat:@"%@,%@,%@",city,State,Country];*/
+
     
     TitleTop1.constant=15;
     TitleTop2.constant=8;
@@ -110,8 +113,7 @@
     
     
     [self.view setNeedsUpdateConstraints];
-    [self.view updateConstraintsIfNeeded];*/
-    
+    [self.view updateConstraintsIfNeeded];
     self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%@",[InwardDetailDICTPass valueForKey:@"total_qty"]];
     self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%@",[InwardDetailDICTPass valueForKey:@"grand_total"]];
     
@@ -126,19 +128,31 @@
         [Productdict setObject:[[ProductDictPass valueForKey:@"receive_qty"]objectAtIndex:ii] forKey:@"qty"];
         [tempArray addObject:Productdict];
     }
+    
     ProductArry=[[NSMutableArray alloc]initWithArray:tempArray];
     NSError * err;
     NSData * jsonData = [NSJSONSerialization dataWithJSONObject:ProductArry options:0 error:&err];
     ProductJSONString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    totalAmount=0;
+    totalQTY=0;
+    for (NSInteger jj=0; jj<ProductArry.count; jj++)
+    {
+        totalAmount=totalAmount+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:jj] integerValue];
+        
+        totalQTY=totalQTY+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue];
+    }
     [ProductTBL reloadData];
     
 }
 
 -(void)getVender
 {
+    NSDictionary *UserSaveData=[[NSUserDefaults standardUserDefaults]objectForKey:@"LoginUserDic"];
+
     NSMutableDictionary *dictParams = [[NSMutableDictionary alloc] init];
     [dictParams setObject:Base_Key  forKey:@"key"];
-    [dictParams setObject:get_vendor  forKey:@"s"];
+    [dictParams setObject:get_all_inward_store  forKey:@"s"];
+    [dictParams setObject:[UserSaveData valueForKey:@"id"]  forKey:@"sales_id"];
     
     [CommonWS AAwebserviceWithURL:[NSString stringWithFormat:@"%@",BaseUrl] withParam:dictParams withCompletion:^(NSDictionary *response, BOOL success1)
      {
@@ -253,7 +267,7 @@
         {
             titleLBL.font=[UIFont systemFontOfSize:13.0f];
         }
-        titleLBL.text=[[customerDict valueForKey:@"cname"] objectAtIndex:indexPath.row];
+        titleLBL.text=[[customerDict valueForKey:@"vendor_name"] objectAtIndex:indexPath.row];
         [cell addSubview:titleLBL];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         return cell;
@@ -296,15 +310,17 @@
         [self.view updateConstraintsIfNeeded];
         
         // Take Cutomer Detail From Here.
-        [SelectCutomer_Button setTitle:[[customerDict valueForKey:@"cname"]objectAtIndex:indexPath.row ]forState:UIControlStateNormal];
-        CutomerID=[[customerDict valueForKey:@"id"]objectAtIndex:indexPath.row];
-        CutomerNameLBL.text=[[customerDict valueForKey:@"cname"]objectAtIndex:indexPath.row ];
-        CustomerAdressLBL.text=[[customerDict valueForKey:@"address"]objectAtIndex:indexPath.row ];
-        CustomerPhoneLBL.text=[[customerDict valueForKey:@"phone"]objectAtIndex:indexPath.row ];
-        NSString *city=[[customerDict valueForKey:@"city"]objectAtIndex:indexPath.row ];
-        NSString *State=[[customerDict valueForKey:@"state"]objectAtIndex:indexPath.row ];
-        NSString *Country=[[customerDict valueForKey:@"country"]objectAtIndex:indexPath.row ];
-        CustomerStateCityLBL.text=[NSString stringWithFormat:@"%@,%@,%@",city,State,Country];
+        [SelectCutomer_Button setTitle:[[customerDict valueForKey:@"vendor_name"]objectAtIndex:indexPath.row ]forState:UIControlStateNormal];
+        vendor_id=[[customerDict valueForKey:@"vendor_id"]objectAtIndex:indexPath.row];
+        Inward_id=[[customerDict valueForKey:@"id"]objectAtIndex:indexPath.row];
+        CutomerNameLBL.text=[[customerDict valueForKey:@"vendor_name"]objectAtIndex:indexPath.row ];
+        
+       // CustomerAdressLBL.text=[[customerDict valueForKey:@"address"]objectAtIndex:indexPath.row ];
+       // CustomerPhoneLBL.text=[[customerDict valueForKey:@"phone"]objectAtIndex:indexPath.row ];
+      //  NSString *city=[[customerDict valueForKey:@"city"]objectAtIndex:indexPath.row ];
+      //  NSString *State=[[customerDict valueForKey:@"state"]objectAtIndex:indexPath.row ];
+     //   NSString *Country=[[customerDict valueForKey:@"country"]objectAtIndex:indexPath.row ];
+      //  CustomerStateCityLBL.text=[NSString stringWithFormat:@"%@,%@,%@",city,State,Country];
         
         TitleTop1.constant=15;
         TitleTop2.constant=8;
@@ -363,7 +379,7 @@
 }
 - (IBAction)CreateOrderBtn_Action:(id)sender
 {
-    if ([CutomerID isEqualToString:@""])
+    if ([vendor_id isEqualToString:@""])
     {
         [AppDelegate showErrorMessageWithTitle:@"Error!" message:@"Please Select Customer." delegate:nil];
     }
@@ -386,18 +402,20 @@
 }
 -(void)CreateInwardOrder
 {
+    //id=1
+    
     
     NSDictionary *UserSaveData=[[NSUserDefaults standardUserDefaults]objectForKey:@"LoginUserDic"];
     NSMutableDictionary *dictParams = [[NSMutableDictionary alloc] init];
     [dictParams setObject:Base_Key  forKey:@"key"];
-    [dictParams setObject:add_inward  forKey:@"s"];
+    [dictParams setObject:update_inward_store  forKey:@"s"];
     
-    [dictParams setObject:CutomerID  forKey:@"vendor_id"];
+    [dictParams setObject:vendor_id  forKey:@"vendor_id"];
+    [dictParams setObject:vendor_id  forKey:@"id"];
     [dictParams setObject:[UserSaveData valueForKey:@"id"] forKey:@"sales_id"];
     
     [dictParams setObject:[NSString stringWithFormat:@"%ld",(long)totalAmount]  forKey:@"grand_total"];
     [dictParams setObject:[NSString stringWithFormat:@"%ld",(long)totalQTY]  forKey:@"qty"];
-    [dictParams setObject:@""  forKey:@""];
     [dictParams setObject:ProductJSONString  forKey:@"product"];
     
     [CommonWS AAwebserviceWithURL:[NSString stringWithFormat:@"%@",BaseUrl] withParam:dictParams withCompletion:^(NSDictionary *response, BOOL success1)
@@ -410,7 +428,13 @@
     if ([[[response objectForKey:@"ack"]stringValue ] isEqualToString:@"1"])
     {
         [AppDelegate showErrorMessageWithTitle:AlertTitleError message:[response objectForKey:@"ack_msg"] delegate:nil];
-        [self.navigationController popViewControllerAnimated:YES];
+        
+        for (UIViewController* viewController in self.navigationController.viewControllers) {
+            if ([viewController isKindOfClass:[HomeVW class]] ) {
+                HomeVW *groupViewController = (HomeVW*)viewController;
+                [self.navigationController popToViewController:groupViewController animated:YES];
+            }
+        }
     }
     else
     {
@@ -419,7 +443,7 @@
 }
 - (IBAction)BackBtn_Action:(id)sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:NO];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

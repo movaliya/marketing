@@ -57,6 +57,8 @@
 #define add_inward @"17"
 #define get_all_inward_store @"18"
 #define get_inward_store_item @"28"
+#define update_inward_store @"19"
+
 
 #define add_attendance @"35"
 

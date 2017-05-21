@@ -12,7 +12,8 @@
 {
     NSDictionary *customerDict;
     NSMutableArray *ProductArry;
-    NSString *CutomerID;
+    NSString *vendor_id;
+    NSString *Inward_id;
     
     NSInteger totalAmount;
     NSInteger totalQTY;
