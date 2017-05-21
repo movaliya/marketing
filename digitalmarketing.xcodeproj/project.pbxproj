@@ -120,6 +120,9 @@
 		53E046A01ECC85FC0081DE05 /* DispatchHSTY_CELL.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53E0469E1ECC85FC0081DE05 /* DispatchHSTY_CELL.xib */; };
 		53E046A31ECCA17B0081DE05 /* DispatchHRTYDetailVW.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E046A21ECCA17B0081DE05 /* DispatchHRTYDetailVW.m */; };
 		B14179FE1ED1630500592486 /* Updateinwardhistory.m in Sources */ = {isa = PBXBuildFile; fileRef = B14179FD1ED1630500592486 /* Updateinwardhistory.m */; };
+		B1417A011ED187FB00592486 /* UpdateDispatchVw.m in Sources */ = {isa = PBXBuildFile; fileRef = B1417A001ED187FB00592486 /* UpdateDispatchVw.m */; };
+		B1417A051ED18B1900592486 /* UpdateInwardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1417A031ED18B1900592486 /* UpdateInwardCell.m */; };
+		B1417A061ED18B1900592486 /* UpdateInwardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1417A041ED18B1900592486 /* UpdateInwardCell.xib */; };
 		B17072411ED0160A00D6CEAA /* UpdateOrderVW.m in Sources */ = {isa = PBXBuildFile; fileRef = B17072401ED0160A00D6CEAA /* UpdateOrderVW.m */; };
 		B17072451ED01B6500D6CEAA /* UpdateOrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B17072431ED01B6500D6CEAA /* UpdateOrderCell.m */; };
 		B17072461ED01B6500D6CEAA /* UpdateOrderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B17072441ED01B6500D6CEAA /* UpdateOrderCell.xib */; };
@@ -328,6 +331,11 @@
 		53E046A21ECCA17B0081DE05 /* DispatchHRTYDetailVW.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DispatchHRTYDetailVW.m; sourceTree = "<group>"; };
 		B14179FC1ED1630500592486 /* Updateinwardhistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Updateinwardhistory.h; sourceTree = "<group>"; };
 		B14179FD1ED1630500592486 /* Updateinwardhistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Updateinwardhistory.m; sourceTree = "<group>"; };
+		B14179FF1ED187FB00592486 /* UpdateDispatchVw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateDispatchVw.h; sourceTree = "<group>"; };
+		B1417A001ED187FB00592486 /* UpdateDispatchVw.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateDispatchVw.m; sourceTree = "<group>"; };
+		B1417A021ED18B1800592486 /* UpdateInwardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateInwardCell.h; sourceTree = "<group>"; };
+		B1417A031ED18B1900592486 /* UpdateInwardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateInwardCell.m; sourceTree = "<group>"; };
+		B1417A041ED18B1900592486 /* UpdateInwardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpdateInwardCell.xib; sourceTree = "<group>"; };
 		B170723F1ED0160A00D6CEAA /* UpdateOrderVW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateOrderVW.h; sourceTree = "<group>"; };
 		B17072401ED0160A00D6CEAA /* UpdateOrderVW.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateOrderVW.m; sourceTree = "<group>"; };
 		B17072421ED01B6500D6CEAA /* UpdateOrderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateOrderCell.h; sourceTree = "<group>"; };
@@ -684,6 +692,8 @@
 				53E0469A1ECC84EF0081DE05 /* DispatchHistoryVW.m */,
 				53E046A11ECCA17B0081DE05 /* DispatchHRTYDetailVW.h */,
 				53E046A21ECCA17B0081DE05 /* DispatchHRTYDetailVW.m */,
+				B14179FF1ED187FB00592486 /* UpdateDispatchVw.h */,
+				B1417A001ED187FB00592486 /* UpdateDispatchVw.m */,
 			);
 			name = Dispatch;
 			sourceTree = "<group>";
@@ -811,6 +821,9 @@
 				534E5F1F1ECDC2FD00C50261 /* InwardHitry_CELL.h */,
 				534E5F201ECDC2FD00C50261 /* InwardHitry_CELL.m */,
 				534E5F211ECDC2FD00C50261 /* InwardHitry_CELL.xib */,
+				B1417A021ED18B1800592486 /* UpdateInwardCell.h */,
+				B1417A031ED18B1900592486 /* UpdateInwardCell.m */,
+				B1417A041ED18B1900592486 /* UpdateInwardCell.xib */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -904,6 +917,7 @@
 				53523A871EC9DE4100EE41E9 /* logout.png in Resources */,
 				530DC6171EC88283000D4CA2 /* IQKeyboardManager.bundle in Resources */,
 				53523A9A1EC9F88700EE41E9 /* Notification_Cell.xib in Resources */,
+				B1417A061ED18B1900592486 /* UpdateInwardCell.xib in Resources */,
 				53523A781EC99BF800EE41E9 /* splash.png in Resources */,
 				53523A831EC9DE1600EE41E9 /* dispatch.png in Resources */,
 				530DC55F1EC872C1000D4CA2 /* LaunchScreen.storyboard in Resources */,
@@ -930,6 +944,7 @@
 				530DC5F31EC8822C000D4CA2 /* IQUIScrollView+Additions.m in Sources */,
 				530DC5CC1EC8818A000D4CA2 /* AFURLRequestSerialization.m in Sources */,
 				530DC61E1EC88373000D4CA2 /* ForgotPassVW.m in Sources */,
+				B1417A011ED187FB00592486 /* UpdateDispatchVw.m in Sources */,
 				530DC5F71EC8822C000D4CA2 /* IQUIWindow+Hierarchy.m in Sources */,
 				534D25161ECB2BC900F00B47 /* OrderDetailVW.m in Sources */,
 				530DC6001EC88249000D4CA2 /* IQKeyboardReturnKeyHandler.m in Sources */,
@@ -938,6 +953,7 @@
 				530DC5F21EC8822C000D4CA2 /* IQNSArray+Sort.m in Sources */,
 				530DC5951EC88157000D4CA2 /* SDWebImageManager.m in Sources */,
 				530DC59A1EC88157000D4CA2 /* UIImageView+HighlightedWebCache.m in Sources */,
+				B1417A051ED18B1900592486 /* UpdateInwardCell.m in Sources */,
 				534D250F1ECB13C100F00B47 /* OrderHistry_Cell.m in Sources */,
 				53523A941EC9F7EE00EE41E9 /* NotificationVW.m in Sources */,
 				530DC5931EC88157000D4CA2 /* SDWebImageDownloader.m in Sources */,

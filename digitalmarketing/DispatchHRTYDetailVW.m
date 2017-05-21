@@ -10,6 +10,7 @@
 #import "digitalMarketing.pch"
 #import <QuartzCore/QuartzCore.h>
 #import "OrderDetail_Cell.h"
+#import "UpdateDispatchVw.h"
 
 @interface DispatchHRTYDetailVW ()
 
@@ -155,7 +156,8 @@
 }
 - (IBAction)Edit_Btn_Action:(id)sender
 {
-    
+    UpdateDispatchVw *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"UpdateDispatchVw"];
+    [self.navigationController pushViewController:vcr animated:NO];
 }
 
 - (IBAction)BackBtn_Action:(id)sender
@@ -166,15 +168,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
