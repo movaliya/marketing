@@ -412,7 +412,7 @@
     if (indexPath.section==0)
     {
         cell.IconWidth.constant=19;
-        cell.IconHeight.constant=15;
+        cell.IconHeight.constant=14;
        // cell.IconX.constant=8;
         //cell.ImgLblGap.constant=16;
         
@@ -481,6 +481,9 @@
         cell.ImgLblGap.constant=18;
         
     }*/
+    
+    cell.Click_BTN.tag=indexPath.section;
+    [cell.Click_BTN addTarget:self action:@selector(Cell_Clicl:) forControlEvents:UIControlEventTouchUpInside];
     cell.Title_LBL.text=[TitleArr objectAtIndex:indexPath.section];
     cell.IconIMG.image=[UIImage imageNamed:[ImgArr objectAtIndex:indexPath.section]];
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -491,6 +494,76 @@
 
 #pragma mark - Table view delegate
 
+-(void)Cell_Clicl:(id)sender
+{
+    if ([sender tag] == 0)
+    {
+        HomeVW *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"HomeVW"];
+        [super pushViewController:vcr animated:YES];
+    }
+    else if ([sender tag] == 2)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@""
+                                                        message:@"Are you sure want to Logout?"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Cancel"
+                                              otherButtonTitles:@"Logout",nil];
+        alert.tag=50;
+        [alert show];
+    }
+    else if ([sender tag] == 3)
+    {
+        ProfileVIEW *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ProfileVIEW"];
+        [super pushViewController:vcr animated:YES];
+    }
+    /*
+     else if (indexPath.row==1)
+     {
+     MapNearbyPlace *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"MapNearbyPlace"];
+     [super pushViewController:vcr animated:YES];
+     }
+     else if (indexPath.row==2)
+     {
+     SearchByShop *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"SearchByShop"];
+     [super pushViewController:vcr animated:YES];
+     }
+     else if (indexPath.row==3)
+     {
+     if ([self.appDelegate isUserLoggedIn] == NO)
+     {
+     [self performSelector:@selector(checkLoginAndPresentContainer) withObject:nil afterDelay:0.0];
+     }
+     else
+     {
+     ShoppingCartView *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ShoppingCartView"];
+     [super pushViewController:vcr animated:YES];
+     }
+     
+     }
+     else if (indexPath.row==4)
+     {
+     if ([self.appDelegate isUserLoggedIn] == NO)
+     {
+     [self performSelector:@selector(checkLoginAndPresentContainer) withObject:nil afterDelay:0.0];
+     }
+     else
+     {
+     OrderHistoryView *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"OrderHistoryView"];
+     [super pushViewController:vcr animated:YES];
+     }
+     
+     }
+     else if (indexPath.row==5)
+     {
+     MyAccountVW *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"MyAccountVW"];
+     [super pushViewController:vcr animated:YES];
+     
+     //ProfileView *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ProfileView"];
+     //[super pushViewController:vcr animated:YES];
+     }
+     */
+    [self closeNavigationDrawer];
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
@@ -563,12 +636,7 @@
     */
     [self closeNavigationDrawer];
 }
--(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    MenuCell *cell = (MenuCell *)[tableView cellForRowAtIndexPath:indexPath];
-    //[cell.Title_LBL setTextColor:[UIColor redColor]];
-    return indexPath;
-}
+
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     // the user clicked Logout

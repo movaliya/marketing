@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -15,11 +15,11 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="58"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="57.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="58"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sendIcon" translatesAutoresizingMaskIntoConstraints="NO" id="BE0-CB-kSO">
-                        <rect key="frame" x="20" y="16.5" width="23" height="25"/>
+                        <rect key="frame" x="20" y="17" width="23" height="25"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="23" id="Lol-eQ-tcH"/>
                             <constraint firstAttribute="height" constant="25" id="gWe-L3-fLl"/>
@@ -31,16 +31,24 @@
                         <color key="textColor" red="0.24313725489999999" green="0.25098039220000001" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nZ3-Ol-L44">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="58"/>
+                    </button>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="bottom" secondItem="nZ3-Ol-L44" secondAttribute="bottom" id="4M4-aO-E9W"/>
                     <constraint firstItem="8DP-Mt-jDY" firstAttribute="leading" secondItem="BE0-CB-kSO" secondAttribute="trailing" constant="13" id="9A3-SM-own"/>
+                    <constraint firstAttribute="trailing" secondItem="nZ3-Ol-L44" secondAttribute="trailing" id="Kzi-6e-gc2"/>
+                    <constraint firstItem="nZ3-Ol-L44" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="RgW-4P-qL3"/>
                     <constraint firstAttribute="trailing" secondItem="8DP-Mt-jDY" secondAttribute="trailing" constant="8" id="a3w-uh-TTd"/>
                     <constraint firstItem="BE0-CB-kSO" firstAttribute="centerY" secondItem="8DP-Mt-jDY" secondAttribute="centerY" id="eR0-eE-JIA"/>
                     <constraint firstItem="BE0-CB-kSO" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="rDL-JW-1ao"/>
                     <constraint firstItem="BE0-CB-kSO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="rLV-kW-aO7"/>
+                    <constraint firstItem="nZ3-Ol-L44" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="zzg-Cy-jm4"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="Click_BTN" destination="nZ3-Ol-L44" id="352-5W-9m4"/>
                 <outlet property="IconIMG" destination="BE0-CB-kSO" id="ZOS-jn-7SA"/>
                 <outlet property="Title_LBL" destination="8DP-Mt-jDY" id="IHc-LK-cAr"/>
             </connections>

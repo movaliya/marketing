@@ -119,6 +119,7 @@
 		53E0469F1ECC85FC0081DE05 /* DispatchHSTY_CELL.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E0469D1ECC85FC0081DE05 /* DispatchHSTY_CELL.m */; };
 		53E046A01ECC85FC0081DE05 /* DispatchHSTY_CELL.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53E0469E1ECC85FC0081DE05 /* DispatchHSTY_CELL.xib */; };
 		53E046A31ECCA17B0081DE05 /* DispatchHRTYDetailVW.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E046A21ECCA17B0081DE05 /* DispatchHRTYDetailVW.m */; };
+		B14179FE1ED1630500592486 /* Updateinwardhistory.m in Sources */ = {isa = PBXBuildFile; fileRef = B14179FD1ED1630500592486 /* Updateinwardhistory.m */; };
 		B17072411ED0160A00D6CEAA /* UpdateOrderVW.m in Sources */ = {isa = PBXBuildFile; fileRef = B17072401ED0160A00D6CEAA /* UpdateOrderVW.m */; };
 		B17072451ED01B6500D6CEAA /* UpdateOrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B17072431ED01B6500D6CEAA /* UpdateOrderCell.m */; };
 		B17072461ED01B6500D6CEAA /* UpdateOrderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B17072441ED01B6500D6CEAA /* UpdateOrderCell.xib */; };
@@ -325,6 +326,8 @@
 		53E0469E1ECC85FC0081DE05 /* DispatchHSTY_CELL.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DispatchHSTY_CELL.xib; sourceTree = "<group>"; };
 		53E046A11ECCA17B0081DE05 /* DispatchHRTYDetailVW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DispatchHRTYDetailVW.h; sourceTree = "<group>"; };
 		53E046A21ECCA17B0081DE05 /* DispatchHRTYDetailVW.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DispatchHRTYDetailVW.m; sourceTree = "<group>"; };
+		B14179FC1ED1630500592486 /* Updateinwardhistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Updateinwardhistory.h; sourceTree = "<group>"; };
+		B14179FD1ED1630500592486 /* Updateinwardhistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Updateinwardhistory.m; sourceTree = "<group>"; };
 		B170723F1ED0160A00D6CEAA /* UpdateOrderVW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateOrderVW.h; sourceTree = "<group>"; };
 		B17072401ED0160A00D6CEAA /* UpdateOrderVW.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateOrderVW.m; sourceTree = "<group>"; };
 		B17072421ED01B6500D6CEAA /* UpdateOrderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateOrderCell.h; sourceTree = "<group>"; };
@@ -754,6 +757,8 @@
 				534E5F1D1ECDC1CF00C50261 /* InwardHistryVW.m */,
 				534E5F241ECDC7E100C50261 /* InwardHTYDetail.h */,
 				534E5F251ECDC7E100C50261 /* InwardHTYDetail.m */,
+				B14179FC1ED1630500592486 /* Updateinwardhistory.h */,
+				B14179FD1ED1630500592486 /* Updateinwardhistory.m */,
 			);
 			name = Inward;
 			sourceTree = "<group>";
@@ -954,6 +959,7 @@
 				534D250A1ECAD24500F00B47 /* Stock_Cell.m in Sources */,
 				530DC5BA1EC8816C000D4CA2 /* UIWebView+AFNetworking.m in Sources */,
 				530DC5511EC872C1000D4CA2 /* main.m in Sources */,
+				B14179FE1ED1630500592486 /* Updateinwardhistory.m in Sources */,
 				530DC5921EC88157000D4CA2 /* SDWebImageDecoder.m in Sources */,
 				530DC5CE1EC8818A000D4CA2 /* AFURLSessionManager.m in Sources */,
 				530DC5B21EC8816C000D4CA2 /* AFAutoPurgingImageCache.m in Sources */,

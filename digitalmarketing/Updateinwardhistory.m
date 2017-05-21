@@ -1,22 +1,21 @@
 //
-//  InwardHTYDetail.m
+//  Updateinwardhistory.m
 //  digitalmarketing
 //
-//  Created by Mango SW on 18/05/2017.
+//  Created by kaushik on 21/05/17.
 //  Copyright © 2017 jkinfoway. All rights reserved.
 //
 
-#import "InwardHTYDetail.h"
+#import "Updateinwardhistory.h"
 #import "digitalMarketing.pch"
 #import <QuartzCore/QuartzCore.h>
 #import "OrderDetail_Cell.h"
-#import "Updateinwardhistory.h"
 
-@interface InwardHTYDetail ()
+@interface Updateinwardhistory ()
 
 @end
 
-@implementation InwardHTYDetail
+@implementation Updateinwardhistory
 @synthesize DetailBackView,CutomerName,OrderDate,OrderStatus,OrderNamuber,TotalAmount,TotalQTY,GrandTotal,Discount;
 @synthesize TitleBackView,OrderDetailTable;
 
@@ -65,16 +64,17 @@
 
 -(void)getInwardDetial
 {
-
-    NSMutableDictionary *dictParams = [[NSMutableDictionary alloc] init];
-    [dictParams setObject:Base_Key  forKey:@"key"];
-    [dictParams setObject:get_inward_store_item  forKey:@"s"];
-    [dictParams setObject:self.inward_id  forKey:@"inward_id"];
     
-    [CommonWS AAwebserviceWithURL:[NSString stringWithFormat:@"%@",BaseUrl] withParam:dictParams withCompletion:^(NSDictionary *response, BOOL success1)
-     {
-         [self handleInwardDetialResponse:response];
-     }];
+//    NSMutableDictionary *dictParams = [[NSMutableDictionary alloc] init];
+//    [dictParams setObject:Base_Key  forKey:@"key"];
+//    [dictParams setObject:get_inward_store_item  forKey:@"s"];
+//    [dictParams setObject:self.inward_id  forKey:@"inward_id"];
+//    
+//    [CommonWS AAwebserviceWithURL:[NSString stringWithFormat:@"%@",BaseUrl] withParam:dictParams withCompletion:^(NSDictionary *response, BOOL success1)
+//     {
+//         [self handleInwardDetialResponse:response];
+//     }];
+    
 }
 
 - (void)handleInwardDetialResponse:(NSDictionary*)response
@@ -157,8 +157,7 @@
 
 - (IBAction)Edit_Btn_Action:(id)sender
 {
-    Updateinwardhistory *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"Updateinwardhistory"];
-    [self.navigationController pushViewController:vcr animated:NO];
+    
 }
 
 - (IBAction)BackBtn_Action:(id)sender

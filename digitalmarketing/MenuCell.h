@@ -21,4 +21,5 @@
 @property (strong, nonatomic) IBOutlet UILabel *Title_LBL;
 
 @property (strong, nonatomic) IBOutlet UIImageView *IconIMG;
+@property (strong, nonatomic) IBOutlet UIButton *Click_BTN;
 @end
