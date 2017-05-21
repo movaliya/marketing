@@ -490,6 +490,18 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     NSLog(@"==%@",[ProductArry objectAtIndex:textField.tag]);
+    
+   
+    NSArray* subviews = [[NSArray alloc] initWithArray: UpdateOrderCell];
+    for (UIView* view in subviews)
+    {
+        if ([view isKindOfClass:[UIView class]])
+        {
+            [view removeFromSuperview];
+        }
+    }
+    
+    
     if ([textField.text isEqualToString:@""])
     {
          [ProductTBL reloadData];

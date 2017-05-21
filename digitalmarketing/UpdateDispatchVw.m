@@ -9,7 +9,7 @@
 #import "UpdateDispatchVw.h"
 #import "digitalMarketing.pch"
 #import "SerachProductVW.h"
-#import "OrderDetail_Cell.h"
+#import "UpdateDispatchCell.h"
 
 @interface UpdateDispatchVw ()<SerachProductVWDelegate>
 
@@ -84,10 +84,10 @@
     PopUpCustomerVW.hidden=YES;
     CutomerID=@"";
     
-    UINib *nib = [UINib nibWithNibName:@"OrderDetail_Cell" bundle:nil];
-    OrderDetail_Cell *cell = [[nib instantiateWithOwner:nil options:nil] objectAtIndex:0];
+    UINib *nib = [UINib nibWithNibName:@"UpdateDispatchCell" bundle:nil];
+    UpdateDispatchCell *cell = [[nib instantiateWithOwner:nil options:nil] objectAtIndex:0];
     ProductTBL.rowHeight = cell.frame.size.height;
-    [ProductTBL registerNib:nib forCellReuseIdentifier:@"OrderDetail_Cell"];
+    [ProductTBL registerNib:nib forCellReuseIdentifier:@"UpdateDispatchCell"];
 }
 - (IBAction)SelectCutomerBtn_Action:(id)sender
 {
@@ -220,8 +220,8 @@
     }
     else
     {
-        static NSString *CellIdentifier = @"OrderDetail_Cell";
-        OrderDetail_Cell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        static NSString *CellIdentifier = @"UpdateDispatchCell";
+        UpdateDispatchCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         cell=nil;
         if (cell == nil)
         {
@@ -234,6 +234,7 @@
         cell.ProductPrice.text=[[ProductArry valueForKey:@"price"] objectAtIndex:indexPath.section];
         
         cell.ProductQTY.text=[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section];
+        cell.ProductQTY.tag=indexPath.section;
         
         NSInteger totalValue=[[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:indexPath.section] integerValue];
         cell.ProductAmount.text=[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section];
@@ -375,4 +376,58 @@
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    return YES;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    
+    NSLog(@"==%@",[ProductArry objectAtIndex:textField.tag]);
+    if ([textField.text isEqualToString:@""])
+    {
+        [ProductTBL reloadData];
+    }
+    else
+    {
+        NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
+        NSDictionary *oldDict = (NSDictionary *)[ProductArry objectAtIndex:textField.tag];
+        [newDict addEntriesFromDictionary:oldDict];
+        [newDict setObject:textField.text forKey:@"qty"];
+        [ProductArry replaceObjectAtIndex:textField.tag withObject:newDict];
+        
+        totalAmount=0;
+        totalQTY=0;
+        for (NSInteger jj=0; jj<ProductArry.count; jj++)
+        {
+            totalAmount=totalAmount+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:jj] integerValue];
+            
+            totalQTY=totalQTY+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue];
+        }
+        
+        self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%ld",(long)totalQTY];
+        //self.TotalAmount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
+        self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
+        NSError * err;
+        NSData * jsonData = [NSJSONSerialization dataWithJSONObject:ProductArry options:0 error:&err];
+        ProductJSONString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        [ProductTBL reloadData];
+    }
+    
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    NSCharacterSet *numbersOnly = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+    NSCharacterSet *characterSetFromTextField = [NSCharacterSet characterSetWithCharactersInString:textField.text];
+    
+    BOOL stringIsValid = [numbersOnly isSupersetOfSet:characterSetFromTextField];
+    return stringIsValid;
+}
+
+
+
 @end
