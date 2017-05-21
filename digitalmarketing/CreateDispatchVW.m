@@ -134,9 +134,19 @@
 }
 - (IBAction)Search_Pro_Btn_Action:(id)sender
 {
-    SerachProductVW *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"SerachProductVW"];
-    vcr.delegate=self;
-    [self.navigationController pushViewController:vcr animated:YES];
+    if (customerDict.count!=0)
+    {
+        SerachProductVW *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"SerachProductVW"];
+        vcr.delegate=self;
+        vcr.CheckDispatch=@"DISPATCH";
+        vcr.DispatchCutomerID=CutomerID;
+        [self.navigationController pushViewController:vcr animated:YES];
+    }
+    else
+    {
+        [AppDelegate showErrorMessageWithTitle:@"Alert..!" message:@"Please Select Customer first." delegate:nil];
+    }
+    
 }
 #pragma mark UITableView delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
