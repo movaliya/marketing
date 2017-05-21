@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		530DC5511EC872C1000D4CA2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 530DC5501EC872C1000D4CA2 /* main.m */; };
 		530DC5541EC872C1000D4CA2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 530DC5531EC872C1000D4CA2 /* AppDelegate.m */; };
-		530DC55A1EC872C1000D4CA2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 530DC5581EC872C1000D4CA2 /* Main.storyboard */; };
 		530DC55C1EC872C1000D4CA2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 530DC55B1EC872C1000D4CA2 /* Assets.xcassets */; };
 		530DC55F1EC872C1000D4CA2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 530DC55D1EC872C1000D4CA2 /* LaunchScreen.storyboard */; };
 		530DC5681EC873AC000D4CA2 /* LogInVW.m in Sources */ = {isa = PBXBuildFile; fileRef = 530DC5671EC873AC000D4CA2 /* LogInVW.m */; };
@@ -88,6 +87,7 @@
 		534D25231ECB4CBB00F00B47 /* CustomerDetailVW.m in Sources */ = {isa = PBXBuildFile; fileRef = 534D25221ECB4CBB00F00B47 /* CustomerDetailVW.m */; };
 		534D25271ECB4ECB00F00B47 /* Customer_Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 534D25251ECB4ECB00F00B47 /* Customer_Cell.m */; };
 		534D25281ECB4ECB00F00B47 /* Customer_Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 534D25261ECB4ECB00F00B47 /* Customer_Cell.xib */; };
+		534D69D21ED1B25500EA2F99 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 534D69D11ED1B25500EA2F99 /* Main.storyboard */; };
 		534E5F111ECD801B00C50261 /* CreateDispatchVW.m in Sources */ = {isa = PBXBuildFile; fileRef = 534E5F101ECD801B00C50261 /* CreateDispatchVW.m */; };
 		534E5F1B1ECDB3E200C50261 /* CreateInwardOrderVW.m in Sources */ = {isa = PBXBuildFile; fileRef = 534E5F1A1ECDB3E200C50261 /* CreateInwardOrderVW.m */; };
 		534E5F1E1ECDC1CF00C50261 /* InwardHistryVW.m in Sources */ = {isa = PBXBuildFile; fileRef = 534E5F1D1ECDC1CF00C50261 /* InwardHistryVW.m */; };
@@ -135,7 +135,6 @@
 		530DC5501EC872C1000D4CA2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		530DC5521EC872C1000D4CA2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		530DC5531EC872C1000D4CA2 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		530DC5591EC872C1000D4CA2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		530DC55B1EC872C1000D4CA2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		530DC55E1EC872C1000D4CA2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		530DC5601EC872C1000D4CA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -286,6 +285,7 @@
 		534D25241ECB4ECB00F00B47 /* Customer_Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Customer_Cell.h; sourceTree = "<group>"; };
 		534D25251ECB4ECB00F00B47 /* Customer_Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Customer_Cell.m; sourceTree = "<group>"; };
 		534D25261ECB4ECB00F00B47 /* Customer_Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Customer_Cell.xib; sourceTree = "<group>"; };
+		534D69D11ED1B25500EA2F99 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		534E5F0F1ECD801B00C50261 /* CreateDispatchVW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateDispatchVW.h; sourceTree = "<group>"; };
 		534E5F101ECD801B00C50261 /* CreateDispatchVW.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateDispatchVW.m; sourceTree = "<group>"; };
 		534E5F191ECDB3E200C50261 /* CreateInwardOrderVW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateInwardOrderVW.h; sourceTree = "<group>"; };
@@ -399,8 +399,8 @@
 				534E5F131ECD807300C50261 /* OrderHistry */,
 				534E5F141ECD808D00C50261 /* Stock */,
 				536FF8AB1ED097D20095A3EA /* Notification */,
-				530DC5581EC872C1000D4CA2 /* Main.storyboard */,
 				530DC61F1EC88A74000D4CA2 /* digitalMarketing.pch */,
+				534D69D11ED1B25500EA2F99 /* Main.storyboard */,
 				530DC56B1EC879C9000D4CA2 /* Images */,
 				530DC55B1EC872C1000D4CA2 /* Assets.xcassets */,
 				530DC55D1EC872C1000D4CA2 /* LaunchScreen.storyboard */,
@@ -932,11 +932,11 @@
 				530DC55F1EC872C1000D4CA2 /* LaunchScreen.storyboard in Resources */,
 				530DC62A1EC89989000D4CA2 /* DrawerView.xib in Resources */,
 				53523A7D1EC9DDF000EE41E9 /* attendence_empty.png in Resources */,
+				534D69D21ED1B25500EA2F99 /* Main.storyboard in Resources */,
 				534D25281ECB4ECB00F00B47 /* Customer_Cell.xib in Resources */,
 				530DC55C1EC872C1000D4CA2 /* Assets.xcassets in Resources */,
 				53523A8B1EC9DE7900EE41E9 /* order.png in Resources */,
 				53E046A01ECC85FC0081DE05 /* DispatchHSTY_CELL.xib in Resources */,
-				530DC55A1EC872C1000D4CA2 /* Main.storyboard in Resources */,
 				53523A731EC972FB00EE41E9 /* logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1040,14 +1040,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		530DC5581EC872C1000D4CA2 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				530DC5591EC872C1000D4CA2 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		530DC55D1EC872C1000D4CA2 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

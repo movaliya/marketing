@@ -4664,10 +4664,10 @@
                         <outlet property="CustomerTBL" destination="XfT-pe-5QF" id="nxU-4Z-jjU"/>
                         <outlet property="CutomerNameLBL" destination="OLl-OH-lft" id="6we-43-UWl"/>
                         <outlet property="CutomerView" destination="AmR-T1-vAY" id="Sau-4g-p9w"/>
+                        <outlet property="DiscountGrandTotal_LBL" destination="zRp-Ro-cst" id="DRS-Pb-Aft"/>
                         <outlet property="DiscountView" destination="gnQ-J9-5ox" id="fjI-CY-hN3"/>
                         <outlet property="Discount_LBL" destination="rqy-AA-zMe" id="xyL-hL-CTy"/>
                         <outlet property="Discount_TXT" destination="Cr3-6X-oWe" id="sh7-mX-XId"/>
-                        <outlet property="GrandTotal_LBL" destination="zRp-Ro-cst" id="VKV-zF-bAX"/>
                         <outlet property="GrantTotal_LBL" destination="5JM-NZ-4t7" id="dym-ik-FWg"/>
                         <outlet property="ProductTBL" destination="sCA-hk-JHu" id="xsv-l1-UFW"/>
                         <outlet property="ProductTitleBackView" destination="faf-oh-FvK" id="HRD-sC-RGo"/>

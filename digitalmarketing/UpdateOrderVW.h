@@ -15,6 +15,8 @@
     NSString *CutomerID;
     
     NSInteger totalAmount;
+    NSInteger DiscoutINT;
+    NSInteger GrandAmount;
     NSInteger totalQTY;
     NSString *ProductJSON;
     NSString *ProductJSONString;
@@ -56,7 +58,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *Qty_LBL;
 @property (strong, nonatomic) IBOutlet UILabel *Amount_LBL;
 @property (strong, nonatomic) IBOutlet UITextField *Discount_TXT;
-@property (strong, nonatomic) IBOutlet UILabel *GrandTotal_LBL;
+@property (strong, nonatomic) IBOutlet UILabel *DiscountGrandTotal_LBL;
 - (IBAction)DiscountOK_Click:(id)sender;
 - (IBAction)DiscountCancle_Click:(id)sender;
 

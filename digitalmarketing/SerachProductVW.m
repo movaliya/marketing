@@ -55,8 +55,17 @@
 -(void)getProduct
 {
     NSMutableDictionary *dictParams = [[NSMutableDictionary alloc] init];
-    [dictParams setObject:Base_Key  forKey:@"key"];
-    [dictParams setObject:get_stock  forKey:@"s"];
+    if ([self.CheckDispatch isEqualToString:@"DISPATCH"])
+    {
+        [dictParams setObject:Base_Key  forKey:@"key"];
+        [dictParams setObject:Dispatch_Product  forKey:@"s"];
+        [dictParams setObject:self.DispatchCutomerID  forKey:@"customer_id"];
+    }
+    else
+    {
+        [dictParams setObject:Base_Key  forKey:@"key"];
+        [dictParams setObject:get_stock  forKey:@"s"];
+    }
     
     [CommonWS AAwebserviceWithURL:[NSString stringWithFormat:@"%@",BaseUrl] withParam:dictParams withCompletion:^(NSDictionary *response, BOOL success1)
      {
@@ -123,18 +132,38 @@
     [cell setNeedsUpdateConstraints];
     [cell updateConstraintsIfNeeded];
     
-    cell.ProductNameLBL.text=[[ProductDict valueForKey:@"material_name"]objectAtIndex:indexPath.section];
-    cell.PriceLBL.text=[NSString stringWithFormat:@"%@",[[ProductDict valueForKey:@"sell_price"]objectAtIndex:indexPath.section]];
-    
-    
-    if ([[WithSelectArr objectAtIndex:indexPath.section] isEqualToString:[[ProductDict valueForKey:@"id"] objectAtIndex:indexPath.section]])
+    if ([self.CheckDispatch isEqualToString:@"DISPATCH"])
     {
-        [cell.CheckBoxBtn setImage:[UIImage imageNamed:@"EnbleCheckBox"] forState:UIControlStateNormal];
+        cell.ProductNameLBL.text=[[ProductDict valueForKey:@"pro_name"]objectAtIndex:indexPath.section];
+        cell.PriceLBL.text=[NSString stringWithFormat:@"%@",[[ProductDict valueForKey:@"unitprice"]objectAtIndex:indexPath.section]];
+        if ([[WithSelectArr objectAtIndex:indexPath.section] isEqualToString:[[ProductDict valueForKey:@"pro_id"] objectAtIndex:indexPath.section]])
+        {
+            [cell.CheckBoxBtn setImage:[UIImage imageNamed:@"EnbleCheckBox"] forState:UIControlStateNormal];
+        }
+        else
+        {
+            [cell.CheckBoxBtn setImage:[UIImage imageNamed:@"UncheckBox"] forState:UIControlStateNormal];
+        }
+
     }
     else
     {
-        [cell.CheckBoxBtn setImage:[UIImage imageNamed:@"UncheckBox"] forState:UIControlStateNormal];
+        cell.ProductNameLBL.text=[[ProductDict valueForKey:@"material_name"]objectAtIndex:indexPath.section];
+        cell.PriceLBL.text=[NSString stringWithFormat:@"%@",[[ProductDict valueForKey:@"sell_price"]objectAtIndex:indexPath.section]];
+        
+        if ([[WithSelectArr objectAtIndex:indexPath.section] isEqualToString:[[ProductDict valueForKey:@"id"] objectAtIndex:indexPath.section]])
+        {
+            [cell.CheckBoxBtn setImage:[UIImage imageNamed:@"EnbleCheckBox"] forState:UIControlStateNormal];
+        }
+        else
+        {
+            [cell.CheckBoxBtn setImage:[UIImage imageNamed:@"UncheckBox"] forState:UIControlStateNormal];
+        }
+
     }
+    
+    
+    
     
     [cell.CheckBoxBtn addTarget:self action:@selector(Chkbox_click:) forControlEvents:UIControlEventTouchUpInside];
      cell.CheckBoxBtn.tag=indexPath.section;
@@ -149,26 +178,51 @@
 {
     if (tableView==ProductTable)
     {
-        if (![[WithSelectArr objectAtIndex:indexPath.section] isEqualToString:@"NO"])
+        if ([self.CheckDispatch isEqualToString:@"DISPATCH"])
         {
-            [WithSelectArr replaceObjectAtIndex:indexPath.section withObject:@"NO"];
-            
-            NSArray *idarr=[withSelectMain valueForKey:@"id"];
-            NSInteger indx=[idarr indexOfObject:[[ProductDict valueForKey:@"id"] objectAtIndex:indexPath.section]];
-            [withSelectMain removeObjectAtIndex:indx];
+            if (![[WithSelectArr objectAtIndex:indexPath.section] isEqualToString:@"NO"])
+            {
+                [WithSelectArr replaceObjectAtIndex:indexPath.section withObject:@"NO"];
+                
+                NSArray *idarr=[withSelectMain valueForKey:@"id"];
+                NSInteger indx=[idarr indexOfObject:[[ProductDict valueForKey:@"pro_id"] objectAtIndex:indexPath.section]];
+                [withSelectMain removeObjectAtIndex:indx];
+            }
+            else
+            {
+                [WithSelectArr replaceObjectAtIndex:indexPath.section withObject:[[ProductDict valueForKey:@"pro_id"] objectAtIndex:indexPath.section]];
+                
+                NSMutableDictionary *Productdict = [[NSMutableDictionary alloc] init];
+                
+                [Productdict setObject:[[ProductDict valueForKey:@"pro_name"]objectAtIndex:indexPath.section] forKey:@"name"];
+                [Productdict setObject:[[ProductDict valueForKey:@"pro_id"]objectAtIndex:indexPath.section] forKey:@"id"];
+                [Productdict setObject:[[ProductDict valueForKey:@"unitprice"]objectAtIndex:indexPath.section] forKey:@"price"];
+                [Productdict setObject:[[ProductDict valueForKey:@"product_stock"]objectAtIndex:indexPath.section] forKey:@"qty"];
+                [withSelectMain addObject:Productdict];
+            }
         }
         else
         {
-            [WithSelectArr replaceObjectAtIndex:indexPath.section withObject:[[ProductDict valueForKey:@"id"] objectAtIndex:indexPath.section]];
-            
-            NSMutableDictionary *Productdict = [[NSMutableDictionary alloc] init];
-            
-            [Productdict setObject:[[ProductDict valueForKey:@"material_name"]objectAtIndex:indexPath.section] forKey:@"name"];
-            [Productdict setObject:[[ProductDict valueForKey:@"id"]objectAtIndex:indexPath.section] forKey:@"id"];
-            [Productdict setObject:[[ProductDict valueForKey:@"sell_price"]objectAtIndex:indexPath.section] forKey:@"price"];
-            [Productdict setObject:[[ProductDict valueForKey:@"minimum_stock_qty"]objectAtIndex:indexPath.section] forKey:@"qty"];
-            [withSelectMain addObject:Productdict];
-            
+            if (![[WithSelectArr objectAtIndex:indexPath.section] isEqualToString:@"NO"])
+            {
+                [WithSelectArr replaceObjectAtIndex:indexPath.section withObject:@"NO"];
+                
+                NSArray *idarr=[withSelectMain valueForKey:@"id"];
+                NSInteger indx=[idarr indexOfObject:[[ProductDict valueForKey:@"id"] objectAtIndex:indexPath.section]];
+                [withSelectMain removeObjectAtIndex:indx];
+            }
+            else
+            {
+                [WithSelectArr replaceObjectAtIndex:indexPath.section withObject:[[ProductDict valueForKey:@"id"] objectAtIndex:indexPath.section]];
+                
+                NSMutableDictionary *Productdict = [[NSMutableDictionary alloc] init];
+                
+                [Productdict setObject:[[ProductDict valueForKey:@"material_name"]objectAtIndex:indexPath.section] forKey:@"name"];
+                [Productdict setObject:[[ProductDict valueForKey:@"id"]objectAtIndex:indexPath.section] forKey:@"id"];
+                [Productdict setObject:[[ProductDict valueForKey:@"sell_price"]objectAtIndex:indexPath.section] forKey:@"price"];
+                [Productdict setObject:[[ProductDict valueForKey:@"minimum_stock_qty"]objectAtIndex:indexPath.section] forKey:@"qty"];
+                [withSelectMain addObject:Productdict];
+            }
         }
         [_delegate ChkProductValue:withSelectMain];
         
@@ -180,26 +234,55 @@
 {
     UIButton *senderButton = (UIButton *)sender;
     
-    if (![[WithSelectArr objectAtIndex:senderButton.tag] isEqualToString:@"NO"])
+    if ([self.CheckDispatch isEqualToString:@"DISPATCH"])
     {
-        [WithSelectArr replaceObjectAtIndex:senderButton.tag withObject:@"NO"];
-        
-        NSArray *idarr=[withSelectMain valueForKey:@"id"];
-        NSInteger indx=[idarr indexOfObject:[[ProductDict valueForKey:@"id"] objectAtIndex:senderButton.tag]];
-        [withSelectMain removeObjectAtIndex:indx];
+        if (![[WithSelectArr objectAtIndex:senderButton.tag] isEqualToString:@"NO"])
+        {
+            [WithSelectArr replaceObjectAtIndex:senderButton.tag withObject:@"NO"];
+            
+            NSArray *idarr=[withSelectMain valueForKey:@"id"];
+            NSInteger indx=[idarr indexOfObject:[[ProductDict valueForKey:@"pro_id"] objectAtIndex:senderButton.tag]];
+            [withSelectMain removeObjectAtIndex:indx];
+        }
+        else
+        {
+            [WithSelectArr replaceObjectAtIndex:senderButton.tag withObject:[[ProductDict valueForKey:@"pro_id"] objectAtIndex:senderButton.tag]];
+            
+            NSMutableDictionary *Productdict = [[NSMutableDictionary alloc] init];
+            
+            [Productdict setObject:[[ProductDict valueForKey:@"pro_name"]objectAtIndex:senderButton.tag] forKey:@"name"];
+            [Productdict setObject:[[ProductDict valueForKey:@"pro_id"]objectAtIndex:senderButton.tag] forKey:@"id"];
+            [Productdict setObject:[[ProductDict valueForKey:@"unitprice"]objectAtIndex:senderButton.tag] forKey:@"price"];
+            [Productdict setObject:[[ProductDict valueForKey:@"product_stock"]objectAtIndex:senderButton.tag] forKey:@"qty"];
+            [withSelectMain addObject:Productdict];
+        }
     }
     else
     {
-        [WithSelectArr replaceObjectAtIndex:senderButton.tag withObject:[[ProductDict valueForKey:@"id"] objectAtIndex:senderButton.tag]];
-        
-        NSMutableDictionary *Productdict = [[NSMutableDictionary alloc] init];
-        
-        [Productdict setObject:[[ProductDict valueForKey:@"material_name"]objectAtIndex:senderButton.tag] forKey:@"name"];
-        [Productdict setObject:[[ProductDict valueForKey:@"id"]objectAtIndex:senderButton.tag] forKey:@"id"];
-        [Productdict setObject:[[ProductDict valueForKey:@"sell_price"]objectAtIndex:senderButton.tag] forKey:@"price"];
-        [Productdict setObject:[[ProductDict valueForKey:@"minimum_stock_qty"]objectAtIndex:senderButton.tag] forKey:@"qty"];
-        [withSelectMain addObject:Productdict];
+        if (![[WithSelectArr objectAtIndex:senderButton.tag] isEqualToString:@"NO"])
+        {
+            [WithSelectArr replaceObjectAtIndex:senderButton.tag withObject:@"NO"];
+            
+            NSArray *idarr=[withSelectMain valueForKey:@"id"];
+            NSInteger indx=[idarr indexOfObject:[[ProductDict valueForKey:@"id"] objectAtIndex:senderButton.tag]];
+            [withSelectMain removeObjectAtIndex:indx];
+        }
+        else
+        {
+            [WithSelectArr replaceObjectAtIndex:senderButton.tag withObject:[[ProductDict valueForKey:@"id"] objectAtIndex:senderButton.tag]];
+            
+            NSMutableDictionary *Productdict = [[NSMutableDictionary alloc] init];
+            
+            [Productdict setObject:[[ProductDict valueForKey:@"material_name"]objectAtIndex:senderButton.tag] forKey:@"name"];
+            [Productdict setObject:[[ProductDict valueForKey:@"id"]objectAtIndex:senderButton.tag] forKey:@"id"];
+            [Productdict setObject:[[ProductDict valueForKey:@"sell_price"]objectAtIndex:senderButton.tag] forKey:@"price"];
+            [Productdict setObject:[[ProductDict valueForKey:@"minimum_stock_qty"]objectAtIndex:senderButton.tag] forKey:@"qty"];
+            [withSelectMain addObject:Productdict];
+        }
     }
+    
+    
+    
     [_delegate ChkProductValue:withSelectMain];
 
     [ProductTable reloadData];
@@ -238,7 +321,15 @@
     NSMutableArray *resultObjectsArray = [NSMutableArray array];
     for(NSDictionary *wine in ProductDict)
     {
-        NSString *wineName = [wine objectForKey:@"material_name"];
+        NSString *wineName;
+        if ([self.CheckDispatch isEqualToString:@"DISPATCH"])
+        {
+            wineName = [wine objectForKey:@"pro_name"];
+        }
+        else
+        {
+            wineName = [wine objectForKey:@"material_name"];
+        }
         NSRange range = [wineName rangeOfString:searchText options:NSCaseInsensitiveSearch];
         if(range.location != NSNotFound)
             [resultObjectsArray addObject:wine];
@@ -260,7 +351,15 @@
     NSMutableArray *resultObjectsArray = [NSMutableArray array];
     for(NSDictionary *wine in ProductDict)
     {
-        NSString *wineName = [wine objectForKey:@"material_name"];
+        NSString *wineName;
+        if ([self.CheckDispatch isEqualToString:@"DISPATCH"])
+        {
+            wineName = [wine objectForKey:@"pro_name"];
+        }
+        else
+        {
+            wineName = [wine objectForKey:@"material_name"];
+        }
         NSRange range = [wineName rangeOfString:searchBar.text options:NSCaseInsensitiveSearch];
         if(range.location != NSNotFound)
             [resultObjectsArray addObject:wine];

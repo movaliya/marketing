@@ -128,6 +128,8 @@
         
         totalAmount=[[OrderDetailDICTPass valueForKey:@"grand_total"]integerValue];
         totalQTY=[[OrderDetailDICTPass valueForKey:@"total_qty"] integerValue];
+        DiscoutINT=[[OrderDetailDICTPass valueForKey:@"discount"]integerValue];
+        GrandAmount=totalAmount-DiscoutINT;
         
         ProductDictPass=[OrderDetailDICTPass valueForKey:@"products"];
         NSMutableArray *tempArray=[[NSMutableArray alloc]init];
@@ -147,6 +149,8 @@
         [ProductTBL reloadData];
     }
     
+    [self.Discount_TXT addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+
 }
 
 -(void)getCutomerDetail
@@ -292,8 +296,10 @@
         cell.ProductPrice.text=[[ProductArry valueForKey:@"price"] objectAtIndex:indexPath.section];
         
         cell.ProductQTY.text=[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section];
+
         cell.ProductQTY.tag=indexPath.section;
         cell.ProductQTY.delegate=self;
+        cell.QntLine_LBL.tag=indexPath.section;
         
         NSInteger totalValue=[[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:indexPath.section] integerValue];
         cell.ProductAmount.text=[NSString stringWithFormat:@"%ld",(long)totalValue];
@@ -384,6 +390,7 @@
     
     totalAmount=0;
     totalQTY=0;
+    GrandAmount=0;
     for (NSInteger jj=0; jj<ProductArry.count; jj++)
     {
         totalAmount=totalAmount+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:jj] integerValue];
@@ -391,9 +398,11 @@
         totalQTY=totalQTY+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue];
     }
     
+    GrandAmount=totalAmount-DiscoutINT;
     self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%ld",(long)totalQTY];
     self.TotalAmount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
-    self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
+    self.Discount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",DiscoutINT];
+    self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)GrandAmount];
     
     NSError * err;
     NSData * jsonData = [NSJSONSerialization dataWithJSONObject:ProductArry options:0 error:&err];
@@ -427,7 +436,6 @@
 
 -(void)CreateOrder
 {
-    
     NSDictionary *UserSaveData=[[NSUserDefaults standardUserDefaults]objectForKey:@"LoginUserDic"];
     NSMutableDictionary *dictParams = [[NSMutableDictionary alloc] init];
     [dictParams setObject:Base_Key  forKey:@"key"];
@@ -436,10 +444,10 @@
     [dictParams setObject:CutomerID  forKey:@"customer_id"];
     [dictParams setObject:[UserSaveData valueForKey:@"id"] forKey:@"id"];
     
-    [dictParams setObject:@"0"  forKey:@"discount"];
-    [dictParams setObject:@"0"  forKey:@"discount_type"];
+    [dictParams setObject:[NSString stringWithFormat:@"%ld",(long)DiscoutINT]  forKey:@"discount"];
+    [dictParams setObject:@"1"  forKey:@"discount_type"];
     
-    [dictParams setObject:[NSString stringWithFormat:@"%ld",(long)totalAmount]  forKey:@"grand_total"];
+    [dictParams setObject:[NSString stringWithFormat:@"%ld",(long)GrandAmount]  forKey:@"grand_total"];
     [dictParams setObject:[NSString stringWithFormat:@"%ld",(long)totalAmount]  forKey:@"total_amount"];
     [dictParams setObject:[NSString stringWithFormat:@"%ld",(long)totalQTY]  forKey:@"total_qty"];
     [dictParams setObject:ProductJSONString  forKey:@"product"];
@@ -463,7 +471,6 @@
                 [self.navigationController popToViewController:groupViewController animated:YES];
             }
         }
-       
     }
     else
     {
@@ -487,51 +494,80 @@
     return YES;
 }
 
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+   // NSIndexPath *pathOfTheCell=[NSIndexPath indexPathForRow:0 inSection:[sender tag]];
+   // OfferzoneCell *cell = (OfferzoneCell *)[TBL cellForRowAtIndexPath:pathOfTheCell];
+    
+    for (UIView *view in ProductTBL.subviews)
+    {
+        for (UpdateOrderCell *cell in view.subviews)
+        {
+            if (cell.QntLine_LBL.tag==textField.tag)
+            {
+                cell.QntLine_LBL.backgroundColor=[UIColor colorWithRed:62.0f/255.0f green:64.0f/255.0f blue:149.0f/255.0f alpha:1.0f];
+            }
+            else
+            {
+                cell.QntLine_LBL.backgroundColor=[UIColor colorWithRed:117.0f/255.0f green:117.0f/255.0f blue:117.0f/255.0f alpha:1.0f];
+            }
+        }
+    }
+}
+
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-    NSLog(@"==%@",[ProductArry objectAtIndex:textField.tag]);
-    
-   
-    NSArray* subviews = [[NSArray alloc] initWithArray: UpdateOrderCell];
-    for (UIView* view in subviews)
+    for (UIView *view in ProductTBL.subviews)
     {
-        if ([view isKindOfClass:[UIView class]])
+        for (UpdateOrderCell *cell in view.subviews)
         {
-            [view removeFromSuperview];
+            cell.QntLine_LBL.backgroundColor=[UIColor colorWithRed:117.0f/255.0f green:117.0f/255.0f blue:117.0f/255.0f alpha:1.0f];
         }
     }
     
-    
-    if ([textField.text isEqualToString:@""])
+    if (textField==Discount_TXT)
     {
-         [ProductTBL reloadData];
+        if ([textField.text isEqualToString:@""])
+        {
+            self.Discount_TXT.text=[NSString stringWithFormat:@"Rs.%ld",DiscoutINT];;
+            self.DiscountGrandTotal_LBL.text=[NSString stringWithFormat:@"%ld Rs",(long)GrandAmount];
+        }
+        
     }
     else
     {
-        NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
-        NSDictionary *oldDict = (NSDictionary *)[ProductArry objectAtIndex:textField.tag];
-        [newDict addEntriesFromDictionary:oldDict];
-        [newDict setObject:textField.text forKey:@"qty"];
-        [ProductArry replaceObjectAtIndex:textField.tag withObject:newDict];
-        
-        totalAmount=0;
-        totalQTY=0;
-        for (NSInteger jj=0; jj<ProductArry.count; jj++)
+        if ([textField.text isEqualToString:@""])
         {
-            totalAmount=totalAmount+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:jj] integerValue];
-            
-            totalQTY=totalQTY+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue];
+            [ProductTBL reloadData];
         }
-        
-        self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%ld",(long)totalQTY];
-        self.TotalAmount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
-        self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
-        NSError * err;
-        NSData * jsonData = [NSJSONSerialization dataWithJSONObject:ProductArry options:0 error:&err];
-        ProductJSONString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-        [ProductTBL reloadData];
+        else
+        {
+            NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
+            NSDictionary *oldDict = (NSDictionary *)[ProductArry objectAtIndex:textField.tag];
+            [newDict addEntriesFromDictionary:oldDict];
+            [newDict setObject:textField.text forKey:@"qty"];
+            [ProductArry replaceObjectAtIndex:textField.tag withObject:newDict];
+            
+            totalAmount=0;
+            totalQTY=0;
+            GrandAmount=0;
+            for (NSInteger jj=0; jj<ProductArry.count; jj++)
+            {
+                totalAmount=totalAmount+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:jj] integerValue];
+                
+                totalQTY=totalQTY+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue];
+            }
+            GrandAmount=totalAmount-DiscoutINT;
+            self.Discount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",DiscoutINT];
+            self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%ld",(long)totalQTY];
+            self.TotalAmount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
+            self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)GrandAmount];
+            NSError * err;
+            NSData * jsonData = [NSJSONSerialization dataWithJSONObject:ProductArry options:0 error:&err];
+            ProductJSONString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+            [ProductTBL reloadData];
+        }
     }
-    
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
@@ -545,16 +581,51 @@
 
 - (IBAction)DiscountOK_Click:(id)sender
 {
+    if ([Discount_TXT.text isEqualToString:@""])
+    {
+        self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%ld",(long)totalQTY];
+        self.TotalAmount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
+        self.Discount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",DiscoutINT];
+        self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)GrandAmount];
+    }
+    else
+    {
+        NSInteger tempamount=0;
+        tempamount=GrandAmount-[Discount_TXT.text integerValue];
+        GrandAmount=tempamount;
+        DiscoutINT=[Discount_TXT.text integerValue];
+        self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%ld",(long)totalQTY];
+        self.TotalAmount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
+        self.Discount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",DiscoutINT];
+        self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)GrandAmount];
+    }
+    DiscountView.hidden=YES;
+    [Discount_TXT resignFirstResponder];
 }
 
 - (IBAction)DiscountCancle_Click:(id)sender
 {
     DiscountView.hidden=YES;
+    [Discount_TXT resignFirstResponder];
 }
 
 - (IBAction)Discount_Click:(id)sender
 {
     DiscountView.hidden=NO;
+    self.Qty_LBL.text=[NSString stringWithFormat:@"%ld Nos",(long)totalQTY];;
+    self.Amount_LBL.text=[NSString stringWithFormat:@"%ld Rs",(long)totalAmount];;
+    self.Discount_TXT.text=[NSString stringWithFormat:@"%ld",DiscoutINT];;
+    self.DiscountGrandTotal_LBL.text=[NSString stringWithFormat:@"%ld Rs",(long)GrandAmount];
 }
 
+-(void)textFieldDidChange :(UITextField *)theTextField
+{
+    NSLog( @"text changed: %@", theTextField.text);
+    if ([theTextField.text integerValue]<GrandAmount)
+    {
+        NSInteger tempGrant=0;
+        tempGrant=GrandAmount-[theTextField.text integerValue];
+        self.DiscountGrandTotal_LBL.text=[NSString stringWithFormat:@"%ld Rs",(long)tempGrant];
+    }
+}
 @end
