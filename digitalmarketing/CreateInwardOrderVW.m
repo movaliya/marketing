@@ -86,6 +86,10 @@
     OrderDetail_Cell *cell = [[nib instantiateWithOwner:nil options:nil] objectAtIndex:0];
     ProductTBL.rowHeight = cell.frame.size.height;
     [ProductTBL registerNib:nib forCellReuseIdentifier:@"OrderDetail_Cell"];
+    
+    
+    
+    
 }
 
 -(void)getVender

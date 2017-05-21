@@ -22,7 +22,7 @@
 @synthesize ProductTBL;
 @synthesize TitleTop1,TitleTop2,TitleTop3,TitleTop4,TitleHight;
 @synthesize CustomerPhoneLBL,CustomerAdressLBL,CutomerNameLBL,CustomerStateCityLBL;
-
+@synthesize InwardDetailDICTPass;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -85,6 +85,53 @@
     UpdateInwardCell *cell = [[nib instantiateWithOwner:nil options:nil] objectAtIndex:0];
     ProductTBL.rowHeight = cell.frame.size.height;
     [ProductTBL registerNib:nib forCellReuseIdentifier:@"UpdateInwardCell"];
+    
+    
+    //[self.view setNeedsUpdateConstraints];
+   // [self.view updateConstraintsIfNeeded];
+    
+    // Take Cutomer Detail From Here.
+    [SelectCutomer_Button setTitle:[InwardDetailDICTPass valueForKey:@"vendor_name"]forState:UIControlStateNormal];
+    CutomerID=[InwardDetailDICTPass valueForKey:@"id"];
+    CutomerNameLBL.text=[InwardDetailDICTPass valueForKey:@"vendor_name"];
+    /*
+    CustomerAdressLBL.text=[InwardDetailDICTPass valueForKey:@"address"];
+    CustomerPhoneLBL.text=[InwardDetailDICTPass valueForKey:@"phone"];
+    NSString *city=[InwardDetailDICTPass valueForKey:@"city"];
+    NSString *State=[InwardDetailDICTPass valueForKey:@"state"];
+    NSString *Country=[InwardDetailDICTPass valueForKey:@"country"];
+    CustomerStateCityLBL.text=[NSString stringWithFormat:@"%@,%@,%@",city,State,Country];
+    
+    TitleTop1.constant=15;
+    TitleTop2.constant=8;
+    TitleTop3.constant=8;
+    TitleTop4.constant=8;
+    TitleHight.constant=18;
+    
+    
+    [self.view setNeedsUpdateConstraints];
+    [self.view updateConstraintsIfNeeded];*/
+    
+    self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%@",[InwardDetailDICTPass valueForKey:@"total_qty"]];
+    self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%@",[InwardDetailDICTPass valueForKey:@"grand_total"]];
+    
+    NSMutableDictionary *ProductDictPass=[InwardDetailDICTPass valueForKey:@"products"];
+    NSMutableArray *tempArray=[[NSMutableArray alloc]init];
+    for (int ii=0; ii<ProductDictPass.count; ii++)
+    {
+        NSMutableDictionary *Productdict = [[NSMutableDictionary alloc] init];
+        [Productdict setObject:[[ProductDictPass valueForKey:@"product_name"]objectAtIndex:ii] forKey:@"name"];
+        [Productdict setObject:[[ProductDictPass valueForKey:@"id"]objectAtIndex:ii] forKey:@"id"];
+        [Productdict setObject:[[ProductDictPass valueForKey:@"product_price"]objectAtIndex:ii] forKey:@"price"];
+        [Productdict setObject:[[ProductDictPass valueForKey:@"receive_qty"]objectAtIndex:ii] forKey:@"qty"];
+        [tempArray addObject:Productdict];
+    }
+    ProductArry=[[NSMutableArray alloc]initWithArray:tempArray];
+    NSError * err;
+    NSData * jsonData = [NSJSONSerialization dataWithJSONObject:ProductArry options:0 error:&err];
+    ProductJSONString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    [ProductTBL reloadData];
+    
 }
 
 -(void)getVender

@@ -158,6 +158,7 @@
 - (IBAction)Edit_Btn_Action:(id)sender
 {
     Updateinwardhistory *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"Updateinwardhistory"];
+    vcr.InwardDetailDICTPass=[OrderDetailDict mutableCopy];
     [self.navigationController pushViewController:vcr animated:NO];
 }
 

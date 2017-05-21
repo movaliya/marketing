@@ -20,6 +20,8 @@
     BOOL CheckSUCCESS;
 
 }
+@property (strong, nonatomic) NSMutableDictionary *InwardDetailDICTPass;
+
 @property (weak, nonatomic) IBOutlet UIButton *SelectCutomer_Button;
 @property (weak, nonatomic) IBOutlet UIView *SelectCustomerBackView;
 @property (weak, nonatomic) IBOutlet UIView *SearchProBackView;
