@@ -2902,6 +2902,131 @@
                                     <constraint firstAttribute="bottom" secondItem="zv5-JI-NAN" secondAttribute="bottom" constant="3" id="xp8-1U-Sgq"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ag7-v0-eik">
+                                <frame key="frameInset" minY="65" width="375" height="735"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XQP-uY-18h">
+                                        <frame key="frameInset" width="375" height="735"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    </imageView>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fuq-TI-DzX">
+                                        <frame key="frameInset" minX="21" minY="140" width="333" height="454"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Add More Detail" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RrT-Iw-GkD">
+                                                <frame key="frameInset" minX="97" minY="15" width="139" height="21"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" red="0.45882352941176469" green="0.45882352941176469" blue="0.45882352941176469" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mf5-eh-TIP">
+                                                <frame key="frameInset" minY="52" width="333" height="1"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="0.45882352939999999" green="0.45882352939999999" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NBC-bt-F9G">
+                                                <frame key="frameInset" minX="19" minY="87" width="295" height="50"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="0.89411764709999997" green="0.89411764709999997" blue="0.89411764709999997" alpha="1" colorSpace="calibratedRGB"/>
+                                            </view>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Dispatch Date" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AS2-dn-ZTp">
+                                                <frame key="frameInset" minX="20" minY="91" width="292" height="41"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="tintColor" red="0.24313725489999999" green="0.25098039220000001" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="fiW-VU-qv2" id="TS2-om-XA7"/>
+                                                </connections>
+                                            </textField>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Select Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hZ1-0n-w4T">
+                                                <frame key="frameInset" minX="19" minY="61" width="86" height="21"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="textColor" red="0.24313725489999999" green="0.25098039220000001" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enter LR Number" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qTm-ol-DXo">
+                                                <frame key="frameInset" minX="19" minY="146" width="129" height="21"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="textColor" red="0.24313725489999999" green="0.25098039220000001" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Remark" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wgh-1X-2RM">
+                                                <frame key="frameInset" minX="19" minY="228" width="129" height="21"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="textColor" red="0.24313725489999999" green="0.25098039220000001" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IUY-Fj-GRZ">
+                                                <frame key="frameInset" minX="19" minY="172" width="295" height="50"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="0.89411764709999997" green="0.89411764709999997" blue="0.89411764709999997" alpha="1" colorSpace="calibratedRGB"/>
+                                            </view>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter LR Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jd2-az-3yq">
+                                                <frame key="frameInset" minX="20" minY="176" width="292" height="41"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="tintColor" red="0.24313725489999999" green="0.25098039220000001" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="fiW-VU-qv2" id="ek8-p3-Fl3"/>
+                                                </connections>
+                                            </textField>
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j6W-8E-K1V">
+                                                <frame key="frameInset" minX="19" minY="252" width="295" height="112"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="0.89411764709999997" green="0.89411764709999997" blue="0.89411764709999997" alpha="1" colorSpace="calibratedRGB"/>
+                                            </view>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Enter Remark" translatesAutoresizingMaskIntoConstraints="NO" id="ZRp-7R-RdB">
+                                                <frame key="frameInset" minX="26" minY="257" width="280" height="99"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <color key="textColor" red="0.45882352939999999" green="0.45882352939999999" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="fiW-VU-qv2" id="Kwc-l6-nX3"/>
+                                                </connections>
+                                            </textView>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wCT-yn-e5z">
+                                                <frame key="frameInset" minX="20" minY="389" width="128" height="45"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="0.24313725489999999" green="0.25098039220000001" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                <state key="normal" title="Ok">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="MoreDetail_Ok_Action:" destination="fiW-VU-qv2" eventType="touchUpInside" id="dgk-bD-Izp"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zhe-Ls-ebb">
+                                                <frame key="frameInset" minX="186" minY="389" width="128" height="45"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="0.89411764709999997" green="0.89411764709999997" blue="0.89411764709999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                <state key="normal" title="Cancel">
+                                                    <color key="titleColor" red="0.24313725489999999" green="0.25098039220000001" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="MoreDetail_Cancel_Action:" destination="fiW-VU-qv2" eventType="touchUpInside" id="X37-nr-qDq"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.93333333330000001" green="0.93333333330000001" blue="0.93333333330000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -2924,6 +3049,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="375" height="800"/>
                     <connections>
+                        <outlet property="AddMorDetail_view" destination="fuq-TI-DzX" id="sqI-FL-qfh"/>
                         <outlet property="CreateDispatch_Btn" destination="G9b-lq-RM5" id="foX-9B-ALv"/>
                         <outlet property="CustomerAdressLBL" destination="sbC-NW-rSC" id="hIN-LY-sUx"/>
                         <outlet property="CustomerPhoneLBL" destination="ADT-D3-ze2" id="VIe-tN-cdB"/>
@@ -2932,10 +3058,19 @@
                         <outlet property="CustomerVIEW" destination="zaf-6b-7sk" id="dl7-R8-H60"/>
                         <outlet property="CutomerNameLBL" destination="iNv-Th-aSv" id="OCs-dQ-82J"/>
                         <outlet property="GrantTotal_LBL" destination="TE4-LT-fRf" id="Agi-O2-3L5"/>
+                        <outlet property="LRNumber_View" destination="IUY-Fj-GRZ" id="U6h-rl-9NT"/>
+                        <outlet property="LrNumber_TXT" destination="jd2-az-3yq" id="pRk-xS-OJo"/>
+                        <outlet property="MoreDetail_Cancel_Btn" destination="zhe-Ls-ebb" id="8mv-5Z-LwU"/>
+                        <outlet property="MoreDetail_MainView" destination="ag7-v0-eik" id="Ktq-AW-G9Q"/>
+                        <outlet property="MoreDetail_OK_Btn" destination="wCT-yn-e5z" id="t3t-Xb-Uoz"/>
                         <outlet property="PopUpCustomerVW" destination="PQl-SA-6q8" id="adO-03-983"/>
                         <outlet property="ProductTBL" destination="UCE-Yz-76n" id="l7L-ks-drf"/>
                         <outlet property="ProductTitleBackView" destination="t1t-6s-o1A" id="yIX-XY-3WY"/>
+                        <outlet property="Remark_TextView" destination="ZRp-7R-RdB" id="sTo-tZ-H4a"/>
+                        <outlet property="Remark_view" destination="j6W-8E-K1V" id="beR-cK-DlG"/>
                         <outlet property="SearchProBackView" destination="jlJ-HM-0vC" id="QTS-Yl-57x"/>
+                        <outlet property="SelectDateView" destination="NBC-bt-F9G" id="nuK-VE-vzC"/>
+                        <outlet property="SelectDate_TXT" destination="AS2-dn-ZTp" id="MUk-8o-vFq"/>
                         <outlet property="TitleHight" destination="Tg7-9R-isc" id="F50-vn-uqe"/>
                         <outlet property="TitleTop1" destination="2pd-zs-vca" id="6nq-Br-JeO"/>
                         <outlet property="TitleTop2" destination="Ntl-c1-cOR" id="PZK-HJ-kuy"/>
@@ -2947,7 +3082,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Vt-s3-o5z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="193" y="2413"/>
+            <point key="canvasLocation" x="192.80000000000001" y="2412.5937031484259"/>
         </scene>
         <!--Create Inward OrderVW-->
         <scene sceneID="k7W-6U-Foh">
@@ -4778,7 +4913,7 @@
                                             <action selector="BackBtn_Action:" destination="JG3-6b-hFz" eventType="touchUpInside" id="76l-eX-8ix"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Dispatch" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="896-Ge-Ndp">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Update Dispatch" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="896-Ge-Ndp">
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -5099,7 +5234,7 @@
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="VF6-Wa-JYR"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
-                                <state key="normal" title="Create Dispatch">
+                                <state key="normal" title="Update Dispatch">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>

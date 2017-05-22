@@ -26,6 +26,7 @@
 @synthesize CustomerPhoneLBL,CustomerAdressLBL,CutomerNameLBL,CustomerStateCityLBL;
 @synthesize TitleTop1,TitleTop2,TitleTop3,TitleTop4,TitleHight;
 
+@synthesize SelectDate_TXT,SelectDateView,LrNumber_TXT,LRNumber_View,Remark_view,Remark_TextView,MoreDetail_OK_Btn,MoreDetail_Cancel_Btn,AddMorDetail_view,MoreDetail_MainView;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -91,6 +92,72 @@
     OrderDetail_Cell *cell = [[nib instantiateWithOwner:nil options:nil] objectAtIndex:0];
     ProductTBL.rowHeight = cell.frame.size.height;
     [ProductTBL registerNib:nib forCellReuseIdentifier:@"OrderDetail_Cell"];
+    
+    
+    //****************************MoreDetailView*********************************************
+    MoreDetail_MainView.hidden=YES;
+    
+    [AddMorDetail_view.layer setCornerRadius:3.0f];
+    AddMorDetail_view.layer.borderWidth = 1.0f;
+    [AddMorDetail_view.layer setMasksToBounds:YES];
+    AddMorDetail_view.layer.borderColor = [UIColor clearColor].CGColor;
+    
+    [SelectDateView.layer setCornerRadius:3.0f];
+    SelectDateView.layer.borderWidth = 1.0f;
+    [SelectDateView.layer setMasksToBounds:YES];
+    SelectDateView.layer.borderColor = [UIColor colorWithRed:(62/255.0) green:(64/255.0) blue:(149/255.0) alpha:1.0].CGColor;
+    
+    [LRNumber_View.layer setCornerRadius:3.0f];
+    LRNumber_View.layer.borderWidth = 1.0f;
+    [LRNumber_View.layer setMasksToBounds:YES];
+    LRNumber_View.layer.borderColor = [UIColor colorWithRed:(62/255.0) green:(64/255.0) blue:(149/255.0) alpha:1.0].CGColor;
+    
+    [Remark_view.layer setCornerRadius:3.0f];
+    Remark_view.layer.borderWidth = 1.0f;
+    [Remark_view.layer setMasksToBounds:YES];
+    Remark_view.layer.borderColor = [UIColor colorWithRed:(62/255.0) green:(64/255.0) blue:(149/255.0) alpha:1.0].CGColor;
+    
+    
+    [MoreDetail_Cancel_Btn.layer setCornerRadius:3.0f];
+    MoreDetail_Cancel_Btn.layer.borderWidth = 1.0f;
+    [MoreDetail_Cancel_Btn.layer setMasksToBounds:YES];
+    MoreDetail_Cancel_Btn.layer.borderColor = [UIColor colorWithRed:(62/255.0) green:(64/255.0) blue:(149/255.0) alpha:1.0].CGColor;
+    
+    [MoreDetail_OK_Btn.layer setCornerRadius:3.0f];
+    MoreDetail_OK_Btn.layer.borderWidth = 1.0f;
+    [MoreDetail_OK_Btn.layer setMasksToBounds:YES];
+    MoreDetail_OK_Btn.layer.borderColor = [UIColor colorWithRed:(62/255.0) green:(64/255.0) blue:(149/255.0) alpha:1.0].CGColor;
+    
+    
+    UIDatePicker *datePicker = [[UIDatePicker alloc]init];
+    
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:GregorianCalendar];
+    NSDate *currentDate = [NSDate date];
+    NSDateComponents *comps = [[NSDateComponents alloc] init];
+    [comps setYear:1];
+    NSDate *maxDate = [calendar dateByAddingComponents:comps toDate:currentDate options:0];
+    [comps setYear:-100];
+    [datePicker setMaximumDate:maxDate];
+    datePicker.backgroundColor=[UIColor whiteColor];
+    
+    [datePicker setMinimumDate:[NSDate date]];
+    
+    datePicker.datePickerMode = UIDatePickerModeDate;
+    [datePicker addTarget:self action:@selector(dateTextField:) forControlEvents:UIControlEventValueChanged];
+    
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    toolbar.barStyle   = UIBarStyleBlackTranslucent;
+    
+    UIBarButtonItem *itemDone  = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:SelectDate_TXT action:@selector(resignFirstResponder)];
+    UIBarButtonItem *itemSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    toolbar.items = @[itemSpace,itemDone];
+    
+    SelectDate_TXT.inputAccessoryView = toolbar;
+    [SelectDate_TXT setInputView:datePicker];
+    
+    //***************************************END*********************************************
+    
 }
 - (IBAction)SelectCutomerBtn_Action:(id)sender
 {
@@ -339,19 +406,25 @@
     }
     else
     {
-        BOOL internet=[AppDelegate connectedToNetwork];
-        if (internet)
-        {
-            [self CreateDispatch];
-        }
-        else
-            [AppDelegate showErrorMessageWithTitle:@"" message:@"Please check your internet connection or try again later." delegate:nil];
+        MoreDetail_MainView.hidden=NO;
     }
 }
 
 -(void)CreateDispatch
 {
-   
+    NSDate *todayDate = [NSDate date]; //Get todays date
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *dispatch_date;
+    if ([SelectDate_TXT.text isEqualToString:@""])
+    {
+        dispatch_date = [dateFormatter stringFromDate:todayDate];
+    }
+    else
+    {
+         dispatch_date = SelectDate_TXT.text;
+    }
+    
     NSDictionary *UserSaveData=[[NSUserDefaults standardUserDefaults]objectForKey:@"LoginUserDic"];
     NSMutableDictionary *dictParams = [[NSMutableDictionary alloc] init];
     [dictParams setObject:Base_Key  forKey:@"key"];
@@ -360,8 +433,12 @@
     [dictParams setObject:CutomerID  forKey:@"customer_id"];
     [dictParams setObject:[UserSaveData valueForKey:@"id"] forKey:@"sales_id"];
     
-    [dictParams setObject:@"0"  forKey:@"dispatch_date"];
+    [dictParams setObject:dispatch_date  forKey:@"dispatch_date"];
+    [dictParams setObject:LrNumber_TXT.text  forKey:@"lr_number"];
+    [dictParams setObject:Remark_TextView.text  forKey:@"remark"];
     [dictParams setObject:ProductJSONString  forKey:@"product"];
+    
+    
     
     [CommonWS AAwebserviceWithURL:[NSString stringWithFormat:@"%@",BaseUrl] withParam:dictParams withCompletion:^(NSDictionary *response, BOOL success1)
      {
@@ -379,6 +456,66 @@
     {
         [AppDelegate showErrorMessageWithTitle:AlertTitleError message:[response objectForKey:@"ack_msg"] delegate:nil];
     }
+}
+- (IBAction)MoreDetail_Ok_Action:(id)sender
+{
+    MoreDetail_MainView.hidden=YES;
+    
+    BOOL internet=[AppDelegate connectedToNetwork];
+    if (internet)
+    {
+        [self CreateDispatch];
+    }
+    else
+        [AppDelegate showErrorMessageWithTitle:@"" message:@"Please check your internet connection or try again later." delegate:nil];
+}
+- (IBAction)MoreDetail_Cancel_Action:(id)sender
+{
+    MoreDetail_MainView.hidden=YES;
+    
+    BOOL internet=[AppDelegate connectedToNetwork];
+    if (internet)
+    {
+        [self CreateDispatch];
+    }
+    else
+        [AppDelegate showErrorMessageWithTitle:@"" message:@"Please check your internet connection or try again later." delegate:nil];
+}
+-(void) dateTextField:(id)sender
+{
+    UIDatePicker *picker = (UIDatePicker*)SelectDate_TXT.inputView;
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    NSDate *eventDate = picker.date;
+    [dateFormat setDateFormat:@"yyyy-MM-dd"];
+    
+    NSString *dateString = [dateFormat stringFromDate:eventDate];
+    SelectDate_TXT.text = [NSString stringWithFormat:@"%@",dateString];
+}
+
+-(void)textViewDidBeginEditing:(UITextView *)textView
+{
+    
+    Remark_TextView.textColor=[UIColor blackColor];
+    
+    if ([textView.text isEqualToString:@"Enter Remark"]) {
+        textView.text = @"";
+        //textView.textColor = [UIColor blackColor]; //optional
+    }
+    [textView becomeFirstResponder];
+}
+
+
+-(void)textViewDidEndEditing:(UITextView *)textView
+{
+    
+    Remark_TextView.textColor=[UIColor blackColor];
+    
+    if ([textView.text isEqualToString:@""]) {
+        textView.text = @"Enter Remark";
+        textView.textColor = [UIColor lightGrayColor]; //optional
+    }
+    [textView resignFirstResponder];
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

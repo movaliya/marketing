@@ -10,8 +10,9 @@
 #import "digitalMarketing.pch"
 #import "SerachProductVW.h"
 #import "UpdateDispatchCell.h"
+#import "HomeVW.h"
 
-@interface UpdateDispatchVw ()<SerachProductVWDelegate>
+@interface UpdateDispatchVw ()<SerachProductVWDelegate,UITextFieldDelegate>
 
 @end
 
@@ -21,7 +22,7 @@
 @synthesize ProductTBL;
 @synthesize CustomerPhoneLBL,CustomerAdressLBL,CutomerNameLBL,CustomerStateCityLBL;
 @synthesize TitleTop1,TitleTop2,TitleTop3,TitleTop4,TitleHight;
-
+@synthesize DispatchDetailDICTPass;
 
 - (void)viewDidLoad
 {
@@ -83,11 +84,69 @@
     
     PopUpCustomerVW.hidden=YES;
     CutomerID=@"";
+    Dispatch_ID=@"";
     
     UINib *nib = [UINib nibWithNibName:@"UpdateDispatchCell" bundle:nil];
     UpdateDispatchCell *cell = [[nib instantiateWithOwner:nil options:nil] objectAtIndex:0];
     ProductTBL.rowHeight = cell.frame.size.height;
     [ProductTBL registerNib:nib forCellReuseIdentifier:@"UpdateDispatchCell"];
+    
+    
+    // Get data From dispatch Histry Detail
+    if (DispatchDetailDICTPass)
+    {
+        totalAmount=0;
+        totalQTY=0;
+        [self.view setNeedsUpdateConstraints];
+        [self.view updateConstraintsIfNeeded];
+        
+        [selectCutomer_BTN setTitle:[DispatchDetailDICTPass valueForKey:@"customer_name"]forState:UIControlStateNormal];
+        Dispatch_ID=[DispatchDetailDICTPass valueForKey:@"id"];
+        CutomerID=[DispatchDetailDICTPass valueForKey:@"customer_id"];
+        CutomerNameLBL.text=[DispatchDetailDICTPass valueForKey:@"customer_name"];
+        CustomerAdressLBL.text=[DispatchDetailDICTPass valueForKey:@"delivery_address"];
+        CustomerPhoneLBL.text=[DispatchDetailDICTPass valueForKey:@"contact_person"];
+        // NSString *city=[DispatchDetailDICTPass valueForKey:@"city"];
+        //  NSString *State=[DispatchDetailDICTPass valueForKey:@"state"];
+        // NSString *Country=[DispatchDetailDICTPass valueForKey:@"country"];
+        // CustomerStateCityLBL.text=[NSString stringWithFormat:@"%@,%@,%@",city,State,Country];
+        
+        
+        
+        TitleTop1.constant=15;
+        TitleTop2.constant=8;
+        TitleTop3.constant=8;
+        TitleTop4.constant=8;
+        TitleHight.constant=18;
+        
+        
+        [self.view setNeedsUpdateConstraints];
+        [self.view updateConstraintsIfNeeded];
+        
+        NSMutableDictionary *ProductDictPass=[DispatchDetailDICTPass valueForKey:@"products"];
+        NSMutableArray *tempArray=[[NSMutableArray alloc]init];
+        for (int ii=0; ii<ProductDictPass.count; ii++)
+        {
+            NSMutableDictionary *Productdict = [[NSMutableDictionary alloc] init];
+            [Productdict setObject:[[ProductDictPass valueForKey:@"pro_name"]objectAtIndex:ii] forKey:@"name"];
+            [Productdict setObject:[[ProductDictPass valueForKey:@"id"]objectAtIndex:ii] forKey:@"id"];
+            [Productdict setObject:[[ProductDictPass valueForKey:@"unitprice"]objectAtIndex:ii] forKey:@"price"];
+            [Productdict setObject:[[ProductDictPass valueForKey:@"pro_qty"]objectAtIndex:ii] forKey:@"qty"];
+            [tempArray addObject:Productdict];
+        }
+        ProductArry=[[NSMutableArray alloc]initWithArray:tempArray];
+        NSError * err;
+        NSData * jsonData = [NSJSONSerialization dataWithJSONObject:ProductArry options:0 error:&err];
+        ProductJSONString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        [ProductTBL reloadData];
+        
+        totalAmount=[[DispatchDetailDICTPass valueForKey:@"grand_total"] integerValue];
+        totalQTY=[[DispatchDetailDICTPass valueForKey:@"total_qty"] integerValue];
+        self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%ld",(long)totalQTY];
+        self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
+    }
+    
+    
 }
 - (IBAction)SelectCutomerBtn_Action:(id)sender
 {
@@ -131,9 +190,18 @@
 }
 - (IBAction)Search_Pro_Btn_Action:(id)sender
 {
-    SerachProductVW *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"SerachProductVW"];
-    vcr.delegate=self;
-    [self.navigationController pushViewController:vcr animated:YES];
+    if (CutomerID.length!=0)
+    {
+        SerachProductVW *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"SerachProductVW"];
+        vcr.delegate=self;
+        vcr.CheckDispatch=@"DISPATCH";
+        vcr.DispatchCutomerID=CutomerID;
+        [self.navigationController pushViewController:vcr animated:YES];
+    }
+    else
+    {
+        [AppDelegate showErrorMessageWithTitle:@"Alert..!" message:@"Please Select Customer first." delegate:nil];
+    }
 }
 #pragma mark UITableView delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -235,6 +303,8 @@
         
         cell.ProductQTY.text=[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section];
         cell.ProductQTY.tag=indexPath.section;
+        cell.ProductQTY.delegate=self;
+        cell.QntLine_LBL.tag=indexPath.section;
         
         NSInteger totalValue=[[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:indexPath.section] integerValue];
         cell.ProductAmount.text=[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section];
@@ -343,12 +413,11 @@
     NSDictionary *UserSaveData=[[NSUserDefaults standardUserDefaults]objectForKey:@"LoginUserDic"];
     NSMutableDictionary *dictParams = [[NSMutableDictionary alloc] init];
     [dictParams setObject:Base_Key  forKey:@"key"];
-    [dictParams setObject:Add_dispatch_Order  forKey:@"s"];
+    [dictParams setObject:update_dispatch  forKey:@"s"];
     
     [dictParams setObject:CutomerID  forKey:@"customer_id"];
+    [dictParams setObject:Dispatch_ID  forKey:@"id"];
     [dictParams setObject:[UserSaveData valueForKey:@"id"] forKey:@"sales_id"];
-    
-    [dictParams setObject:@"0"  forKey:@"dispatch_date"];
     [dictParams setObject:ProductJSONString  forKey:@"product"];
     
     [CommonWS AAwebserviceWithURL:[NSString stringWithFormat:@"%@",BaseUrl] withParam:dictParams withCompletion:^(NSDictionary *response, BOOL success1)
@@ -361,7 +430,12 @@
     if ([[[response objectForKey:@"ack"]stringValue ] isEqualToString:@"1"])
     {
         [AppDelegate showErrorMessageWithTitle:AlertTitleError message:[response objectForKey:@"ack_msg"] delegate:nil];
-        [self.navigationController popViewControllerAnimated:YES];
+        for (UIViewController* viewController in self.navigationController.viewControllers) {
+            if ([viewController isKindOfClass:[HomeVW class]] ) {
+                HomeVW *groupViewController = (HomeVW*)viewController;
+                [self.navigationController popToViewController:groupViewController animated:YES];
+            }
+        }
     }
     else
     {
@@ -374,7 +448,7 @@
 }
 - (IBAction)BackBtn_Action:(id)sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:NO];
 }
 
 
@@ -382,9 +456,39 @@
 {
     return YES;
 }
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    // NSIndexPath *pathOfTheCell=[NSIndexPath indexPathForRow:0 inSection:[sender tag]];
+    // OfferzoneCell *cell = (OfferzoneCell *)[TBL cellForRowAtIndexPath:pathOfTheCell];
+    
+    for (UIView *view in ProductTBL.subviews)
+    {
+        for (UpdateDispatchCell *cell in view.subviews)
+        {
+            if (cell.QntLine_LBL.tag==textField.tag)
+            {
+                cell.QntLine_LBL.backgroundColor=[UIColor colorWithRed:62.0f/255.0f green:64.0f/255.0f blue:149.0f/255.0f alpha:1.0f];
+            }
+            else
+            {
+                cell.QntLine_LBL.backgroundColor=[UIColor colorWithRed:117.0f/255.0f green:117.0f/255.0f blue:117.0f/255.0f alpha:1.0f];
+            }
+        }
+    }
+}
+
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
+    
+    
+    for (UIView *view in ProductTBL.subviews)
+    {
+        for (UpdateDispatchCell *cell in view.subviews)
+        {
+            cell.QntLine_LBL.backgroundColor=[UIColor colorWithRed:117.0f/255.0f green:117.0f/255.0f blue:117.0f/255.0f alpha:1.0f];
+        }
+    }
     
     NSLog(@"==%@",[ProductArry objectAtIndex:textField.tag]);
     if ([textField.text isEqualToString:@""])
@@ -409,7 +513,6 @@
         }
         
         self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%ld",(long)totalQTY];
-        //self.TotalAmount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
         self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
         NSError * err;
         NSData * jsonData = [NSJSONSerialization dataWithJSONObject:ProductArry options:0 error:&err];

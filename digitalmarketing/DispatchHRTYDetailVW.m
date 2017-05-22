@@ -157,12 +157,13 @@
 - (IBAction)Edit_Btn_Action:(id)sender
 {
     UpdateDispatchVw *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"UpdateDispatchVw"];
+    vcr.DispatchDetailDICTPass=[OrderDetailDict mutableCopy];
     [self.navigationController pushViewController:vcr animated:NO];
 }
 
 - (IBAction)BackBtn_Action:(id)sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:NO];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

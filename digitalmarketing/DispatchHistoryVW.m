@@ -105,15 +105,15 @@
     cell.OrderNumber.text=[NSString stringWithFormat:@"Order Number :#%@",[[DispatchHistyDict valueForKey:@"id"] objectAtIndex:indexPath.section]];
     cell.OrderDate.text=[NSString stringWithFormat:@"Order Date :%@",[[DispatchHistyDict valueForKey:@"dispatch_date"] objectAtIndex:indexPath.section]];
     
-    cell.LRNumber.text=[[DispatchHistyDict valueForKey:@"lr_number"] objectAtIndex:indexPath.section];
-    cell.Remarks.text=[[DispatchHistyDict valueForKey:@"remark"] objectAtIndex:indexPath.section];
+    cell.LRNumber.text=[NSString stringWithFormat:@"LR Number :%@",[[DispatchHistyDict valueForKey:@"lr_number"] objectAtIndex:indexPath.section]];
+    cell.Remarks.text=[NSString stringWithFormat:@"Remark :%@",[[DispatchHistyDict valueForKey:@"remark"] objectAtIndex:indexPath.section]];
     
-    if ([cell.LRNumber.text isEqualToString:@""])
+    if ([cell.LRNumber.text isEqualToString:@"LR Number :"])
     {
         cell.LRNumberHight.constant=0;
         cell.LRNoTop.constant=0;
     }
-    if ([cell.Remarks.text isEqualToString:@""])
+    if ([cell.Remarks.text isEqualToString:@"Remark :"])
     {
         cell.RemarkHight.constant=0;
         cell.RemarkTop.constant=0;

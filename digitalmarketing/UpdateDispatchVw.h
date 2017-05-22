@@ -14,11 +14,13 @@
     NSMutableArray *ProductArry;
     
     NSString *CutomerID;
+    NSString *Dispatch_ID;
     NSInteger totalAmount;
     NSInteger totalQTY;
     NSString *ProductJSONString;
     BOOL CheckSUCCESS;
 }
+@property (strong, nonatomic) NSMutableDictionary *DispatchDetailDICTPass;
 
 @property (weak, nonatomic) IBOutlet UIView *PopUpCustomerVW;
 @property (weak, nonatomic) IBOutlet UIView *CustomerVIEW;

@@ -41,5 +41,15 @@
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *TitleTop3;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *TitleTop4;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *TitleHight;
+@property (weak, nonatomic) IBOutlet UIView *AddMorDetail_view;
+@property (weak, nonatomic) IBOutlet UIView *SelectDateView;
+@property (weak, nonatomic) IBOutlet UITextField *SelectDate_TXT;
+@property (weak, nonatomic) IBOutlet UIView *LRNumber_View;
+@property (weak, nonatomic) IBOutlet UITextField *LrNumber_TXT;
+@property (weak, nonatomic) IBOutlet UIView *Remark_view;
+@property (weak, nonatomic) IBOutlet UITextView *Remark_TextView;
+@property (weak, nonatomic) IBOutlet UIButton *MoreDetail_OK_Btn;
+@property (weak, nonatomic) IBOutlet UIButton *MoreDetail_Cancel_Btn;
+@property (weak, nonatomic) IBOutlet UIView *MoreDetail_MainView;
 
 @end

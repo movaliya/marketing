@@ -11,7 +11,7 @@
 #import "SerachProductVW.h"
 #import "UpdateInwardCell.h"
 #import "HomeVW.h"
-@interface Updateinwardhistory ()<SerachProductVWDelegate>
+@interface Updateinwardhistory ()<SerachProductVWDelegate,UITextFieldDelegate>
 
 @end
 
@@ -147,12 +147,9 @@
 
 -(void)getVender
 {
-    NSDictionary *UserSaveData=[[NSUserDefaults standardUserDefaults]objectForKey:@"LoginUserDic"];
-
     NSMutableDictionary *dictParams = [[NSMutableDictionary alloc] init];
     [dictParams setObject:Base_Key  forKey:@"key"];
-    [dictParams setObject:get_all_inward_store  forKey:@"s"];
-    [dictParams setObject:[UserSaveData valueForKey:@"id"]  forKey:@"sales_id"];
+    [dictParams setObject:get_vendor  forKey:@"s"];
     
     [CommonWS AAwebserviceWithURL:[NSString stringWithFormat:@"%@",BaseUrl] withParam:dictParams withCompletion:^(NSDictionary *response, BOOL success1)
      {
@@ -267,7 +264,7 @@
         {
             titleLBL.font=[UIFont systemFontOfSize:13.0f];
         }
-        titleLBL.text=[[customerDict valueForKey:@"vendor_name"] objectAtIndex:indexPath.row];
+        titleLBL.text=[[customerDict valueForKey:@"cname"] objectAtIndex:indexPath.row];
         [cell addSubview:titleLBL];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         return cell;
@@ -287,9 +284,14 @@
         
         cell.ProductPrice.text=[[ProductArry valueForKey:@"price"] objectAtIndex:indexPath.section];
         cell.ProductPrice.tag=indexPath.section;
+        cell.PriceLine_LBL.tag=indexPath.section;
+        cell.ProductPrice.delegate=self;
+       
         
         cell.ProductQTY.text=[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section];
         cell.ProductQTY.tag=indexPath.section;
+        cell.QntLine_LBL.tag=indexPath.section;
+        cell.ProductQTY.delegate=self;
         
         NSInteger totalValue=[[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:indexPath.section] integerValue];
         cell.ProductAmount.text=[NSString stringWithFormat:@"%ld",(long)totalValue];
@@ -304,23 +306,32 @@
 {
     if (tableView==CustomerTBL)
     {
+        
+        // Take Cutomer Detail From Here.
         CutomerView.hidden=YES;
         
         [self.view setNeedsUpdateConstraints];
         [self.view updateConstraintsIfNeeded];
-        
         // Take Cutomer Detail From Here.
-        [SelectCutomer_Button setTitle:[[customerDict valueForKey:@"vendor_name"]objectAtIndex:indexPath.row ]forState:UIControlStateNormal];
-        vendor_id=[[customerDict valueForKey:@"vendor_id"]objectAtIndex:indexPath.row];
-        Inward_id=[[customerDict valueForKey:@"id"]objectAtIndex:indexPath.row];
-        CutomerNameLBL.text=[[customerDict valueForKey:@"vendor_name"]objectAtIndex:indexPath.row ];
+        [SelectCutomer_Button setTitle:[[customerDict valueForKey:@"cname"]objectAtIndex:indexPath.row ]forState:UIControlStateNormal];
+        vendor_id=[[customerDict valueForKey:@"id"]objectAtIndex:indexPath.row];
+        CutomerNameLBL.text=[[customerDict valueForKey:@"cname"]objectAtIndex:indexPath.row ];
+        CustomerAdressLBL.text=[[customerDict valueForKey:@"address"]objectAtIndex:indexPath.row ];
+        CustomerPhoneLBL.text=[[customerDict valueForKey:@"phone"]objectAtIndex:indexPath.row ];
+        NSString *city=[[customerDict valueForKey:@"city"]objectAtIndex:indexPath.row ];
+        NSString *State=[[customerDict valueForKey:@"state"]objectAtIndex:indexPath.row ];
+        NSString *Country=[[customerDict valueForKey:@"country"]objectAtIndex:indexPath.row ];
+        CustomerStateCityLBL.text=[NSString stringWithFormat:@"%@,%@,%@",city,State,Country];
         
-       // CustomerAdressLBL.text=[[customerDict valueForKey:@"address"]objectAtIndex:indexPath.row ];
-       // CustomerPhoneLBL.text=[[customerDict valueForKey:@"phone"]objectAtIndex:indexPath.row ];
-      //  NSString *city=[[customerDict valueForKey:@"city"]objectAtIndex:indexPath.row ];
-      //  NSString *State=[[customerDict valueForKey:@"state"]objectAtIndex:indexPath.row ];
-     //   NSString *Country=[[customerDict valueForKey:@"country"]objectAtIndex:indexPath.row ];
-      //  CustomerStateCityLBL.text=[NSString stringWithFormat:@"%@,%@,%@",city,State,Country];
+        TitleTop1.constant=15;
+        TitleTop2.constant=8;
+        TitleTop3.constant=8;
+        TitleTop4.constant=8;
+        TitleHight.constant=18;
+        
+        
+        [self.view setNeedsUpdateConstraints];
+        [self.view updateConstraintsIfNeeded];
         
         TitleTop1.constant=15;
         TitleTop2.constant=8;
@@ -402,8 +413,6 @@
 }
 -(void)CreateInwardOrder
 {
-    //id=1
-    
     
     NSDictionary *UserSaveData=[[NSUserDefaults standardUserDefaults]objectForKey:@"LoginUserDic"];
     NSMutableDictionary *dictParams = [[NSMutableDictionary alloc] init];
@@ -411,17 +420,18 @@
     [dictParams setObject:update_inward_store  forKey:@"s"];
     
     [dictParams setObject:vendor_id  forKey:@"vendor_id"];
-    [dictParams setObject:vendor_id  forKey:@"id"];
+    [dictParams setObject:Inward_id  forKey:@"id"];
     [dictParams setObject:[UserSaveData valueForKey:@"id"] forKey:@"sales_id"];
     
     [dictParams setObject:[NSString stringWithFormat:@"%ld",(long)totalAmount]  forKey:@"grand_total"];
-    [dictParams setObject:[NSString stringWithFormat:@"%ld",(long)totalQTY]  forKey:@"qty"];
+    [dictParams setObject:[NSString stringWithFormat:@"%ld",(long)totalQTY]  forKey:@"total_qty"];
     [dictParams setObject:ProductJSONString  forKey:@"product"];
     
     [CommonWS AAwebserviceWithURL:[NSString stringWithFormat:@"%@",BaseUrl] withParam:dictParams withCompletion:^(NSDictionary *response, BOOL success1)
      {
          [self handleInwardResponse:response];
      }];
+    
 }
 - (void)handleInwardResponse:(NSDictionary*)response
 {
@@ -449,11 +459,62 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    
+    NSIndexPath *pathOfTheCell=[NSIndexPath indexPathForRow:0 inSection:[textField tag]];
+    UpdateInwardCell *cell = (UpdateInwardCell *)[ProductTBL cellForRowAtIndexPath:pathOfTheCell];
+    
+    if (textField==cell.ProductQTY)
+    {
+        for (UIView *view in ProductTBL.subviews)
+        {
+            for (UpdateInwardCell *cell in view.subviews)
+            {
+                if (cell.QntLine_LBL.tag==textField.tag)
+                {
+                    cell.QntLine_LBL.backgroundColor=[UIColor colorWithRed:62.0f/255.0f green:64.0f/255.0f blue:149.0f/255.0f alpha:1.0f];
+                }
+                else
+                {
+                    cell.QntLine_LBL.backgroundColor=[UIColor colorWithRed:117.0f/255.0f green:117.0f/255.0f blue:117.0f/255.0f alpha:1.0f];
+                }
+            }
+        }
+    }
+    else if (textField==cell.ProductPrice)
+    {
+        for (UIView *view in ProductTBL.subviews)
+        {
+            for (UpdateInwardCell *cell in view.subviews)
+            {
+                if (cell.PriceLine_LBL.tag==textField.tag)
+                {
+                    cell.PriceLine_LBL.backgroundColor=[UIColor colorWithRed:62.0f/255.0f green:64.0f/255.0f blue:149.0f/255.0f alpha:1.0f];
+                }
+                else
+                {
+                    cell.PriceLine_LBL.backgroundColor=[UIColor colorWithRed:117.0f/255.0f green:117.0f/255.0f blue:117.0f/255.0f alpha:1.0f];
+                }
+            }
+        }
+    }
+    
+}
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     NSIndexPath *pathOfTheCell=[NSIndexPath indexPathForRow:0 inSection:[textField tag]];
     UpdateInwardCell *cell = (UpdateInwardCell *)[ProductTBL cellForRowAtIndexPath:pathOfTheCell];
+    
+    for (UIView *view in ProductTBL.subviews)
+    {
+        for (cell in view.subviews)
+        {
+            cell.QntLine_LBL.backgroundColor=[UIColor colorWithRed:117.0f/255.0f green:117.0f/255.0f blue:117.0f/255.0f alpha:1.0f];
+            cell.PriceLine_LBL.backgroundColor=[UIColor colorWithRed:117.0f/255.0f green:117.0f/255.0f blue:117.0f/255.0f alpha:1.0f];
+        }
+    }
     
     NSLog(@"==%@",[ProductArry objectAtIndex:textField.tag]);
     if ([textField.text isEqualToString:@""])
@@ -477,47 +538,42 @@
             {
                 totalAmount=totalAmount+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:jj] integerValue];
                 
-                totalQTY=totalQTY+[[[ProductArry valueForKey:@"price"] objectAtIndex:jj] integerValue];
+                totalQTY=totalQTY+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue];
             }
             
             self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%ld",(long)totalQTY];
-            self.TotalAmount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
             self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
             NSError * err;
             NSData * jsonData = [NSJSONSerialization dataWithJSONObject:ProductArry options:0 error:&err];
             ProductJSONString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         }
-        else if (textField==cell.ProductQTY)
+       else if (textField==cell.ProductQTY)
         {
-            if (textField==cell.ProductPrice)
+            
+            NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
+            NSDictionary *oldDict = (NSDictionary *)[ProductArry objectAtIndex:textField.tag];
+            [newDict addEntriesFromDictionary:oldDict];
+            [newDict setObject:textField.text forKey:@"qty"];
+            [ProductArry replaceObjectAtIndex:textField.tag withObject:newDict];
+            
+            totalAmount=0;
+            totalQTY=0;
+            for (NSInteger jj=0; jj<ProductArry.count; jj++)
             {
+                totalAmount=totalAmount+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:jj] integerValue];
                 
-                NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
-                NSDictionary *oldDict = (NSDictionary *)[ProductArry objectAtIndex:textField.tag];
-                [newDict addEntriesFromDictionary:oldDict];
-                [newDict setObject:textField.text forKey:@"price"];
-                [ProductArry replaceObjectAtIndex:textField.tag withObject:newDict];
-                
-                totalAmount=0;
-                totalQTY=0;
-                for (NSInteger jj=0; jj<ProductArry.count; jj++)
-                {
-                    totalAmount=totalAmount+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:jj] integerValue];
-                    
-                    totalQTY=totalQTY+[[[ProductArry valueForKey:@"price"] objectAtIndex:jj] integerValue];
-                }
-                
-                self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%ld",(long)totalQTY];
-                self.TotalAmount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
-                self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
-                NSError * err;
-                NSData * jsonData = [NSJSONSerialization dataWithJSONObject:ProductArry options:0 error:&err];
-                ProductJSONString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+                totalQTY=totalQTY+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue];
             }
+            
+            self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%ld",(long)totalQTY];
+            self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
+            NSError * err;
+            NSData * jsonData = [NSJSONSerialization dataWithJSONObject:ProductArry options:0 error:&err];
+            ProductJSONString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         }
-       
         [ProductTBL reloadData];
     }
+    
     
 }
 
