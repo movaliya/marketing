@@ -39,6 +39,12 @@
     [self.rootNav setCCKFNavDrawerDelegate:self];
     [self.rootNav.pan_gr setEnabled:NO];
 }
+
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

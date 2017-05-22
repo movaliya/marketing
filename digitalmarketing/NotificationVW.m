@@ -18,7 +18,13 @@
 @implementation NotificationVW
 @synthesize NotifTableView;
 
-- (void)viewDidLoad {
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+
+- (void)viewDidLoad
+{
     
     [super viewDidLoad];
     

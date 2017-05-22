@@ -27,6 +27,11 @@
     [self.rootNav.pan_gr setEnabled:NO];
 }
 
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
      [self.navigationController setNavigationBarHidden:YES animated:YES];

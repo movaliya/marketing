@@ -23,6 +23,12 @@
 @synthesize TitleTop1,TitleTop2,TitleTop3,TitleTop4,TitleHight;
 @synthesize CustomerPhoneLBL,CustomerAdressLBL,CutomerNameLBL,CustomerStateCityLBL;
 @synthesize InwardDetailDICTPass;
+
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
