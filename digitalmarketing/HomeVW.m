@@ -44,6 +44,7 @@
     [self.rootNav setCCKFNavDrawerDelegate:self];
     [self.rootNav.pan_gr setEnabled:NO];
 }
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

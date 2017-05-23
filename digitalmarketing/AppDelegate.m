@@ -67,6 +67,7 @@
     return (AppDelegate *)[UIApplication sharedApplication].delegate;
 }
 
+
 +(BOOL)IsValidEmail:(NSString *)checkString
 {
     BOOL stricterFilter = NO;

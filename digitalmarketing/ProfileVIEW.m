@@ -17,6 +17,11 @@
 @synthesize username_VIEW,Email_VIEW,Phone_VIEW,oldPass_VIEW,NewPass_VIEW,RetypePass_VIEW,ChangePass_BTN;
 @synthesize Info_View,Password_View;
 
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

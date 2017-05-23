@@ -33,6 +33,7 @@
 {
     return UIStatusBarStyleLightContent;
 }
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

@@ -18,11 +18,12 @@
 @implementation ForgotPassVW
 @synthesize FindAccountBtn,BackView,Email_TXT,passwordtxt_View;
 
-
 -(UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;
 }
+
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];

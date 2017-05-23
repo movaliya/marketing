@@ -16,10 +16,12 @@
 
 @implementation SerachProductVW
 @synthesize SearchBR,SearchBackView,ProductTable;
+
 -(UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;
 }
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
