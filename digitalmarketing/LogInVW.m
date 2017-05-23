@@ -19,6 +19,11 @@
 @synthesize UserName_TXT,Password_TXT,LoginBtn;
 @synthesize usernm_View,password_View;
 
+
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleDefault;
+}
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];

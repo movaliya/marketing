@@ -17,6 +17,11 @@
 @synthesize SearchBackView,TitleBack_View,StockTable;
 @synthesize SerachBar;
 
+
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];

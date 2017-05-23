@@ -17,6 +17,11 @@
 @implementation CustomerDetailVW
 @synthesize CustomerTable,serachBar,SearchBackView;
 
+
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];

@@ -25,6 +25,11 @@
 @implementation HomeVW
 @synthesize AttendenceIcon_Btn;
 
+
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];

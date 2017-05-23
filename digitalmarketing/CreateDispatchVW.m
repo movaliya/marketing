@@ -27,6 +27,11 @@
 @synthesize TitleTop1,TitleTop2,TitleTop3,TitleTop4,TitleHight;
 
 @synthesize SelectDate_TXT,SelectDateView,LrNumber_TXT,LRNumber_View,Remark_view,Remark_TextView,MoreDetail_OK_Btn,MoreDetail_Cancel_Btn,AddMorDetail_view,MoreDetail_MainView;
+
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
