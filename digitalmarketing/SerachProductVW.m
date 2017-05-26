@@ -199,7 +199,8 @@
                 [Productdict setObject:[[ProductDict valueForKey:@"pro_name"]objectAtIndex:indexPath.section] forKey:@"name"];
                 [Productdict setObject:[[ProductDict valueForKey:@"pro_id"]objectAtIndex:indexPath.section] forKey:@"id"];
                 [Productdict setObject:[[ProductDict valueForKey:@"unitprice"]objectAtIndex:indexPath.section] forKey:@"price"];
-                [Productdict setObject:[[ProductDict valueForKey:@"product_stock"]objectAtIndex:indexPath.section] forKey:@"qty"];
+                //[Productdict setObject:[[ProductDict valueForKey:@"product_stock"]objectAtIndex:indexPath.section] forKey:@"qty"];
+                [Productdict setObject:@"1" forKey:@"qty"];
                 [withSelectMain addObject:Productdict];
             }
         }
@@ -222,7 +223,8 @@
                 [Productdict setObject:[[ProductDict valueForKey:@"material_name"]objectAtIndex:indexPath.section] forKey:@"name"];
                 [Productdict setObject:[[ProductDict valueForKey:@"id"]objectAtIndex:indexPath.section] forKey:@"id"];
                 [Productdict setObject:[[ProductDict valueForKey:@"sell_price"]objectAtIndex:indexPath.section] forKey:@"price"];
-                [Productdict setObject:[[ProductDict valueForKey:@"minimum_stock_qty"]objectAtIndex:indexPath.section] forKey:@"qty"];
+                //[Productdict setObject:[[ProductDict valueForKey:@"minimum_stock_qty"]objectAtIndex:indexPath.section] forKey:@"qty"];
+                [Productdict setObject:@"1" forKey:@"qty"];
                 [withSelectMain addObject:Productdict];
             }
         }
@@ -255,7 +257,8 @@
             [Productdict setObject:[[ProductDict valueForKey:@"pro_name"]objectAtIndex:senderButton.tag] forKey:@"name"];
             [Productdict setObject:[[ProductDict valueForKey:@"pro_id"]objectAtIndex:senderButton.tag] forKey:@"id"];
             [Productdict setObject:[[ProductDict valueForKey:@"unitprice"]objectAtIndex:senderButton.tag] forKey:@"price"];
-            [Productdict setObject:[[ProductDict valueForKey:@"product_stock"]objectAtIndex:senderButton.tag] forKey:@"qty"];
+            //[Productdict setObject:[[ProductDict valueForKey:@"product_stock"]objectAtIndex:senderButton.tag] forKey:@"qty"];
+            [Productdict setObject:@"1" forKey:@"qty"];
             [withSelectMain addObject:Productdict];
         }
     }
@@ -278,7 +281,8 @@
             [Productdict setObject:[[ProductDict valueForKey:@"material_name"]objectAtIndex:senderButton.tag] forKey:@"name"];
             [Productdict setObject:[[ProductDict valueForKey:@"id"]objectAtIndex:senderButton.tag] forKey:@"id"];
             [Productdict setObject:[[ProductDict valueForKey:@"sell_price"]objectAtIndex:senderButton.tag] forKey:@"price"];
-            [Productdict setObject:[[ProductDict valueForKey:@"minimum_stock_qty"]objectAtIndex:senderButton.tag] forKey:@"qty"];
+            //[Productdict setObject:[[ProductDict valueForKey:@"minimum_stock_qty"]objectAtIndex:senderButton.tag] forKey:@"qty"];
+            [Productdict setObject:@"1" forKey:@"qty"];
             [withSelectMain addObject:Productdict];
         }
     }
