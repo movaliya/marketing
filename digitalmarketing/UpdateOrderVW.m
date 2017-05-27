@@ -604,14 +604,34 @@
     }
     else
     {
-        NSInteger tempamount=0;
-        tempamount=GrandAmount-[Discount_TXT.text integerValue];
-        GrandAmount=tempamount;
-        DiscoutINT=[Discount_TXT.text integerValue];
-        self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%ld",(long)totalQTY];
-        self.TotalAmount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
-        self.Discount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",DiscoutINT];
-        self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)GrandAmount];
+        if ([Discount_BTN.titleLabel.text isEqualToString:@"%"])
+        {
+            float percent = [Discount_TXT.text floatValue] / 100.0f;
+            float answer = totalAmount * percent;
+            
+            NSInteger tempamount=0;
+            tempamount=totalAmount-answer;
+            GrandAmount=tempamount;
+            DiscoutINT=answer;
+            
+            self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%ld",(long)totalQTY];
+            self.TotalAmount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
+            self.Discount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",DiscoutINT];
+            self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)GrandAmount];
+        }
+        else
+        {
+            NSInteger tempamount=0;
+            tempamount=totalAmount-[Discount_TXT.text integerValue];
+            GrandAmount=tempamount;
+            DiscoutINT=[Discount_TXT.text integerValue];
+            self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%ld",(long)totalQTY];
+            self.TotalAmount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
+            self.Discount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",DiscoutINT];
+            self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)GrandAmount];
+        }
+        
+        
     }
     DiscountView.hidden=YES;
     [Discount_TXT resignFirstResponder];
@@ -625,6 +645,7 @@
 
 - (IBAction)Discount_Click:(id)sender
 {
+    [Discount_BTN setTitle:@"RS" forState:UIControlStateNormal];
     DiscountView.hidden=NO;
     self.Qty_LBL.text=[NSString stringWithFormat:@"%ld Nos",(long)totalQTY];;
     self.Amount_LBL.text=[NSString stringWithFormat:@"%ld Rs",(long)totalAmount];;
@@ -635,15 +656,33 @@
 -(void)textFieldDidChange :(UITextField *)theTextField
 {
     NSLog( @"text changed: %@", theTextField.text);
-    if ([theTextField.text integerValue]<GrandAmount)
+    if ([Discount_BTN.titleLabel.text isEqualToString:@"%"])
     {
-        NSInteger tempGrant=0;
-        tempGrant=GrandAmount-[theTextField.text integerValue];
-        self.DiscountGrandTotal_LBL.text=[NSString stringWithFormat:@"%ld Rs",(long)tempGrant];
+        if ([theTextField.text integerValue]<100)
+        {
+            //float total = [GrandAmount floatValue];
+            
+            float percent = [theTextField.text floatValue] / 100.0f;
+            float answer = totalAmount * percent;
+            float Subtract=totalAmount-answer;
+            self.DiscountGrandTotal_LBL.text=[NSString stringWithFormat:@"%ld Rs",(long)Subtract];
+        }
     }
+    else
+    {
+        if ([theTextField.text integerValue]<totalAmount)
+        {
+            NSInteger tempGrant=0;
+            tempGrant=totalAmount-[theTextField.text integerValue];
+            self.DiscountGrandTotal_LBL.text=[NSString stringWithFormat:@"%ld Rs",(long)tempGrant];
+        }
+    }
+    
+    
 }
 - (IBAction)DiscountBTN_Click:(id)sender
 {
+    self.Discount_TXT.text=@"";
     if ([Discount_BTN.titleLabel.text isEqualToString:@"%"])
     {
         [Discount_BTN setTitle:@"RS" forState:UIControlStateNormal];
