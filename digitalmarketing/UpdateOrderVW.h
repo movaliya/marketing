@@ -61,6 +61,8 @@
 @property (strong, nonatomic) IBOutlet UILabel *DiscountGrandTotal_LBL;
 - (IBAction)DiscountOK_Click:(id)sender;
 - (IBAction)DiscountCancle_Click:(id)sender;
+@property (strong, nonatomic) IBOutlet UIButton *Discount_BTN;
+- (IBAction)DiscountBTN_Click:(id)sender;
 
 
 

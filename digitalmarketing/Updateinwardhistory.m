@@ -29,6 +29,11 @@
     return UIStatusBarStyleLightContent;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [IQKeyboardManager sharedManager].shouldHidePreviousNext = YES;
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -445,7 +450,8 @@
     {
         [AppDelegate showErrorMessageWithTitle:AlertTitleError message:[response objectForKey:@"ack_msg"] delegate:nil];
         
-        for (UIViewController* viewController in self.navigationController.viewControllers) {
+        for (UIViewController* viewController in self.navigationController.viewControllers)
+        {
             if ([viewController isKindOfClass:[HomeVW class]] ) {
                 HomeVW *groupViewController = (HomeVW*)viewController;
                 [self.navigationController popToViewController:groupViewController animated:YES];
@@ -465,9 +471,14 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    return YES;
+}
+
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    
     NSIndexPath *pathOfTheCell=[NSIndexPath indexPathForRow:0 inSection:[textField tag]];
     UpdateInwardCell *cell = (UpdateInwardCell *)[ProductTBL cellForRowAtIndexPath:pathOfTheCell];
     
@@ -505,7 +516,6 @@
             }
         }
     }
-    
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
@@ -513,16 +523,6 @@
     NSIndexPath *pathOfTheCell=[NSIndexPath indexPathForRow:0 inSection:[textField tag]];
     UpdateInwardCell *cell = (UpdateInwardCell *)[ProductTBL cellForRowAtIndexPath:pathOfTheCell];
     
-    for (UIView *view in ProductTBL.subviews)
-    {
-        for (cell in view.subviews)
-        {
-            cell.QntLine_LBL.backgroundColor=[UIColor colorWithRed:117.0f/255.0f green:117.0f/255.0f blue:117.0f/255.0f alpha:1.0f];
-            cell.PriceLine_LBL.backgroundColor=[UIColor colorWithRed:117.0f/255.0f green:117.0f/255.0f blue:117.0f/255.0f alpha:1.0f];
-        }
-    }
-    
-    NSLog(@"==%@",[ProductArry objectAtIndex:textField.tag]);
     if ([textField.text isEqualToString:@""])
     {
         [ProductTBL reloadData];
@@ -531,7 +531,6 @@
     {
         if (textField==cell.ProductPrice)
         {
-            
             NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
             NSDictionary *oldDict = (NSDictionary *)[ProductArry objectAtIndex:textField.tag];
             [newDict addEntriesFromDictionary:oldDict];
@@ -553,7 +552,7 @@
             NSData * jsonData = [NSJSONSerialization dataWithJSONObject:ProductArry options:0 error:&err];
             ProductJSONString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         }
-       else if (textField==cell.ProductQTY)
+        else if (textField==cell.ProductQTY)
         {
             
             NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
@@ -580,17 +579,82 @@
         [ProductTBL reloadData];
     }
     
+    for (UIView *view in ProductTBL.subviews)
+    {
+        for (cell in view.subviews)
+        {
+            cell.QntLine_LBL.backgroundColor=[UIColor colorWithRed:117.0f/255.0f green:117.0f/255.0f blue:117.0f/255.0f alpha:1.0f];
+            cell.PriceLine_LBL.backgroundColor=[UIColor colorWithRed:117.0f/255.0f green:117.0f/255.0f blue:117.0f/255.0f alpha:1.0f];
+        }
+    }
+    
+    NSLog(@"==%@",[ProductArry objectAtIndex:textField.tag]);
     
 }
 
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    NSCharacterSet *numbersOnly = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
-    NSCharacterSet *characterSetFromTextField = [NSCharacterSet characterSetWithCharactersInString:textField.text];
+    NSIndexPath *pathOfTheCell=[NSIndexPath indexPathForRow:0 inSection:[textField tag]];
+    UpdateInwardCell *cell = (UpdateInwardCell *)[ProductTBL cellForRowAtIndexPath:pathOfTheCell];
+    if (textField==cell.ProductPrice)
+    {
+        NSCharacterSet *numbersOnly = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+        NSCharacterSet *characterSetFromTextField = [NSCharacterSet characterSetWithCharactersInString:textField.text];
+        
+        BOOL stringIsValid = [numbersOnly isSupersetOfSet:characterSetFromTextField];
+        return stringIsValid;
+    }
+    else
+    {
+        NSString *fulltext = [textField.text stringByAppendingString:string];
+        NSString *charactersSetString = @"0123456789.";
+        
+        
+        NSCharacterSet *numbersOnly = [NSCharacterSet characterSetWithCharactersInString:charactersSetString];
+        NSCharacterSet *characterSetFromTextField = [NSCharacterSet characterSetWithCharactersInString:fulltext];
+        
+        // If typed character is out of Set, ignore it.
+        BOOL stringIsValid = [numbersOnly isSupersetOfSet:characterSetFromTextField];
+        if(!stringIsValid) {
+            return NO;
+        }
+        
+        
+        NSString *currentText = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        
+        // Change the "," (appears in other locale keyboards, such as russian) key ot "."
+        currentText = [currentText stringByReplacingOccurrencesOfString:@"," withString:@"."];
+        
+        // Check the statements of decimal value.
+        if([fulltext isEqualToString:@"."]) {
+            textField.text = @"0.";
+            return NO;
+        }
+        
+        if([fulltext rangeOfString:@".."].location != NSNotFound) {
+            textField.text = [fulltext stringByReplacingOccurrencesOfString:@".." withString:@"."];
+            return NO;
+        }
+        
+        // If second dot is typed, ignore it.
+        NSArray *dots = [fulltext componentsSeparatedByString:@"."];
+        if(dots.count > 2) {
+            textField.text = currentText;
+            return NO;
+        }
+        
+        // If first character is zero and second character is > 0, replace first with second. 05 => 5;
+        if(fulltext.length == 2) {
+            if([[fulltext substringToIndex:1] isEqualToString:@"0"] && ![fulltext isEqualToString:@"0."]) {
+                textField.text = [fulltext substringWithRange:NSMakeRange(1, 1)];
+                return NO;
+            }
+        }
+    }
     
-    BOOL stringIsValid = [numbersOnly isSupersetOfSet:characterSetFromTextField];
-    return stringIsValid;
+    return YES;
 }
+
 
 @end

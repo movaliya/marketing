@@ -11,7 +11,8 @@
 #import "SerachProductVW.h"
 #import "OrderDetail_Cell.h"
 
-@interface CreateOrderVW ()<SerachProductVWDelegate>
+
+@interface CreateOrderVW ()<SerachProductVWDelegate,UITextFieldDelegate>
 
 
 @end
@@ -29,10 +30,15 @@
     return UIStatusBarStyleLightContent;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [IQKeyboardManager sharedManager].shouldHidePreviousNext = YES;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     
     CustomerPhoneLBL.text=@"";
     CustomerAdressLBL.text=@"";
@@ -237,7 +243,10 @@
         
         cell.ProductPrice.text=[[ProductArry valueForKey:@"price"] objectAtIndex:indexPath.section];
         
-        cell.ProductQTY.text=[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section];
+        cell.Qnt_TXT.text=[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section];
+        cell.Qnt_TXT.tag=indexPath.section;
+        cell.QntLine_LBL.tag=indexPath.section;
+        cell.Qnt_TXT.delegate=self;
         
         NSInteger totalValue=[[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:indexPath.section] integerValue];
         cell.ProductAmount.text=[NSString stringWithFormat:@"%ld",(long)totalValue];
@@ -393,6 +402,125 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    return YES;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    // NSIndexPath *pathOfTheCell=[NSIndexPath indexPathForRow:0 inSection:[sender tag]];
+    // OfferzoneCell *cell = (OfferzoneCell *)[TBL cellForRowAtIndexPath:pathOfTheCell];
+    
+    for (UIView *view in ProductTBL.subviews)
+    {
+        for (OrderDetail_Cell *cell in view.subviews)
+        {
+            if (cell.QntLine_LBL.tag==textField.tag)
+            {
+                cell.QntLine_LBL.backgroundColor=[UIColor colorWithRed:62.0f/255.0f green:64.0f/255.0f blue:149.0f/255.0f alpha:1.0f];
+            }
+            else
+            {
+                cell.QntLine_LBL.backgroundColor=[UIColor colorWithRed:117.0f/255.0f green:117.0f/255.0f blue:117.0f/255.0f alpha:1.0f];
+            }
+        }
+    }
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    for (UIView *view in ProductTBL.subviews)
+    {
+        for (OrderDetail_Cell *cell in view.subviews)
+        {
+            cell.QntLine_LBL.backgroundColor=[UIColor colorWithRed:117.0f/255.0f green:117.0f/255.0f blue:117.0f/255.0f alpha:1.0f];
+        }
+    }
+    if ([textField.text isEqualToString:@""])
+    {
+        [ProductTBL reloadData];
+    }
+    else
+    {
+        NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
+        NSDictionary *oldDict = (NSDictionary *)[ProductArry objectAtIndex:textField.tag];
+        [newDict addEntriesFromDictionary:oldDict];
+        [newDict setObject:textField.text forKey:@"qty"];
+        [ProductArry replaceObjectAtIndex:textField.tag withObject:newDict];
+        
+        totalAmount=0;
+        totalQTY=0;
+        GrandAmount=0;
+        for (NSInteger jj=0; jj<ProductArry.count; jj++)
+        {
+            totalAmount=totalAmount+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:jj] integerValue];
+            
+            totalQTY=totalQTY+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue];
+        }
+      //  GrandAmount=totalAmount-DiscoutINT;
+        //self.Discount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",DiscoutINT];
+        self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%ld",(long)totalQTY];
+        self.TotalAmount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
+        self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)GrandAmount];
+        NSError * err;
+        NSData * jsonData = [NSJSONSerialization dataWithJSONObject:ProductArry options:0 error:&err];
+        ProductJSONString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        [ProductTBL reloadData];
+    }
+
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    NSString *fulltext = [textField.text stringByAppendingString:string];
+    NSString *charactersSetString = @"0123456789.";
+    
+    
+    NSCharacterSet *numbersOnly = [NSCharacterSet characterSetWithCharactersInString:charactersSetString];
+    NSCharacterSet *characterSetFromTextField = [NSCharacterSet characterSetWithCharactersInString:fulltext];
+    
+    // If typed character is out of Set, ignore it.
+    BOOL stringIsValid = [numbersOnly isSupersetOfSet:characterSetFromTextField];
+    if(!stringIsValid) {
+        return NO;
+    }
+    
+    
+    NSString *currentText = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    // Change the "," (appears in other locale keyboards, such as russian) key ot "."
+    currentText = [currentText stringByReplacingOccurrencesOfString:@"," withString:@"."];
+    
+    // Check the statements of decimal value.
+    if([fulltext isEqualToString:@"."]) {
+        textField.text = @"0.";
+        return NO;
+    }
+    
+    if([fulltext rangeOfString:@".."].location != NSNotFound) {
+        textField.text = [fulltext stringByReplacingOccurrencesOfString:@".." withString:@"."];
+        return NO;
+    }
+    
+    // If second dot is typed, ignore it.
+    NSArray *dots = [fulltext componentsSeparatedByString:@"."];
+    if(dots.count > 2) {
+        textField.text = currentText;
+        return NO;
+    }
+    
+    // If first character is zero and second character is > 0, replace first with second. 05 => 5;
+    if(fulltext.length == 2) {
+        if([[fulltext substringToIndex:1] isEqualToString:@"0"] && ![fulltext isEqualToString:@"0."]) {
+            textField.text = [fulltext substringWithRange:NSMakeRange(1, 1)];
+            return NO;
+        }
+    }
+    return YES;
 }
 
 @end

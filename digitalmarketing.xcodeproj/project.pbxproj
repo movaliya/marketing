@@ -1277,7 +1277,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jkinfoway.digitalmarketingApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "70e1f814-cdb5-4838-88df-156c65ec5816";
+				PROVISIONING_PROFILE = "d1726fbf-64e9-4bd7-86bf-ae5bbf1ab6f4";
 				PROVISIONING_PROFILE_SPECIFIER = marketingApp_Dev;
 			};
 			name = Debug;
@@ -1292,7 +1292,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jkinfoway.digitalmarketingApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "70e1f814-cdb5-4838-88df-156c65ec5816";
+				PROVISIONING_PROFILE = "d1726fbf-64e9-4bd7-86bf-ae5bbf1ab6f4";
 				PROVISIONING_PROFILE_SPECIFIER = marketingApp_Dev;
 			};
 			name = Release;

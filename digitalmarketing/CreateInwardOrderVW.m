@@ -9,9 +9,9 @@
 #import "CreateInwardOrderVW.h"
 #import "digitalMarketing.pch"
 #import "SerachProductVW.h"
-#import "OrderDetail_Cell.h"
+#import "UpdateInwardCell.h"
 
-@interface CreateInwardOrderVW ()<SerachProductVWDelegate>
+@interface CreateInwardOrderVW ()<SerachProductVWDelegate,UITextFieldDelegate>
 
 @end
 
@@ -27,6 +27,12 @@
 -(UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+     [IQKeyboardManager sharedManager].shouldHidePreviousNext = YES;
 }
 
 - (void)viewDidLoad
@@ -87,10 +93,10 @@
     CutomerView.hidden=YES;
     CutomerID=@"";
     
-    UINib *nib = [UINib nibWithNibName:@"OrderDetail_Cell" bundle:nil];
-    OrderDetail_Cell *cell = [[nib instantiateWithOwner:nil options:nil] objectAtIndex:0];
+    UINib *nib = [UINib nibWithNibName:@"UpdateInwardCell" bundle:nil];
+    UpdateInwardCell *cell = [[nib instantiateWithOwner:nil options:nil] objectAtIndex:0];
     ProductTBL.rowHeight = cell.frame.size.height;
-    [ProductTBL registerNib:nib forCellReuseIdentifier:@"OrderDetail_Cell"];
+    [ProductTBL registerNib:nib forCellReuseIdentifier:@"UpdateInwardCell"];
     
     
     
@@ -223,8 +229,8 @@
     }
     else
     {
-        static NSString *CellIdentifier = @"OrderDetail_Cell";
-        OrderDetail_Cell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        static NSString *CellIdentifier = @"UpdateInwardCell";
+        UpdateInwardCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         cell=nil;
         if (cell == nil)
         {
@@ -235,8 +241,14 @@
         cell.ProductName.text=[[ProductArry valueForKey:@"name"] objectAtIndex:indexPath.section];
         
         cell.ProductPrice.text=[[ProductArry valueForKey:@"price"] objectAtIndex:indexPath.section];
+        cell.ProductPrice.tag=indexPath.section;
+        cell.PriceLine_LBL.tag=indexPath.section;
+        cell.ProductPrice.delegate=self;
         
         cell.ProductQTY.text=[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section];
+        cell.ProductQTY.tag=indexPath.section;
+        cell.QntLine_LBL.tag=indexPath.section;
+        cell.ProductQTY.delegate=self;
         
         NSInteger totalValue=[[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:indexPath.section] integerValue];
         cell.ProductAmount.text=[NSString stringWithFormat:@"%ld",(long)totalValue];
@@ -386,4 +398,193 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    return YES;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    NSIndexPath *pathOfTheCell=[NSIndexPath indexPathForRow:0 inSection:[textField tag]];
+    UpdateInwardCell *cell = (UpdateInwardCell *)[ProductTBL cellForRowAtIndexPath:pathOfTheCell];
+    
+    if (textField==cell.ProductQTY)
+    {
+        for (UIView *view in ProductTBL.subviews)
+        {
+            for (UpdateInwardCell *cell in view.subviews)
+            {
+                if (cell.QntLine_LBL.tag==textField.tag)
+                {
+                    cell.QntLine_LBL.backgroundColor=[UIColor colorWithRed:62.0f/255.0f green:64.0f/255.0f blue:149.0f/255.0f alpha:1.0f];
+                }
+                else
+                {
+                    cell.QntLine_LBL.backgroundColor=[UIColor colorWithRed:117.0f/255.0f green:117.0f/255.0f blue:117.0f/255.0f alpha:1.0f];
+                }
+            }
+        }
+    }
+    else if (textField==cell.ProductPrice)
+    {
+        for (UIView *view in ProductTBL.subviews)
+        {
+            for (UpdateInwardCell *cell in view.subviews)
+            {
+                if (cell.PriceLine_LBL.tag==textField.tag)
+                {
+                    cell.PriceLine_LBL.backgroundColor=[UIColor colorWithRed:62.0f/255.0f green:64.0f/255.0f blue:149.0f/255.0f alpha:1.0f];
+                }
+                else
+                {
+                    cell.PriceLine_LBL.backgroundColor=[UIColor colorWithRed:117.0f/255.0f green:117.0f/255.0f blue:117.0f/255.0f alpha:1.0f];
+                }
+            }
+        }
+    }
+    
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    NSIndexPath *pathOfTheCell=[NSIndexPath indexPathForRow:0 inSection:[textField tag]];
+    UpdateInwardCell *cell = (UpdateInwardCell *)[ProductTBL cellForRowAtIndexPath:pathOfTheCell];
+    
+    if ([textField.text isEqualToString:@""])
+    {
+        [ProductTBL reloadData];
+    }
+    else
+    {
+        if (textField==cell.ProductPrice)
+        {
+            
+            NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
+            NSDictionary *oldDict = (NSDictionary *)[ProductArry objectAtIndex:textField.tag];
+            [newDict addEntriesFromDictionary:oldDict];
+            [newDict setObject:textField.text forKey:@"price"];
+            [ProductArry replaceObjectAtIndex:textField.tag withObject:newDict];
+            
+            totalAmount=0;
+            totalQTY=0;
+            for (NSInteger jj=0; jj<ProductArry.count; jj++)
+            {
+                totalAmount=totalAmount+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:jj] integerValue];
+                
+                totalQTY=totalQTY+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue];
+            }
+            
+            self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%ld",(long)totalQTY];
+            self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
+            NSError * err;
+            NSData * jsonData = [NSJSONSerialization dataWithJSONObject:ProductArry options:0 error:&err];
+            ProductJSONString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        }
+        else if (textField==cell.ProductQTY)
+        {
+            
+            NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
+            NSDictionary *oldDict = (NSDictionary *)[ProductArry objectAtIndex:textField.tag];
+            [newDict addEntriesFromDictionary:oldDict];
+            [newDict setObject:textField.text forKey:@"qty"];
+            [ProductArry replaceObjectAtIndex:textField.tag withObject:newDict];
+            
+            totalAmount=0;
+            totalQTY=0;
+            for (NSInteger jj=0; jj<ProductArry.count; jj++)
+            {
+                totalAmount=totalAmount+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:jj] integerValue];
+                
+                totalQTY=totalQTY+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue];
+            }
+            
+            self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%ld",(long)totalQTY];
+            self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
+            NSError * err;
+            NSData * jsonData = [NSJSONSerialization dataWithJSONObject:ProductArry options:0 error:&err];
+            ProductJSONString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        }
+        [ProductTBL reloadData];
+    }
+    
+    for (UIView *view in ProductTBL.subviews)
+    {
+        for (cell in view.subviews)
+        {
+            cell.QntLine_LBL.backgroundColor=[UIColor colorWithRed:117.0f/255.0f green:117.0f/255.0f blue:117.0f/255.0f alpha:1.0f];
+            cell.PriceLine_LBL.backgroundColor=[UIColor colorWithRed:117.0f/255.0f green:117.0f/255.0f blue:117.0f/255.0f alpha:1.0f];
+        }
+    }
+    
+    NSLog(@"==%@",[ProductArry objectAtIndex:textField.tag]);
+    
+}
+
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    NSIndexPath *pathOfTheCell=[NSIndexPath indexPathForRow:0 inSection:[textField tag]];
+    UpdateInwardCell *cell = (UpdateInwardCell *)[ProductTBL cellForRowAtIndexPath:pathOfTheCell];
+    if (textField==cell.ProductPrice)
+    {
+        NSCharacterSet *numbersOnly = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+        NSCharacterSet *characterSetFromTextField = [NSCharacterSet characterSetWithCharactersInString:textField.text];
+        
+        BOOL stringIsValid = [numbersOnly isSupersetOfSet:characterSetFromTextField];
+        return stringIsValid;
+    }
+    else
+    {
+        NSString *fulltext = [textField.text stringByAppendingString:string];
+        NSString *charactersSetString = @"0123456789.";
+        
+        
+        NSCharacterSet *numbersOnly = [NSCharacterSet characterSetWithCharactersInString:charactersSetString];
+        NSCharacterSet *characterSetFromTextField = [NSCharacterSet characterSetWithCharactersInString:fulltext];
+        
+        // If typed character is out of Set, ignore it.
+        BOOL stringIsValid = [numbersOnly isSupersetOfSet:characterSetFromTextField];
+        if(!stringIsValid) {
+            return NO;
+        }
+        
+        
+        NSString *currentText = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        
+        // Change the "," (appears in other locale keyboards, such as russian) key ot "."
+        currentText = [currentText stringByReplacingOccurrencesOfString:@"," withString:@"."];
+        
+        // Check the statements of decimal value.
+        if([fulltext isEqualToString:@"."]) {
+            textField.text = @"0.";
+            return NO;
+        }
+        
+        if([fulltext rangeOfString:@".."].location != NSNotFound) {
+            textField.text = [fulltext stringByReplacingOccurrencesOfString:@".." withString:@"."];
+            return NO;
+        }
+        
+        // If second dot is typed, ignore it.
+        NSArray *dots = [fulltext componentsSeparatedByString:@"."];
+        if(dots.count > 2) {
+            textField.text = currentText;
+            return NO;
+        }
+        
+        // If first character is zero and second character is > 0, replace first with second. 05 => 5;
+        if(fulltext.length == 2) {
+            if([[fulltext substringToIndex:1] isEqualToString:@"0"] && ![fulltext isEqualToString:@"0."]) {
+                textField.text = [fulltext substringWithRange:NSMakeRange(1, 1)];
+                return NO;
+            }
+        }
+    }
+    
+    return YES;
+}
+
+
+
 @end

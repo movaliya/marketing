@@ -18,8 +18,8 @@
     NSMutableDictionary *Searchdic;
     NSMutableArray *WithSelectArr;
     NSMutableArray *withSelectMain;
-
-
+    
+    BOOL SelectAll;
 }
 @property (strong, nonatomic) NSString *CheckDispatch;
 @property (strong, nonatomic) NSString *DispatchCutomerID;

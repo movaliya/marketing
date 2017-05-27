@@ -17,6 +17,7 @@
     
     NSInteger totalAmount;
     NSInteger totalQTY;
+    NSInteger GrandAmount;
     NSString *ProductJSONString;
     BOOL CheckSUCCESS;
 }

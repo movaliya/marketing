@@ -116,7 +116,14 @@
         // Attendance
         if (CheckAttendence==YES)
         {
-            [self AddAttendence];
+            BOOL internet=[AppDelegate connectedToNetwork];
+            if (internet)
+            {
+                [self AddAttendence];
+
+            }
+            else
+                [AppDelegate showErrorMessageWithTitle:@"" message:@"Please check your internet connection or try again later." delegate:nil];
         }
         return;
     }

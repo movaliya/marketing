@@ -28,6 +28,13 @@
 {
     return UIStatusBarStyleLightContent;
 }
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [IQKeyboardManager sharedManager].shouldHidePreviousNext = YES;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -404,7 +411,25 @@
         BOOL internet=[AppDelegate connectedToNetwork];
         if (internet)
         {
-            [self CreateDispatch];
+            BOOL Chk = NO;
+            for (int i=0; i<ProductArry.count; i++)
+            {
+                if ([[[ProductArry objectAtIndex:i] valueForKey:@"product_stock"] rangeOfString:@"-"].location == NSNotFound || [[[ProductArry objectAtIndex:i] valueForKey:@"product_stock"] rangeOfString:@"0"].location == NSNotFound)
+                {
+                    Chk=NO;
+                    break;
+                    [AppDelegate showErrorMessageWithTitle:AlertTitleError message:[NSString stringWithFormat:@"Selected product quantity not available in stock."] delegate:nil];
+                }
+                else
+                {
+                    Chk=YES;
+                    NSLog(@"string contains bla!");
+                }
+            }
+            if (Chk==YES)
+            {
+                 [self CreateDispatch];
+            }
         }
         else
             [AppDelegate showErrorMessageWithTitle:@"" message:@"Please check your internet connection or try again later." delegate:nil];
@@ -434,8 +459,10 @@
     if ([[[response objectForKey:@"ack"]stringValue ] isEqualToString:@"1"])
     {
         [AppDelegate showErrorMessageWithTitle:AlertTitleError message:[response objectForKey:@"ack_msg"] delegate:nil];
-        for (UIViewController* viewController in self.navigationController.viewControllers) {
-            if ([viewController isKindOfClass:[HomeVW class]] ) {
+        for (UIViewController* viewController in self.navigationController.viewControllers)
+        {
+            if ([viewController isKindOfClass:[HomeVW class]] )
+            {
                 HomeVW *groupViewController = (HomeVW*)viewController;
                 [self.navigationController popToViewController:groupViewController animated:YES];
             }
@@ -484,8 +511,6 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-    
-    
     for (UIView *view in ProductTBL.subviews)
     {
         for (UpdateDispatchCell *cell in view.subviews)
@@ -501,26 +526,36 @@
     }
     else
     {
-        NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
-        NSDictionary *oldDict = (NSDictionary *)[ProductArry objectAtIndex:textField.tag];
-        [newDict addEntriesFromDictionary:oldDict];
-        [newDict setObject:textField.text forKey:@"qty"];
-        [ProductArry replaceObjectAtIndex:textField.tag withObject:newDict];
-        
-        totalAmount=0;
-        totalQTY=0;
-        for (NSInteger jj=0; jj<ProductArry.count; jj++)
+        NSString *Stock = [[ProductArry objectAtIndex:textField.tag] valueForKey:@"product_stock"];
+        if ([Stock floatValue]>=[textField.text floatValue])
         {
-            totalAmount=totalAmount+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:jj] integerValue];
+            NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
+            NSDictionary *oldDict = (NSDictionary *)[ProductArry objectAtIndex:textField.tag];
+            [newDict addEntriesFromDictionary:oldDict];
+            [newDict setObject:textField.text forKey:@"qty"];
+            [ProductArry replaceObjectAtIndex:textField.tag withObject:newDict];
             
-            totalQTY=totalQTY+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue];
+            totalAmount=0;
+            totalQTY=0;
+            for (NSInteger jj=0; jj<ProductArry.count; jj++)
+            {
+                totalAmount=totalAmount+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:jj] integerValue];
+                
+                totalQTY=totalQTY+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue];
+            }
+            
+            self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%ld",(long)totalQTY];
+            self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
+            NSError * err;
+            NSData * jsonData = [NSJSONSerialization dataWithJSONObject:ProductArry options:0 error:&err];
+            ProductJSONString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        }
+        else
+        {
+            [AppDelegate showErrorMessageWithTitle:AlertTitleError message:[NSString stringWithFormat:@"%@ Qnt not available in stock.",textField.text] delegate:nil];
         }
         
-        self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%ld",(long)totalQTY];
-        self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
-        NSError * err;
-        NSData * jsonData = [NSJSONSerialization dataWithJSONObject:ProductArry options:0 error:&err];
-        ProductJSONString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        
         [ProductTBL reloadData];
     }
     

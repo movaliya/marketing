@@ -25,7 +25,7 @@
 @synthesize ProductTBL;
 @synthesize TitleHight,TitleTop1,TitleTop2,TitleTop3,TitleTop4;
 @synthesize OrderDetailDICTPass;
-@synthesize Discount_LBL,Discount_TXT,DiscountView;
+@synthesize Discount_LBL,Discount_TXT,DiscountView,Discount_BTN;
 
 @synthesize CustomerPhoneLBL,CustomerAdressLBL,CutomerNameLBL,CustomerStateCityLBL;
 
@@ -34,9 +34,18 @@
     return UIStatusBarStyleLightContent;
 }
 
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [IQKeyboardManager sharedManager].shouldHidePreviousNext = YES;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    Discount_BTN.layer.cornerRadius=2.0f;   
     
     DiscountView.hidden=YES;
     CustomerPhoneLBL.text=@"";
@@ -631,6 +640,19 @@
         NSInteger tempGrant=0;
         tempGrant=GrandAmount-[theTextField.text integerValue];
         self.DiscountGrandTotal_LBL.text=[NSString stringWithFormat:@"%ld Rs",(long)tempGrant];
+    }
+}
+- (IBAction)DiscountBTN_Click:(id)sender
+{
+    if ([Discount_BTN.titleLabel.text isEqualToString:@"%"])
+    {
+        [Discount_BTN setTitle:@"RS" forState:UIControlStateNormal];
+        [Discount_BTN setBackgroundColor:[UIColor colorWithRed:246.0f/255.0f green:246.0f/255.0f blue:246.0f/255.0f alpha:1.0f]];
+    }
+    else
+    {
+        [Discount_BTN setTitle:@"%" forState:UIControlStateNormal];
+        [Discount_BTN setBackgroundColor:[UIColor colorWithRed:255.0f/255.0f green:178.0f/255.0f blue:55.0f/255.0f alpha:1.0f]];
     }
 }
 @end

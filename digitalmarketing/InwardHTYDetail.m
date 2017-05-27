@@ -148,7 +148,9 @@
     
     cell.ProductPrice.text=[[OrderProductDict valueForKey:@"product_price"] objectAtIndex:indexPath.section];
     
-    cell.ProductQTY.text=[[OrderProductDict valueForKey:@"receive_qty"] objectAtIndex:indexPath.section];
+    cell.Qnt_TXT.text=[[OrderProductDict valueForKey:@"receive_qty"] objectAtIndex:indexPath.section];
+    cell.Qnt_TXT.enabled=NO;
+    cell.QntLine_LBL.hidden=YES;
     cell.ProductAmount.text=[[OrderProductDict valueForKey:@"product_total"] objectAtIndex:indexPath.section];
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];

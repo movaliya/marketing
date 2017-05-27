@@ -15,4 +15,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *ProductQTY;
 @property (weak, nonatomic) IBOutlet UILabel *ProductAmount;
 
+@property (strong, nonatomic) IBOutlet UITextField *Qnt_TXT;
+@property (strong, nonatomic) IBOutlet UILabel *QntLine_LBL;
 @end

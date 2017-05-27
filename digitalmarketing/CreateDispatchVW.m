@@ -11,8 +11,9 @@
 #import "digitalMarketing.pch"
 #import "SerachProductVW.h"
 #import "OrderDetail_Cell.h"
+#import "IQKeyboardManager.h"
 
-@interface CreateDispatchVW ()<SerachProductVWDelegate>
+@interface CreateDispatchVW ()<SerachProductVWDelegate,UITextFieldDelegate>
 
 
 @end
@@ -31,6 +32,12 @@
 -(UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [IQKeyboardManager sharedManager].shouldHidePreviousNext = YES;
 }
 
 - (void)viewDidLoad
@@ -319,7 +326,10 @@
         
         cell.ProductPrice.text=[[ProductArry valueForKey:@"price"] objectAtIndex:indexPath.section];
         
-        cell.ProductQTY.text=[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section];
+        cell.Qnt_TXT.text=[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section];
+        cell.Qnt_TXT.tag=indexPath.section;
+        cell.QntLine_LBL.tag=indexPath.section;
+        cell.Qnt_TXT.delegate=self;
         
         NSInteger totalValue=[[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:indexPath.section] integerValue];
         cell.ProductAmount.text=[[ProductArry valueForKey:@"qty"] objectAtIndex:indexPath.section];
@@ -371,14 +381,11 @@
         return 44;
     }
     return 50;
-    
 }
 
 - (void)ChkProductValue:(NSMutableArray *)ProductDict
 {
-    // NSLog(@"value====%@",ProductDict);
     
-    // NSString *jsonString = [ProductDict JSONRepresentation];
     ProductArry=[[NSMutableArray alloc]initWithArray:ProductDict];
     
     totalAmount=0;
@@ -400,6 +407,7 @@
     [ProductTBL reloadData];
     
 }
+
 - (IBAction)CreateDispatch_Action:(id)sender
 {
     if ([CutomerID isEqualToString:@""])
@@ -412,7 +420,25 @@
     }
     else
     {
-        MoreDetail_MainView.hidden=NO;
+        BOOL Chk = NO;
+        for (int i=0; i<ProductArry.count; i++)
+        {
+            if ([[[ProductArry objectAtIndex:i] valueForKey:@"product_stock"] rangeOfString:@"-"].location == NSNotFound || [[[ProductArry objectAtIndex:i] valueForKey:@"product_stock"] rangeOfString:@"0"].location == NSNotFound)
+            {
+                Chk=NO;
+                break;
+                [AppDelegate showErrorMessageWithTitle:AlertTitleError message:[NSString stringWithFormat:@"Selected product quantity not available in stock."] delegate:nil];
+            }
+            else
+            {
+                 Chk=YES;
+                NSLog(@"string contains bla!");
+            }
+        }
+        if (Chk==YES)
+        {
+            MoreDetail_MainView.hidden=NO;
+        }
     }
 }
 
@@ -444,13 +470,12 @@
     [dictParams setObject:Remark_TextView.text  forKey:@"remark"];
     [dictParams setObject:ProductJSONString  forKey:@"product"];
     
-    
-    
     [CommonWS AAwebserviceWithURL:[NSString stringWithFormat:@"%@",BaseUrl] withParam:dictParams withCompletion:^(NSDictionary *response, BOOL success1)
      {
          [self handleDispatchResponse:response];
      }];
 }
+
 - (void)handleDispatchResponse:(NSDictionary*)response
 {
     if ([[[response objectForKey:@"ack"]stringValue ] isEqualToString:@"1"])
@@ -463,6 +488,7 @@
         [AppDelegate showErrorMessageWithTitle:AlertTitleError message:[response objectForKey:@"ack_msg"] delegate:nil];
     }
 }
+
 - (IBAction)MoreDetail_Ok_Action:(id)sender
 {
     MoreDetail_MainView.hidden=YES;
@@ -475,6 +501,7 @@
     else
         [AppDelegate showErrorMessageWithTitle:@"" message:@"Please check your internet connection or try again later." delegate:nil];
 }
+
 - (IBAction)MoreDetail_Cancel_Action:(id)sender
 {
     MoreDetail_MainView.hidden=YES;
@@ -487,6 +514,7 @@
     else
         [AppDelegate showErrorMessageWithTitle:@"" message:@"Please check your internet connection or try again later." delegate:nil];
 }
+
 -(void) dateTextField:(id)sender
 {
     UIDatePicker *picker = (UIDatePicker*)SelectDate_TXT.inputView;
@@ -523,23 +551,142 @@
     [textView resignFirstResponder];
     
 }
-- (void)didReceiveMemoryWarning {
+
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 - (IBAction)BackBtn_Action:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    return YES;
 }
-*/
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    // NSIndexPath *pathOfTheCell=[NSIndexPath indexPathForRow:0 inSection:[sender tag]];
+    // OfferzoneCell *cell = (OfferzoneCell *)[TBL cellForRowAtIndexPath:pathOfTheCell];
+    
+    for (UIView *view in ProductTBL.subviews)
+    {
+        for (OrderDetail_Cell *cell in view.subviews)
+        {
+            if (cell.QntLine_LBL.tag==textField.tag)
+            {
+                cell.QntLine_LBL.backgroundColor=[UIColor colorWithRed:62.0f/255.0f green:64.0f/255.0f blue:149.0f/255.0f alpha:1.0f];
+            }
+            else
+            {
+                cell.QntLine_LBL.backgroundColor=[UIColor colorWithRed:117.0f/255.0f green:117.0f/255.0f blue:117.0f/255.0f alpha:1.0f];
+            }
+        }
+    }
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    for (UIView *view in ProductTBL.subviews)
+    {
+        for (OrderDetail_Cell *cell in view.subviews)
+        {
+            cell.QntLine_LBL.backgroundColor=[UIColor colorWithRed:117.0f/255.0f green:117.0f/255.0f blue:117.0f/255.0f alpha:1.0f];
+        }
+    }
+    if ([textField.text isEqualToString:@""])
+    {
+        [ProductTBL reloadData];
+    }
+    else
+    {
+        NSString *Stock = [[ProductArry objectAtIndex:textField.tag] valueForKey:@"product_stock"];
+        if ([Stock floatValue]>=[textField.text floatValue])
+        {
+            NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
+            NSDictionary *oldDict = (NSDictionary *)[ProductArry objectAtIndex:textField.tag];
+            [newDict addEntriesFromDictionary:oldDict];
+            [newDict setObject:textField.text forKey:@"qty"];
+            [ProductArry replaceObjectAtIndex:textField.tag withObject:newDict];
+            
+            totalAmount=0;
+            totalQTY=0;
+            GrandAmount=0;
+            for (NSInteger jj=0; jj<ProductArry.count; jj++)
+            {
+                totalAmount=totalAmount+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:jj] integerValue];
+                
+                totalQTY=totalQTY+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue];
+            }
+            //  GrandAmount=totalAmount-DiscoutINT;
+            //self.Discount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",DiscoutINT];
+            self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%ld",(long)totalQTY];
+            //self.TotalAmount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
+            self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)GrandAmount];
+            NSError * err;
+            NSData * jsonData = [NSJSONSerialization dataWithJSONObject:ProductArry options:0 error:&err];
+            ProductJSONString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        }
+        else
+        {
+            [AppDelegate showErrorMessageWithTitle:AlertTitleError message:[NSString stringWithFormat:@"%@ Qnt not available in stock.",textField.text] delegate:nil];
+        }
+        [ProductTBL reloadData];
+    }
+    
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    NSString *fulltext = [textField.text stringByAppendingString:string];
+    NSString *charactersSetString = @"0123456789.";
+    
+    
+    NSCharacterSet *numbersOnly = [NSCharacterSet characterSetWithCharactersInString:charactersSetString];
+    NSCharacterSet *characterSetFromTextField = [NSCharacterSet characterSetWithCharactersInString:fulltext];
+    
+    // If typed character is out of Set, ignore it.
+    BOOL stringIsValid = [numbersOnly isSupersetOfSet:characterSetFromTextField];
+    if(!stringIsValid) {
+        return NO;
+    }
+    
+    
+        NSString *currentText = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        
+        // Change the "," (appears in other locale keyboards, such as russian) key ot "."
+        currentText = [currentText stringByReplacingOccurrencesOfString:@"," withString:@"."];
+        
+        // Check the statements of decimal value.
+        if([fulltext isEqualToString:@"."]) {
+            textField.text = @"0.";
+            return NO;
+        }
+        
+        if([fulltext rangeOfString:@".."].location != NSNotFound) {
+            textField.text = [fulltext stringByReplacingOccurrencesOfString:@".." withString:@"."];
+            return NO;
+        }
+        
+        // If second dot is typed, ignore it.
+        NSArray *dots = [fulltext componentsSeparatedByString:@"."];
+        if(dots.count > 2) {
+            textField.text = currentText;
+            return NO;
+        }
+        
+        // If first character is zero and second character is > 0, replace first with second. 05 => 5;
+        if(fulltext.length == 2) {
+            if([[fulltext substringToIndex:1] isEqualToString:@"0"] && ![fulltext isEqualToString:@"0."]) {
+                textField.text = [fulltext substringWithRange:NSMakeRange(1, 1)];
+                return NO;
+            }
+        }
+    return YES;
+}
 
 @end
