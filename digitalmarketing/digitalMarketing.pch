@@ -26,8 +26,10 @@
 
 
 // URL Implement
+//#define BaseUrl @"http://craftboxtechnology.com/server/digital_marketing_tool/service/service_user.php"
 
-#define BaseUrl @"http://craftboxtechnology.com/server/digital_marketing_tool/service/service_user.php"
+#define BaseUrl @"http://krishnaagency.info/service/service_user.php"
+
 #define Base_Key @"1226"
 
 
