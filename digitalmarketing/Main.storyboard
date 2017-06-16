@@ -2506,6 +2506,7 @@
                         <outlet property="CutomerName" destination="trz-S9-zxf" id="iaz-fc-KBV"/>
                         <outlet property="DetailBackView" destination="Zab-7c-Eat" id="ajN-oN-W2q"/>
                         <outlet property="Discount" destination="WCl-sg-p2D" id="Z6c-fD-Mso"/>
+                        <outlet property="Edit_Btn" destination="NhA-8G-esl" id="rQi-em-OKm"/>
                         <outlet property="GrandTotal" destination="rSB-Vm-ucq" id="FqR-AC-bY8"/>
                         <outlet property="OrderDate" destination="9Ae-I9-eZl" id="8kS-dF-GVd"/>
                         <outlet property="OrderDetailTable" destination="jOh-zb-3ki" id="ufn-bb-Zg7"/>
@@ -3889,6 +3890,7 @@
                         <outlet property="CutomerName" destination="vrQ-vc-GQi" id="Ent-3r-FNf"/>
                         <outlet property="DetailBackView" destination="VlG-Px-ZoV" id="8kb-LH-OCq"/>
                         <outlet property="Discount" destination="0V3-Ge-RPa" id="0yM-xg-B9e"/>
+                        <outlet property="Edit_Btn" destination="hnO-Ce-ddf" id="bOc-0g-7W6"/>
                         <outlet property="GrandTotal" destination="vc4-Yh-sYY" id="umL-jl-IUK"/>
                         <outlet property="OrderDate" destination="k2r-aC-eB7" id="iyF-dE-pC1"/>
                         <outlet property="OrderDetailTable" destination="XNA-24-BF2" id="lay-dh-2ck"/>

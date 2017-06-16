@@ -28,6 +28,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    NSDictionary *UserSaveData=[[NSUserDefaults standardUserDefaults]objectForKey:@"LoginUserDic"];
+    if ([[UserSaveData valueForKey:@"update_flag"] isEqualToString:@"0"])
+    {
+        self.Edit_Btn.hidden=YES;
+    }
+    
+    
     [DetailBackView.layer setCornerRadius:3.0f];
     DetailBackView.layer.borderWidth = 1.0f;
     [DetailBackView.layer setMasksToBounds:YES];

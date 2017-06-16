@@ -12,6 +12,7 @@
 {
     NSDictionary *OrderDetailDict,*OrderProductDict;
 }
+@property (weak, nonatomic) IBOutlet UIButton *Edit_Btn;
 
 @property (strong, nonatomic) NSString *Dispatch_id;
 @property (weak, nonatomic) IBOutlet UIView *DetailBackView;
