@@ -492,6 +492,14 @@
     NSData * jsonData = [NSJSONSerialization dataWithJSONObject:ProductArry options:0 error:&err];
     ProductJSONString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     
+    NSMutableArray *NewArr=[[NSMutableArray alloc]init];
+    NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
+    NSDictionary *oldDict = (NSDictionary *)[ProductDict objectAtIndex:0];
+    [newDict addEntriesFromDictionary:oldDict];
+    [newDict removeObjectForKey:@"product_stock"];
+    [NewArr addObject:newDict];
+    
+    
     [ProductTBL reloadData];
     
 }
