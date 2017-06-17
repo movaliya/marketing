@@ -488,9 +488,7 @@
     self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%ld",(long)totalQTY];
     self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
     
-    NSError * err;
-    NSData * jsonData = [NSJSONSerialization dataWithJSONObject:ProductArry options:0 error:&err];
-    ProductJSONString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
     
     NSMutableArray *NewArr=[[NSMutableArray alloc]init];
     NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
@@ -498,6 +496,10 @@
     [newDict addEntriesFromDictionary:oldDict];
     [newDict removeObjectForKey:@"product_stock"];
     [NewArr addObject:newDict];
+    
+    NSError * err;
+    NSData * jsonData = [NSJSONSerialization dataWithJSONObject:NewArr options:0 error:&err];
+    ProductJSONString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     
     
     [ProductTBL reloadData];
@@ -723,8 +725,16 @@
             self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%ld",(long)totalQTY];
             //self.TotalAmount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
             self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
+            
+            NSMutableArray *NewArr=[[NSMutableArray alloc]init];
+            NSMutableDictionary *newDict1 = [[NSMutableDictionary alloc] init];
+            NSDictionary *oldDict1 = (NSDictionary *)[ProductArry objectAtIndex:0];
+            [newDict1 addEntriesFromDictionary:oldDict1];
+            [newDict1 removeObjectForKey:@"product_stock"];
+            [NewArr addObject:newDict1];
+            
             NSError * err;
-            NSData * jsonData = [NSJSONSerialization dataWithJSONObject:ProductArry options:0 error:&err];
+            NSData * jsonData = [NSJSONSerialization dataWithJSONObject:NewArr options:0 error:&err];
             ProductJSONString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         }
         else
