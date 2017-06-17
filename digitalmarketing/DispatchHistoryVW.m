@@ -126,6 +126,7 @@
 
     cell.TotalQTY.text=[NSString stringWithFormat:@"Nos.%@",[[DispatchHistyDict valueForKey:@"total_qty"] objectAtIndex:indexPath.section]];
     cell.GrandTotal.text=[NSString stringWithFormat:@"Rs.%@",[[DispatchHistyDict valueForKey:@"grand_total"] objectAtIndex:indexPath.section]];
+    cell.Store_Name.text=[NSString stringWithFormat:@"%@",[[DispatchHistyDict valueForKey:@"store_name"] objectAtIndex:indexPath.section]];
     
     [cell setNeedsUpdateConstraints];
     [cell updateConstraintsIfNeeded];

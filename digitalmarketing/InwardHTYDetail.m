@@ -18,7 +18,7 @@
 
 @implementation InwardHTYDetail
 @synthesize DetailBackView,CutomerName,OrderDate,OrderStatus,OrderNamuber,TotalAmount,TotalQTY,GrandTotal,Discount;
-@synthesize TitleBackView,OrderDetailTable;
+@synthesize TitleBackView,OrderDetailTable,Store_Name;
 
 -(UIStatusBarStyle)preferredStatusBarStyle
 {
@@ -97,7 +97,7 @@
         
         OrderDetailDict=[response valueForKey:@"result"];
         OrderProductDict=[OrderDetailDict valueForKey:@"products"];
-        
+        Store_Name.text=[OrderDetailDict valueForKey:@"store_name"];
         CutomerName.text=[OrderDetailDict valueForKey:@"vendor_name"];
         OrderNamuber.text=[NSString stringWithFormat:@"Inward Number :#%@",[OrderDetailDict valueForKey:@"id"]];
         OrderDate.text=[NSString stringWithFormat:@"Inward Date :%@",[OrderDetailDict valueForKey:@"adate"]];

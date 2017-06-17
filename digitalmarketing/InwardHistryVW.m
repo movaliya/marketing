@@ -112,6 +112,8 @@
     cell.TotalQTY.text=[NSString stringWithFormat:@"Nos.%@",[[InwardHistyDict valueForKey:@"total_qty"] objectAtIndex:indexPath.section]];
     cell.GrandTotal.text=[NSString stringWithFormat:@"Rs.%@",[[InwardHistyDict valueForKey:@"grand_total"] objectAtIndex:indexPath.section]];
     
+    cell.store_Name.text=[NSString stringWithFormat:@"%@",[[InwardHistyDict valueForKey:@"store_name"] objectAtIndex:indexPath.section]];
+    
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     return cell;
 }

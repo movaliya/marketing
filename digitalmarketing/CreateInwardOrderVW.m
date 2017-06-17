@@ -20,7 +20,7 @@
 @synthesize CreateOrderBtn,CutomerView,CustomerTBL,SelectCutomer_Button;
 @synthesize ProductTBL;
 @synthesize TitleTop1,TitleTop2,TitleTop3,TitleTop4,TitleHight;
-
+@synthesize SelectStore_BTN,Store_PopUp_View,Store_TBL;
 
 @synthesize CustomerPhoneLBL,CustomerAdressLBL,CutomerNameLBL,CustomerStateCityLBL;
 
@@ -51,6 +51,7 @@
     TitleHight.constant=10;
     
     CheckSUCCESS=NO;
+    CheckSTORELOAD=NO;
     [SelectCustomerBackView.layer setCornerRadius:3.0f];
     SelectCustomerBackView.layer.borderWidth = 1.0f;
     SelectCustomerBackView.layer.borderColor = [UIColor clearColor].CGColor;
@@ -91,6 +92,7 @@
     [CutomerView.layer setShadowOffset:CGSizeMake(10,10)];
     
     CutomerView.hidden=YES;
+    Store_PopUp_View.hidden=YES;
     CutomerID=@"";
     
     UINib *nib = [UINib nibWithNibName:@"UpdateInwardCell" bundle:nil];
@@ -128,6 +130,14 @@
         [AppDelegate showErrorMessageWithTitle:AlertTitleError message:[response objectForKey:@"ack_msg"] delegate:nil];
     }
 }
+- (IBAction)Select_Store_Action:(id)sender
+{
+    Store_PopUp_View.hidden=NO;
+    if (CheckSTORELOAD==NO)
+    {
+        [self getStorDetail];
+    }
+}
 
 -(void)getStorDetail
 {
@@ -144,11 +154,13 @@
 {
     if ([[[response objectForKey:@"ack"]stringValue ] isEqualToString:@"1"])
     {
-        
+        CheckSTORELOAD=YES;
+        storeDict=[response valueForKey:@"result"];
+        [Store_TBL reloadData];
     }
     else
     {
-        [CustomerTBL reloadData];
+        [Store_TBL reloadData];
         [AppDelegate showErrorMessageWithTitle:AlertTitleError message:[response objectForKey:@"ack_msg"] delegate:nil];
     }
 }
@@ -175,6 +187,10 @@
     {
         return 1;
     }
+    else if (tableView==Store_TBL)
+    {
+        return 1;
+    }
     else
     {
         return ProductArry.count;
@@ -187,6 +203,10 @@
     {
         return customerDict.count;
     }
+    else if (tableView==Store_TBL)
+    {
+        return storeDict.count;
+    }
     else
     {
         return 1;
@@ -196,6 +216,10 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (tableView==CustomerTBL)
+    {
+        return 1;
+    }
+    else if (tableView==Store_TBL)
     {
         return 1;
     }
@@ -247,6 +271,35 @@
             titleLBL.font=[UIFont systemFontOfSize:13.0f];
         }
         titleLBL.text=[[customerDict valueForKey:@"cname"] objectAtIndex:indexPath.row];
+        [cell addSubview:titleLBL];
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        return cell;
+    }
+    else if (tableView==Store_TBL)
+    {
+        static NSString *CellIdentifier = @"Cell";
+        UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        cell=nil;
+        if (cell == nil)
+        {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+            cell.accessoryView = nil;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        
+        UILabel *titleLBL=[[UILabel alloc]initWithFrame:CGRectMake(30, 0, 300, 30)];
+        titleLBL.textColor=[UIColor colorWithRed:(132/255.0) green:(132/255.0) blue:(132/255.0) alpha:1.0];
+        //titleLBL.backgroundColor=[UIColor redColor];
+        
+        if (IS_IPHONE_4 || isIPhone5)
+        {
+            titleLBL.font=[UIFont systemFontOfSize:11.5f];
+        }
+        else
+        {
+            titleLBL.font=[UIFont systemFontOfSize:13.0f];
+        }
+        titleLBL.text=[[storeDict valueForKey:@"name"] objectAtIndex:indexPath.row];
         [cell addSubview:titleLBL];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         return cell;
@@ -314,6 +367,12 @@
         [self.view updateConstraintsIfNeeded];
         
     }
+    if (tableView==Store_TBL)
+    {
+        Store_PopUp_View.hidden=YES;
+        StoreID=[[storeDict valueForKey:@"id"]objectAtIndex:indexPath.row ];
+        [self.SelectStore_BTN setTitle:[[storeDict valueForKey:@"name"]objectAtIndex:indexPath.row ]forState:UIControlStateNormal];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -322,14 +381,28 @@
     {
         return 44;
     }
+    else if (tableView==Store_TBL)
+    {
+        return 30;
+    }
     return 50;
     
 }
 - (IBAction)SearchProBtn_action:(id)sender
 {
-    SerachProductVW *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"SerachProductVW"];
-    vcr.delegate=self;
-    [self.navigationController pushViewController:vcr animated:YES];
+    if (StoreID.length!=0)
+    {
+        SerachProductVW *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"SerachProductVW"];
+        vcr.delegate=self;
+        vcr.CheckDispatch=@"INWARD";
+        vcr.DispatchCutomerID=StoreID;
+        [self.navigationController pushViewController:vcr animated:YES];
+    }
+    else
+    {
+        [AppDelegate showErrorMessageWithTitle:@"Alert..!" message:@"Please Select Store first." delegate:nil];
+    }
+    
 }
 
 - (void)ChkProductValue:(NSMutableArray *)ProductDict

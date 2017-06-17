@@ -10,16 +10,21 @@
 
 @interface CreateDispatchVW : UIViewController
 {
-    NSMutableDictionary *customerDict;
+    NSMutableDictionary *customerDict,*storeDict;
     NSMutableArray *ProductArry;
 
     NSString *CutomerID;
+    NSString *StoreID;
     NSInteger totalAmount;
     NSInteger GrandAmount;
     NSInteger totalQTY;
     NSString *ProductJSONString;
     BOOL CheckSUCCESS;
+    BOOL CheckStoreServiceBOOL;
 }
+@property (weak, nonatomic) IBOutlet UIButton *SelectStore_BTN;
+@property (weak, nonatomic) IBOutlet UIView *Store_PopupView;
+@property (weak, nonatomic) IBOutlet UITableView *StoreTBL;
 @property (weak, nonatomic) IBOutlet UIView *PopUpCustomerVW;
 @property (weak, nonatomic) IBOutlet UIView *CustomerVIEW;
 @property (weak, nonatomic) IBOutlet UIView *SearchProBackView;

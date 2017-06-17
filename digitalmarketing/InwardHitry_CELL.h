@@ -16,5 +16,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *OrderDate;
 @property (weak, nonatomic) IBOutlet UILabel *TotalQTY;
 @property (weak, nonatomic) IBOutlet UILabel *GrandTotal;
+@property (weak, nonatomic) IBOutlet UILabel *store_Name;
 
 @end

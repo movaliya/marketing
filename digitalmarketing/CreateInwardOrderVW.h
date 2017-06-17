@@ -10,7 +10,7 @@
 
 @interface CreateInwardOrderVW : UIViewController
 {
-    NSDictionary *customerDict;
+    NSDictionary *customerDict,*storeDict;
     NSMutableArray *ProductArry;
     NSString *CutomerID;
     
@@ -18,7 +18,12 @@
     NSInteger totalQTY;
     NSString *ProductJSONString;
     BOOL CheckSUCCESS;
+     BOOL CheckSTORELOAD;
+    NSString *StoreID;
 }
+@property (weak, nonatomic) IBOutlet UIButton *SelectStore_BTN;
+@property (weak, nonatomic) IBOutlet UITableView *Store_TBL;
+@property (weak, nonatomic) IBOutlet UIView *Store_PopUp_View;
 @property (weak, nonatomic) IBOutlet UIButton *SelectCutomer_Button;
 @property (weak, nonatomic) IBOutlet UIView *SelectCustomerBackView;
 @property (weak, nonatomic) IBOutlet UIView *SearchProBackView;

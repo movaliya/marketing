@@ -13,6 +13,7 @@
     NSDictionary *OrderDetailDict,*OrderProductDict;
 }
 @property (weak, nonatomic) IBOutlet UIButton *Edit_Btn;
+@property (weak, nonatomic) IBOutlet UILabel *Store_Name;
 
 @property (strong, nonatomic) NSString *inward_id;
 @property (weak, nonatomic) IBOutlet UIView *DetailBackView;

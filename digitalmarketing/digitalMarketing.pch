@@ -64,6 +64,7 @@
 #define update_inward_store @"19"
 
 #define get_store @"36"
+#define get_store_product @"37"
 
 
 #define add_attendance @"35"

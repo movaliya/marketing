@@ -10,7 +10,7 @@
 
 @interface Updateinwardhistory : UIViewController
 {
-    NSDictionary *customerDict;
+    NSDictionary *customerDict,*storeDict;
     NSMutableArray *ProductArry;
     NSString *vendor_id;
     NSString *Inward_id;
@@ -18,9 +18,15 @@
     NSInteger totalAmount;
     NSInteger totalQTY;
     NSString *ProductJSONString;
-    BOOL CheckSUCCESS;
+    BOOL CheckSUCCESS,CheckSTORELOAD;
+    NSString *StoreID;
+    
+    
 
 }
+@property (weak, nonatomic) IBOutlet UITableView *Store_TBL;
+@property (weak, nonatomic) IBOutlet UIButton *Select_Store_BTN;
+@property (weak, nonatomic) IBOutlet UIView *store_Popup_View;
 @property (strong, nonatomic) NSMutableDictionary *InwardDetailDICTPass;
 
 @property (weak, nonatomic) IBOutlet UIButton *SelectCutomer_Button;

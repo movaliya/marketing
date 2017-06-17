@@ -28,7 +28,7 @@
 @synthesize TitleTop1,TitleTop2,TitleTop3,TitleTop4,TitleHight;
 
 @synthesize SelectDate_TXT,SelectDateView,LrNumber_TXT,LRNumber_View,Remark_view,Remark_TextView,MoreDetail_OK_Btn,MoreDetail_Cancel_Btn,AddMorDetail_view,MoreDetail_MainView;
-
+@synthesize StoreTBL,Store_PopupView;
 -(UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;
@@ -59,6 +59,7 @@
     
     
     CheckSUCCESS=NO;
+    CheckStoreServiceBOOL=NO;
     [CustomerVIEW.layer setCornerRadius:3.0f];
     CustomerVIEW.layer.borderWidth = 1.0f;
     CustomerVIEW.layer.borderColor = [UIColor clearColor].CGColor;
@@ -99,6 +100,7 @@
     [PopUpCustomerVW.layer setShadowOffset:CGSizeMake(10,10)];
     
     PopUpCustomerVW.hidden=YES;
+    Store_PopupView.hidden=YES;
     CutomerID=@"";
     
     UINib *nib = [UINib nibWithNibName:@"OrderDetail_Cell" bundle:nil];
@@ -212,6 +214,15 @@
         [AppDelegate showErrorMessageWithTitle:AlertTitleError message:[response objectForKey:@"ack_msg"] delegate:nil];
     }
 }
+- (IBAction)Select_Store_Action:(id)sender
+{
+    Store_PopupView.hidden=NO;
+    if (CheckStoreServiceBOOL==NO)
+    {
+        [self getStorDetail];
+    }
+    
+}
 
 -(void)getStorDetail
 {
@@ -228,28 +239,30 @@
 {
     if ([[[response objectForKey:@"ack"]stringValue ] isEqualToString:@"1"])
     {
-        
+        CheckStoreServiceBOOL=YES;
+        storeDict=[response valueForKey:@"result"];
+        [StoreTBL reloadData];
     }
     else
     {
-        [CustomerTBL reloadData];
+        [StoreTBL reloadData];
         [AppDelegate showErrorMessageWithTitle:AlertTitleError message:[response objectForKey:@"ack_msg"] delegate:nil];
     }
 }
 
 - (IBAction)Search_Pro_Btn_Action:(id)sender
 {
-    if (customerDict.count!=0)
+    if (StoreID.length!=0)
     {
         SerachProductVW *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"SerachProductVW"];
         vcr.delegate=self;
         vcr.CheckDispatch=@"DISPATCH";
-        vcr.DispatchCutomerID=CutomerID;
+        vcr.DispatchCutomerID=StoreID;
         [self.navigationController pushViewController:vcr animated:YES];
     }
     else
     {
-        [AppDelegate showErrorMessageWithTitle:@"Alert..!" message:@"Please Select Customer first." delegate:nil];
+        [AppDelegate showErrorMessageWithTitle:@"Alert..!" message:@"Please Select Store first." delegate:nil];
     }
     
 }
@@ -257,6 +270,10 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     if (tableView==CustomerTBL)
+    {
+        return 1;
+    }
+   else if (tableView==StoreTBL)
     {
         return 1;
     }
@@ -272,6 +289,10 @@
     {
         return customerDict.count;
     }
+    else if (tableView==StoreTBL )
+    {
+        return storeDict.count;
+    }
     else
     {
         return 1;
@@ -281,6 +302,10 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (tableView==CustomerTBL)
+    {
+        return 1;
+    }
+    else if (tableView==StoreTBL)
     {
         return 1;
     }
@@ -332,6 +357,35 @@
             titleLBL.font=[UIFont systemFontOfSize:13.0f];
         }
         titleLBL.text=[[customerDict valueForKey:@"cname"] objectAtIndex:indexPath.row];
+        [cell addSubview:titleLBL];
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        return cell;
+    }
+    else if (tableView==StoreTBL)
+    {
+        static NSString *CellIdentifier = @"Cell";
+        UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        cell=nil;
+        if (cell == nil)
+        {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+            cell.accessoryView = nil;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        
+        UILabel *titleLBL=[[UILabel alloc]initWithFrame:CGRectMake(30, 0, 300, 30)];
+        titleLBL.textColor=[UIColor colorWithRed:(132/255.0) green:(132/255.0) blue:(132/255.0) alpha:1.0];
+        //titleLBL.backgroundColor=[UIColor redColor];
+        
+        if (IS_IPHONE_4 || isIPhone5)
+        {
+            titleLBL.font=[UIFont systemFontOfSize:11.5f];
+        }
+        else
+        {
+            titleLBL.font=[UIFont systemFontOfSize:13.0f];
+        }
+        titleLBL.text=[[storeDict valueForKey:@"name"] objectAtIndex:indexPath.row];
         [cell addSubview:titleLBL];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         return cell;
@@ -395,7 +449,13 @@
         
         [self.view setNeedsUpdateConstraints];
         [self.view updateConstraintsIfNeeded];
-        
+    }
+    
+    if (tableView==StoreTBL)
+    {
+        Store_PopupView.hidden=YES;
+        StoreID=[[storeDict valueForKey:@"id"]objectAtIndex:indexPath.row ];
+        [self.SelectStore_BTN setTitle:[[storeDict valueForKey:@"name"]objectAtIndex:indexPath.row ]forState:UIControlStateNormal];
     }
 }
 
@@ -405,6 +465,10 @@
     {
         return 44;
     }
+    else if (tableView==StoreTBL)
+    {
+        return 30;
+    }
     return 50;
 }
 
@@ -412,7 +476,6 @@
 {
     
     ProductArry=[[NSMutableArray alloc]initWithArray:ProductDict];
-    
     totalAmount=0;
     totalQTY=0;
     for (NSInteger jj=0; jj<ProductArry.count; jj++)
@@ -651,7 +714,7 @@
             //self.Discount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",DiscoutINT];
             self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%ld",(long)totalQTY];
             //self.TotalAmount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
-            self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)GrandAmount];
+            self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
             NSError * err;
             NSData * jsonData = [NSJSONSerialization dataWithJSONObject:ProductArry options:0 error:&err];
             ProductJSONString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];

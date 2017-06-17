@@ -23,6 +23,7 @@
 @synthesize TitleTop1,TitleTop2,TitleTop3,TitleTop4,TitleHight;
 @synthesize CustomerPhoneLBL,CustomerAdressLBL,CutomerNameLBL,CustomerStateCityLBL;
 @synthesize InwardDetailDICTPass;
+@synthesize Store_TBL,Select_Store_BTN,store_Popup_View;
 
 -(UIStatusBarStyle)preferredStatusBarStyle
 {
@@ -50,6 +51,7 @@
     TitleHight.constant=10;
     
     CheckSUCCESS=NO;
+    CheckSTORELOAD=NO;
     [SelectCustomerBackView.layer setCornerRadius:3.0f];
     SelectCustomerBackView.layer.borderWidth = 1.0f;
     SelectCustomerBackView.layer.borderColor = [UIColor clearColor].CGColor;
@@ -90,6 +92,8 @@
     [CutomerView.layer setShadowOffset:CGSizeMake(10,10)];
     
     CutomerView.hidden=YES;
+    store_Popup_View.hidden=YES;
+    
     vendor_id=@"";
     Inward_id=@"";
     
@@ -128,6 +132,9 @@
     self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%@",[InwardDetailDICTPass valueForKey:@"total_qty"]];
     self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%@",[InwardDetailDICTPass valueForKey:@"grand_total"]];
     
+    StoreID=[InwardDetailDICTPass valueForKey:@"store_id"];
+    [self.Select_Store_BTN setTitle:[InwardDetailDICTPass valueForKey:@"store_name"]forState:UIControlStateNormal];
+
     NSMutableDictionary *ProductDictPass=[InwardDetailDICTPass valueForKey:@"products"];
     NSMutableArray *tempArray=[[NSMutableArray alloc]init];
     for (int ii=0; ii<ProductDictPass.count; ii++)
@@ -137,6 +144,7 @@
         [Productdict setObject:[[ProductDictPass valueForKey:@"id"]objectAtIndex:ii] forKey:@"id"];
         [Productdict setObject:[[ProductDictPass valueForKey:@"product_price"]objectAtIndex:ii] forKey:@"price"];
         [Productdict setObject:[[ProductDictPass valueForKey:@"receive_qty"]objectAtIndex:ii] forKey:@"qty"];
+        [Productdict setObject:[[ProductDictPass valueForKey:@"store_id"]objectAtIndex:ii] forKey:@"store_id"];
         [tempArray addObject:Productdict];
     }
     
@@ -196,11 +204,47 @@
     else
         [AppDelegate showErrorMessageWithTitle:@"" message:@"Please check your internet connection or try again later." delegate:nil];
 }
-
+- (IBAction)Select_Store_Action:(id)sender
+{
+    store_Popup_View.hidden=NO;
+    if (CheckSTORELOAD==NO)
+    {
+        [self getStorDetail];
+    }
+}
+-(void)getStorDetail
+{
+    NSMutableDictionary *dictParams = [[NSMutableDictionary alloc] init];
+    [dictParams setObject:Base_Key  forKey:@"key"];
+    [dictParams setObject:get_store  forKey:@"s"];
+    
+    [CommonWS AAwebserviceWithURL:[NSString stringWithFormat:@"%@",BaseUrl] withParam:dictParams withCompletion:^(NSDictionary *response, BOOL success1)
+     {
+         [self handleStorResponse:response];
+     }];
+}
+- (void)handleStorResponse:(NSDictionary*)response
+{
+    if ([[[response objectForKey:@"ack"]stringValue ] isEqualToString:@"1"])
+    {
+        CheckSTORELOAD=YES;
+        storeDict=[response valueForKey:@"result"];
+        [Store_TBL reloadData];
+    }
+    else
+    {
+        [Store_TBL reloadData];
+        [AppDelegate showErrorMessageWithTitle:AlertTitleError message:[response objectForKey:@"ack_msg"] delegate:nil];
+    }
+}
 #pragma mark UITableView delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     if (tableView==CustomerTBL)
+    {
+        return 1;
+    }
+    else if (tableView==Store_TBL)
     {
         return 1;
     }
@@ -216,6 +260,10 @@
     {
         return customerDict.count;
     }
+    else if (tableView==Store_TBL)
+    {
+        return storeDict.count;
+    }
     else
     {
         return 1;
@@ -225,6 +273,10 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (tableView==CustomerTBL)
+    {
+        return 1;
+    }
+    else if (tableView==Store_TBL)
     {
         return 1;
     }
@@ -276,6 +328,35 @@
             titleLBL.font=[UIFont systemFontOfSize:13.0f];
         }
         titleLBL.text=[[customerDict valueForKey:@"cname"] objectAtIndex:indexPath.row];
+        [cell addSubview:titleLBL];
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        return cell;
+    }
+    else if (tableView==Store_TBL)
+    {
+        static NSString *CellIdentifier = @"Cell";
+        UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        cell=nil;
+        if (cell == nil)
+        {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+            cell.accessoryView = nil;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        
+        UILabel *titleLBL=[[UILabel alloc]initWithFrame:CGRectMake(30, 0, 300, 30)];
+        titleLBL.textColor=[UIColor colorWithRed:(132/255.0) green:(132/255.0) blue:(132/255.0) alpha:1.0];
+        //titleLBL.backgroundColor=[UIColor redColor];
+        
+        if (IS_IPHONE_4 || isIPhone5)
+        {
+            titleLBL.font=[UIFont systemFontOfSize:11.5f];
+        }
+        else
+        {
+            titleLBL.font=[UIFont systemFontOfSize:13.0f];
+        }
+        titleLBL.text=[[storeDict valueForKey:@"name"] objectAtIndex:indexPath.row];
         [cell addSubview:titleLBL];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         return cell;
@@ -355,6 +436,12 @@
         [self.view updateConstraintsIfNeeded];
         
     }
+    if (tableView==Store_TBL)
+    {
+        store_Popup_View.hidden=YES;
+        StoreID=[[storeDict valueForKey:@"id"]objectAtIndex:indexPath.row ];
+        [self.Select_Store_BTN setTitle:[[storeDict valueForKey:@"name"]objectAtIndex:indexPath.row ]forState:UIControlStateNormal];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -363,14 +450,28 @@
     {
         return 44;
     }
+    else if (tableView==Store_TBL)
+    {
+        return 30;
+    }
     return 50;
     
 }
 - (IBAction)SearchProBtn_action:(id)sender
 {
-    SerachProductVW *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"SerachProductVW"];
-    vcr.delegate=self;
-    [self.navigationController pushViewController:vcr animated:YES];
+    if (StoreID.length!=0)
+    {
+        SerachProductVW *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"SerachProductVW"];
+        vcr.delegate=self;
+        vcr.CheckDispatch=@"INWARD";
+        vcr.DispatchCutomerID=StoreID;
+        [self.navigationController pushViewController:vcr animated:YES];
+    }
+    else
+    {
+        [AppDelegate showErrorMessageWithTitle:@"Alert..!" message:@"Please Select Store first." delegate:nil];
+    }
+    
 }
 
 - (void)ChkProductValue:(NSMutableArray *)ProductDict
