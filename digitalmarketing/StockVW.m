@@ -108,7 +108,7 @@
     }
     cell.ProductName.text=[[StockDict valueForKey:@"material_name"]objectAtIndex:indexPath.section];
     cell.StockQTY_lbl.text=[NSString stringWithFormat:@"%@",[[StockDict valueForKey:@"stock_qty"]objectAtIndex:indexPath.section]];
-    cell.PendingQTY_lbl.text=[NSString stringWithFormat:@"%@",[[StockDict valueForKey:@"Order_remaining_qty"]objectAtIndex:indexPath.section]];
+    cell.PendingQTY_lbl.text=[NSString stringWithFormat:@"%@",[[StockDict valueForKey:@"order_remaining_qty"]objectAtIndex:indexPath.section]];
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     return cell;

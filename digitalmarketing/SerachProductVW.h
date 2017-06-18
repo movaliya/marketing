@@ -22,6 +22,7 @@
     BOOL SelectAll;
 }
 @property (strong, nonatomic) NSString *CheckDispatch;
+@property (strong, nonatomic) NSString *StoreID;
 @property (strong, nonatomic) NSString *DispatchCutomerID;
 
 @property (nonatomic, retain) id <SerachProductVWDelegate> delegate;

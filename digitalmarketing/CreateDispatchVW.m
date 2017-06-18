@@ -252,17 +252,22 @@
 
 - (IBAction)Search_Pro_Btn_Action:(id)sender
 {
-    if (StoreID.length!=0)
+    if (CutomerID.length==0)
+    {
+         [AppDelegate showErrorMessageWithTitle:@"Alert..!" message:@"Please Select Customer first." delegate:nil];
+    }
+    else if (StoreID.length==0)
+    {
+        [AppDelegate showErrorMessageWithTitle:@"Alert..!" message:@"Please Select Store first." delegate:nil];
+    }
+    else
     {
         SerachProductVW *vcr = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"SerachProductVW"];
         vcr.delegate=self;
         vcr.CheckDispatch=@"DISPATCH";
-        vcr.DispatchCutomerID=StoreID;
+        vcr.StoreID=StoreID;
+        vcr.DispatchCutomerID=CutomerID;
         [self.navigationController pushViewController:vcr animated:YES];
-    }
-    else
-    {
-        [AppDelegate showErrorMessageWithTitle:@"Alert..!" message:@"Please Select Store first." delegate:nil];
     }
     
 }
@@ -521,7 +526,7 @@
         BOOL Chk = NO;
         for (int i=0; i<ProductArry.count; i++)
         {
-            if ([[[ProductArry objectAtIndex:i] valueForKey:@"product_stock"] rangeOfString:@"-"].location == NSNotFound || [[[ProductArry objectAtIndex:i] valueForKey:@"product_stock"] rangeOfString:@"0"].location == NSNotFound)
+            if ([[[ProductArry objectAtIndex:i] valueForKey:@"product_stock"] isEqualToString:@"-"] || [[[ProductArry objectAtIndex:i] valueForKey:@"product_stock"] isEqualToString:@"0"])
             {
                 Chk=NO;
                 break;
@@ -578,11 +583,13 @@
 {
     if ([[[response objectForKey:@"ack"]stringValue ] isEqualToString:@"1"])
     {
+        [self.view endEditing:YES];
         [AppDelegate showErrorMessageWithTitle:AlertTitleError message:[response objectForKey:@"ack_msg"] delegate:nil];
         [self.navigationController popViewControllerAnimated:YES];
     }
     else
     {
+        [self.view endEditing:YES];
         [AppDelegate showErrorMessageWithTitle:AlertTitleError message:[response objectForKey:@"ack_msg"] delegate:nil];
     }
 }
@@ -658,7 +665,9 @@
 
 - (IBAction)BackBtn_Action:(id)sender
 {
+    [self.view endEditing:YES];
     [self.navigationController popViewControllerAnimated:YES];
+    
 }
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField
@@ -689,6 +698,7 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
+     [textField resignFirstResponder];
     for (UIView *view in ProductTBL.subviews)
     {
         for (OrderDetail_Cell *cell in view.subviews)
@@ -739,7 +749,9 @@
         }
         else
         {
-            [AppDelegate showErrorMessageWithTitle:AlertTitleError message:[NSString stringWithFormat:@"%@ Qnt not available in stock.",textField.text] delegate:nil];
+            
+            [AppDelegate showErrorMessageWithTitle:@"" message:[NSString stringWithFormat:@"%@ Qnt not available in stock.",textField.text] delegate:nil];
+           [textField resignFirstResponder];
         }
         [ProductTBL reloadData];
     }

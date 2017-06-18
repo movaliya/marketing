@@ -16,7 +16,7 @@
 
 @implementation SerachProductVW
 @synthesize SearchBR,SearchBackView,ProductTable;
-
+@synthesize StoreID;
 -(UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;
@@ -57,8 +57,8 @@
     if ([self.CheckDispatch isEqualToString:@"DISPATCH"])
     {
         [dictParams setObject:Base_Key  forKey:@"key"];
-        [dictParams setObject:get_store_product  forKey:@"s"];
-        [dictParams setObject:self.DispatchCutomerID  forKey:@"store_id"];
+        [dictParams setObject:Dispatch_Product  forKey:@"s"];
+        [dictParams setObject:self.DispatchCutomerID  forKey:@"customer_id"];
     }
     else if ([self.CheckDispatch isEqualToString:@"INWARD"])
     {
@@ -171,9 +171,9 @@
         }
         else
         {
-            cell.ProductNameLBL.text=[[ProductDict valueForKey:@"material_name"]objectAtIndex:indexPath.section-1];
-            cell.PriceLBL.text=[NSString stringWithFormat:@"%@",[[ProductDict valueForKey:@"sell_price"]objectAtIndex:indexPath.section-1]];
-            if ([[WithSelectArr objectAtIndex:indexPath.section-1] isEqualToString:[[ProductDict valueForKey:@"product_id"] objectAtIndex:indexPath.section-1]])
+            cell.ProductNameLBL.text=[[ProductDict valueForKey:@"pro_name"]objectAtIndex:indexPath.section-1];
+            cell.PriceLBL.text=[NSString stringWithFormat:@"%@",[[ProductDict valueForKey:@"unitprice"]objectAtIndex:indexPath.section-1]];
+            if ([[WithSelectArr objectAtIndex:indexPath.section-1] isEqualToString:[[ProductDict valueForKey:@"pro_id"] objectAtIndex:indexPath.section-1]])
             {
                 [cell.CheckBoxBtn setImage:[UIImage imageNamed:@"EnbleCheckBox"] forState:UIControlStateNormal];
             }
@@ -181,6 +181,19 @@
             {
                 [cell.CheckBoxBtn setImage:[UIImage imageNamed:@"UncheckBox"] forState:UIControlStateNormal];
             }
+        }
+    }
+    else if ([self.CheckDispatch isEqualToString:@"INWARD"])
+    {
+        cell.ProductNameLBL.text=[[ProductDict valueForKey:@"material_name"]objectAtIndex:indexPath.section];
+        cell.PriceLBL.text=[NSString stringWithFormat:@"%@",[[ProductDict valueForKey:@"sell_price"]objectAtIndex:indexPath.section]];
+        if ([[WithSelectArr objectAtIndex:indexPath.section] isEqualToString:[[ProductDict valueForKey:@"product_id"] objectAtIndex:indexPath.section]])
+        {
+            [cell.CheckBoxBtn setImage:[UIImage imageNamed:@"EnbleCheckBox"] forState:UIControlStateNormal];
+        }
+        else
+        {
+            [cell.CheckBoxBtn setImage:[UIImage imageNamed:@"UncheckBox"] forState:UIControlStateNormal];
         }
     }
     else
@@ -232,16 +245,16 @@
                     {
                         SelectAll=YES;
                         
-                        [WithSelectArr replaceObjectAtIndex:i withObject:[[Searchdic valueForKey:@"product_id"] objectAtIndex:i]];
+                        [WithSelectArr replaceObjectAtIndex:i withObject:[[Searchdic valueForKey:@"pro_id"] objectAtIndex:i]];
                         
                         NSMutableDictionary *Productdict = [[NSMutableDictionary alloc] init];
                         
-                        [Productdict setObject:[[Searchdic valueForKey:@"material_name"]objectAtIndex:i] forKey:@"name"];
-                        [Productdict setObject:[[Searchdic valueForKey:@"product_id"]objectAtIndex:i] forKey:@"id"];
-                        [Productdict setObject:[[Searchdic valueForKey:@"sell_price"]objectAtIndex:i] forKey:@"price"];
+                        [Productdict setObject:[[Searchdic valueForKey:@"pro_name"]objectAtIndex:i] forKey:@"name"];
+                        [Productdict setObject:[[Searchdic valueForKey:@"pro_id"]objectAtIndex:i] forKey:@"id"];
+                        [Productdict setObject:[[Searchdic valueForKey:@"unitprice"]objectAtIndex:i] forKey:@"price"];
                         [Productdict setObject:@"1" forKey:@"qty"];
-                         [Productdict setObject:[[ProductDict valueForKey:@"stock_qty"]objectAtIndex:i] forKey:@"product_stock"];
-                        [Productdict setObject:[[ProductDict valueForKey:@"store_id"]objectAtIndex:i] forKey:@"store_id"];
+                         [Productdict setObject:[[ProductDict valueForKey:@"product_stock"]objectAtIndex:i] forKey:@"product_stock"];
+                        [Productdict setObject:StoreID forKey:@"store_id"];
                         
                         [withSelectMain addObject:Productdict];
                     }
@@ -259,33 +272,34 @@
             }
             else
             {
-                NSString *ID=[[ProductDict valueForKey:@"product_id"] objectAtIndex:indexPath.section-1];
                 
-                NSMutableArray *Arr=[Searchdic valueForKey:@"product_id"];
+                NSString *ID=[[ProductDict valueForKey:@"pro_id"] objectAtIndex:indexPath.section-1];
+                
+                NSMutableArray *Arr=[Searchdic valueForKey:@"pro_id"];
                 int idint=[Arr indexOfObject:ID];
                 if (![[WithSelectArr objectAtIndex:idint] isEqualToString:@"NO"])
                 {
                     [WithSelectArr replaceObjectAtIndex:idint withObject:@"NO"];
                     
                     NSArray *idarr=[withSelectMain valueForKey:@"id"];
-                    NSInteger indx=[idarr indexOfObject:[[ProductDict valueForKey:@"product_id"] objectAtIndex:indexPath.section-1]];
+                    NSInteger indx=[idarr indexOfObject:[[ProductDict valueForKey:@"pro_id"] objectAtIndex:indexPath.section-1]];
                     [withSelectMain removeObjectAtIndex:indx];
                 }
                 else
                 {
-                    [WithSelectArr replaceObjectAtIndex:idint withObject:[[ProductDict valueForKey:@"product_id"] objectAtIndex:indexPath.section-1]];
+                    //
+                    
+                    [WithSelectArr replaceObjectAtIndex:idint withObject:[[ProductDict valueForKey:@"pro_id"] objectAtIndex:indexPath.section-1]];
                     
                     NSMutableDictionary *Productdict = [[NSMutableDictionary alloc] init];
                     
-                    [Productdict setObject:[[ProductDict valueForKey:@"material_name"]objectAtIndex:indexPath.section-1] forKey:@"name"];
-                    [Productdict setObject:[[ProductDict valueForKey:@"product_id"]objectAtIndex:indexPath.section-1] forKey:@"id"];
-                    [Productdict setObject:[[ProductDict valueForKey:@"sell_price"]objectAtIndex:indexPath.section-1] forKey:@"price"];
+                    [Productdict setObject:[[ProductDict valueForKey:@"pro_name"]objectAtIndex:indexPath.section-1] forKey:@"name"];
+                    [Productdict setObject:[[ProductDict valueForKey:@"pro_id"]objectAtIndex:indexPath.section-1] forKey:@"id"];
+                    [Productdict setObject:[[ProductDict valueForKey:@"unitprice"]objectAtIndex:indexPath.section-1] forKey:@"price"];
                     [Productdict setObject:@"1" forKey:@"qty"];
-                    [Productdict setObject:[[ProductDict valueForKey:@"stock_qty"]objectAtIndex:indexPath.section-1] forKey:@"product_stock"];
-                    [Productdict setObject:[[ProductDict valueForKey:@"store_id"]objectAtIndex:indexPath.section-1] forKey:@"store_id"];
+                    [Productdict setObject:[[ProductDict valueForKey:@"product_stock"]objectAtIndex:indexPath.section-1] forKey:@"product_stock"];
+                    [Productdict setObject:StoreID forKey:@"store_id"];
                     [withSelectMain addObject:Productdict];
-                    
-                    
                     
                 }
             }
@@ -351,8 +365,8 @@
                 [withSelectMain addObject:Productdict];
             }
         }
-        [_delegate ChkProductValue:withSelectMain];
         
+        [_delegate ChkProductValue:withSelectMain];
         [ProductTable reloadData];
     }
 }
@@ -371,17 +385,16 @@
                 for (int i=0; i<Searchdic.count; i++)
                 {
                     SelectAll=YES;
-                    
-                    [WithSelectArr replaceObjectAtIndex:i withObject:[[Searchdic valueForKey:@"product_id"] objectAtIndex:i]];
+                    [WithSelectArr replaceObjectAtIndex:i withObject:[[Searchdic valueForKey:@"pro_id"] objectAtIndex:i]];
                     
                     NSMutableDictionary *Productdict = [[NSMutableDictionary alloc] init];
                     
-                    [Productdict setObject:[[Searchdic valueForKey:@"material_name"]objectAtIndex:i] forKey:@"name"];
-                    [Productdict setObject:[[Searchdic valueForKey:@"product_id"]objectAtIndex:i] forKey:@"id"];
-                    [Productdict setObject:[[Searchdic valueForKey:@"sell_price"]objectAtIndex:i] forKey:@"price"];
+                    [Productdict setObject:[[Searchdic valueForKey:@"pro_name"]objectAtIndex:i] forKey:@"name"];
+                    [Productdict setObject:[[Searchdic valueForKey:@"pro_id"]objectAtIndex:i] forKey:@"id"];
+                    [Productdict setObject:[[Searchdic valueForKey:@"unitprice"]objectAtIndex:i] forKey:@"price"];
                     [Productdict setObject:@"1" forKey:@"qty"];
-                    [Productdict setObject:[[Searchdic valueForKey:@"stock_qty"]objectAtIndex:i] forKey:@"product_stock"];
-                    [Productdict setObject:[[Searchdic valueForKey:@"store_id"]objectAtIndex:i] forKey:@"store_id"];
+                    [Productdict setObject:[[Searchdic valueForKey:@"product_stock"]objectAtIndex:i] forKey:@"product_stock"];
+                    [Productdict setObject:StoreID forKey:@"store_id"];
                     [withSelectMain addObject:Productdict];
                 }
             }
@@ -399,9 +412,11 @@
         }
         else
         {
-            NSString *ID=[[ProductDict valueForKey:@"product_id"] objectAtIndex:senderButton.tag-1];
             
-            NSMutableArray *Arr=[Searchdic valueForKey:@"product_id"];
+            
+            NSString *ID=[[ProductDict valueForKey:@"pro_id"] objectAtIndex:senderButton.tag-1];
+            
+            NSMutableArray *Arr=[Searchdic valueForKey:@"pro_id"];
             int idint=[Arr indexOfObject:ID];
             
             if (![[WithSelectArr objectAtIndex:idint] isEqualToString:@"NO"])
@@ -409,21 +424,21 @@
                 [WithSelectArr replaceObjectAtIndex:idint withObject:@"NO"];
                 
                 NSArray *idarr=[withSelectMain valueForKey:@"id"];
-                NSInteger indx=[idarr indexOfObject:[[ProductDict valueForKey:@"product_id"] objectAtIndex:senderButton.tag-1]];
+                NSInteger indx=[idarr indexOfObject:[[ProductDict valueForKey:@"pro_id"] objectAtIndex:senderButton.tag-1]];
                 [withSelectMain removeObjectAtIndex:indx];
             }
             else
             {
-                [WithSelectArr replaceObjectAtIndex:idint withObject:[[ProductDict valueForKey:@"product_id"] objectAtIndex:senderButton.tag-1]];
+                [WithSelectArr replaceObjectAtIndex:idint withObject:[[ProductDict valueForKey:@"pro_id"] objectAtIndex:senderButton.tag-1]];
                 
                 NSMutableDictionary *Productdict = [[NSMutableDictionary alloc] init];
                 
-                [Productdict setObject:[[ProductDict valueForKey:@"material_name"]objectAtIndex:senderButton.tag-1] forKey:@"name"];
-                [Productdict setObject:[[ProductDict valueForKey:@"product_id"]objectAtIndex:senderButton.tag-1] forKey:@"id"];
-                [Productdict setObject:[[ProductDict valueForKey:@"sell_price"]objectAtIndex:senderButton.tag-1] forKey:@"price"];
-                [Productdict setObject:[[Searchdic valueForKey:@"stock_qty"]objectAtIndex:senderButton.tag-1] forKey:@"product_stock"];
+                [Productdict setObject:[[ProductDict valueForKey:@"pro_name"]objectAtIndex:senderButton.tag-1] forKey:@"name"];
+                [Productdict setObject:[[ProductDict valueForKey:@"pro_id"]objectAtIndex:senderButton.tag-1] forKey:@"id"];
+                [Productdict setObject:[[ProductDict valueForKey:@"unitprice"]objectAtIndex:senderButton.tag-1] forKey:@"price"];
+                [Productdict setObject:[[Searchdic valueForKey:@"product_stock"]objectAtIndex:senderButton.tag-1] forKey:@"product_stock"];
                 [Productdict setObject:@"1" forKey:@"qty"];
-                [Productdict setObject:[[Searchdic valueForKey:@"store_id"]objectAtIndex:senderButton.tag-1] forKey:@"store_id"];
+                [Productdict setObject:StoreID forKey:@"store_id"];
                 [withSelectMain addObject:Productdict];
             }
 

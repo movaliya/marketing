@@ -93,6 +93,7 @@
     
     CutomerView.hidden=YES;
     store_Popup_View.hidden=YES;
+    Select_Store_BTN.enabled=NO;
     
     vendor_id=@"";
     Inward_id=@"";
