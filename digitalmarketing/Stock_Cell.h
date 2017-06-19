@@ -13,5 +13,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *StockQTY_lbl;
 @property (weak, nonatomic) IBOutlet UILabel *PendingQTY_lbl;
 @property (weak, nonatomic) IBOutlet UIView *BackView;
+@property (strong, nonatomic) IBOutlet UIButton *btnShowHide;
 
 @end

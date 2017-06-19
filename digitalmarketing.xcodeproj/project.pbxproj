@@ -153,6 +153,8 @@
 		B1417A061ED18B1900592486 /* UpdateInwardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1417A041ED18B1900592486 /* UpdateInwardCell.xib */; };
 		B1417A0A1ED1ABD800592486 /* UpdateDispatchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1417A081ED1ABD800592486 /* UpdateDispatchCell.m */; };
 		B1417A0B1ED1ABD800592486 /* UpdateDispatchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1417A091ED1ABD800592486 /* UpdateDispatchCell.xib */; };
+		B153DE7E1EF6DEF300E2CDD4 /* StockStoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B153DE7C1EF6DEF300E2CDD4 /* StockStoreCell.m */; };
+		B153DE7F1EF6DEF300E2CDD4 /* StockStoreCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B153DE7D1EF6DEF300E2CDD4 /* StockStoreCell.xib */; };
 		B17072411ED0160A00D6CEAA /* UpdateOrderVW.m in Sources */ = {isa = PBXBuildFile; fileRef = B17072401ED0160A00D6CEAA /* UpdateOrderVW.m */; };
 		B17072451ED01B6500D6CEAA /* UpdateOrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B17072431ED01B6500D6CEAA /* UpdateOrderCell.m */; };
 		B17072461ED01B6500D6CEAA /* UpdateOrderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B17072441ED01B6500D6CEAA /* UpdateOrderCell.xib */; };
@@ -397,6 +399,9 @@
 		B1417A071ED1ABD800592486 /* UpdateDispatchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateDispatchCell.h; sourceTree = "<group>"; };
 		B1417A081ED1ABD800592486 /* UpdateDispatchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateDispatchCell.m; sourceTree = "<group>"; };
 		B1417A091ED1ABD800592486 /* UpdateDispatchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpdateDispatchCell.xib; sourceTree = "<group>"; };
+		B153DE7B1EF6DEF300E2CDD4 /* StockStoreCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockStoreCell.h; sourceTree = "<group>"; };
+		B153DE7C1EF6DEF300E2CDD4 /* StockStoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockStoreCell.m; sourceTree = "<group>"; };
+		B153DE7D1EF6DEF300E2CDD4 /* StockStoreCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StockStoreCell.xib; sourceTree = "<group>"; };
 		B170723F1ED0160A00D6CEAA /* UpdateOrderVW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateOrderVW.h; sourceTree = "<group>"; };
 		B17072401ED0160A00D6CEAA /* UpdateOrderVW.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateOrderVW.m; sourceTree = "<group>"; };
 		B17072421ED01B6500D6CEAA /* UpdateOrderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateOrderCell.h; sourceTree = "<group>"; };
@@ -905,6 +910,9 @@
 				534D25071ECAD24500F00B47 /* Stock_Cell.h */,
 				534D25081ECAD24500F00B47 /* Stock_Cell.m */,
 				534D25091ECAD24500F00B47 /* Stock_Cell.xib */,
+				B153DE7B1EF6DEF300E2CDD4 /* StockStoreCell.h */,
+				B153DE7C1EF6DEF300E2CDD4 /* StockStoreCell.m */,
+				B153DE7D1EF6DEF300E2CDD4 /* StockStoreCell.xib */,
 				534D250C1ECB13C100F00B47 /* OrderHistry_Cell.h */,
 				534D250D1ECB13C100F00B47 /* OrderHistry_Cell.m */,
 				534D250E1ECB13C100F00B47 /* OrderHistry_Cell.xib */,
@@ -1054,6 +1062,7 @@
 				530DC55F1EC872C1000D4CA2 /* LaunchScreen.storyboard in Resources */,
 				530DC62A1EC89989000D4CA2 /* DrawerView.xib in Resources */,
 				53523A7D1EC9DDF000EE41E9 /* attendence_empty.png in Resources */,
+				B153DE7F1EF6DEF300E2CDD4 /* StockStoreCell.xib in Resources */,
 				534D69D21ED1B25500EA2F99 /* Main.storyboard in Resources */,
 				534D25281ECB4ECB00F00B47 /* Customer_Cell.xib in Resources */,
 				530E78341ED7E9A6001E04F4 /* splash.jpg in Resources */,
@@ -1087,6 +1096,7 @@
 				530DC58F1EC88157000D4CA2 /* NSData+ImageContentType.m in Sources */,
 				534D251F1ECB42CE00F00B47 /* OrderDetail_Cell.m in Sources */,
 				530DC5F21EC8822C000D4CA2 /* IQNSArray+Sort.m in Sources */,
+				B153DE7E1EF6DEF300E2CDD4 /* StockStoreCell.m in Sources */,
 				530DC5951EC88157000D4CA2 /* SDWebImageManager.m in Sources */,
 				530DC59A1EC88157000D4CA2 /* UIImageView+HighlightedWebCache.m in Sources */,
 				B1417A051ED18B1900592486 /* UpdateInwardCell.m in Sources */,

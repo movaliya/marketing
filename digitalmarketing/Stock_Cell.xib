@@ -59,6 +59,16 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B3f-4z-Ihx">
+                                <rect key="frame" x="0.0" y="0.0" width="358" height="47"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                                <state key="normal">
+                                    <color key="titleColor" red="0.015686274510000001" green="0.31372549020000001" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <state key="selected" image="expanded.png">
+                                    <color key="titleColor" red="0.015686274510000001" green="0.31372549020000001" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -75,7 +85,11 @@
                             <constraint firstItem="VuW-ea-NHJ" firstAttribute="centerY" secondItem="wVE-UY-qQi" secondAttribute="centerY" id="OND-cJ-g2a"/>
                             <constraint firstItem="zbM-Co-xWd" firstAttribute="top" secondItem="wVE-UY-qQi" secondAttribute="top" id="PT0-Sn-hjf"/>
                             <constraint firstItem="tn4-30-oJR" firstAttribute="centerY" secondItem="wVE-UY-qQi" secondAttribute="centerY" id="T2B-g2-Bhv"/>
+                            <constraint firstItem="B3f-4z-Ihx" firstAttribute="top" secondItem="wVE-UY-qQi" secondAttribute="top" id="X1i-tx-2WZ"/>
+                            <constraint firstAttribute="trailing" secondItem="B3f-4z-Ihx" secondAttribute="trailing" id="alt-dN-d27"/>
+                            <constraint firstItem="B3f-4z-Ihx" firstAttribute="leading" secondItem="wVE-UY-qQi" secondAttribute="leading" id="bcG-FZ-wob"/>
                             <constraint firstAttribute="bottom" secondItem="zbM-Co-xWd" secondAttribute="bottom" id="bih-Pv-Ana"/>
+                            <constraint firstAttribute="bottom" secondItem="B3f-4z-Ihx" secondAttribute="bottom" id="ivQ-eS-SwX"/>
                             <constraint firstItem="Qec-WM-kkT" firstAttribute="top" secondItem="wVE-UY-qQi" secondAttribute="top" id="mwH-zm-eVJ"/>
                         </constraints>
                     </view>
@@ -93,8 +107,12 @@
                 <outlet property="PendingQTY_lbl" destination="VuW-ea-NHJ" id="vhN-MQ-rhq"/>
                 <outlet property="ProductName" destination="39d-5f-C3m" id="qPh-h8-JTS"/>
                 <outlet property="StockQTY_lbl" destination="tn4-30-oJR" id="Rfa-FL-BpI"/>
+                <outlet property="btnShowHide" destination="B3f-4z-Ihx" id="mnH-aI-nVf"/>
             </connections>
             <point key="canvasLocation" x="-85" y="-22.5"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="expanded.png" width="16" height="16"/>
+    </resources>
 </document>
