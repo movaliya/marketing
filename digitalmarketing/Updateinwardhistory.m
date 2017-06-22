@@ -207,7 +207,7 @@
 }
 - (IBAction)Select_Store_Action:(id)sender
 {
-    store_Popup_View.hidden=NO;
+    store_Popup_View.hidden=YES;
     if (CheckSTORELOAD==NO)
     {
         [self getStorDetail];

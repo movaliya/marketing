@@ -526,11 +526,11 @@
         BOOL Chk = NO;
         for (int i=0; i<ProductArry.count; i++)
         {
-            if ([[[ProductArry objectAtIndex:i] valueForKey:@"product_stock"] isEqualToString:@"-"] || [[[ProductArry objectAtIndex:i] valueForKey:@"product_stock"] isEqualToString:@"0"])
+            if ([[[[ProductArry objectAtIndex:i] valueForKey:@"product_stock"] stringValue] isEqualToString:@"-"] || [[[[ProductArry objectAtIndex:i] valueForKey:@"product_stock"] stringValue] isEqualToString:@"0"])
             {
                 Chk=NO;
-                break;
                 [AppDelegate showErrorMessageWithTitle:AlertTitleError message:[NSString stringWithFormat:@"Selected product quantity not available in stock."] delegate:nil];
+                break;
             }
             else
             {

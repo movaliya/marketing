@@ -122,7 +122,7 @@
         // NSString *Country=[DispatchDetailDICTPass valueForKey:@"country"];
         // CustomerStateCityLBL.text=[NSString stringWithFormat:@"%@,%@,%@",city,State,Country];
         
-        
+        [self.StoreBtn setTitle:[DispatchDetailDICTPass valueForKey:@"store_name"]forState:UIControlStateNormal];
         
         TitleTop1.constant=15;
         TitleTop2.constant=8;
@@ -158,6 +158,9 @@
     }
     
     
+}
+
+- (IBAction)StoreBtn_Action:(id)sender {
 }
 - (IBAction)SelectCutomerBtn_Action:(id)sender
 {

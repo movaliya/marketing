@@ -21,6 +21,7 @@
     BOOL CheckSUCCESS;
 }
 @property (strong, nonatomic) NSMutableDictionary *DispatchDetailDICTPass;
+@property (weak, nonatomic) IBOutlet UIButton *StoreBtn;
 
 @property (weak, nonatomic) IBOutlet UIView *PopUpCustomerVW;
 @property (weak, nonatomic) IBOutlet UIView *CustomerVIEW;
