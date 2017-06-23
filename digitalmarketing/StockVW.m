@@ -148,6 +148,17 @@
     cell.StockQTY_lbl.text=[NSString stringWithFormat:@"%@",[[StockDict valueForKey:@"stock_qty"]objectAtIndex:section]];
     cell.PendingQTY_lbl.text=[NSString stringWithFormat:@"%@",[[StockDict valueForKey:@"order_remaining_qty"]objectAtIndex:section]];
     
+    NSInteger checkValue=[[[StockDict valueForKey:@"stock_qty"]objectAtIndex:section]integerValue];
+    if (checkValue<50)
+    {
+        cell.StockQTY_lbl.textColor=[UIColor redColor];
+    }
+    else
+    {
+        cell.StockQTY_lbl.textColor=[UIColor colorWithRed:(132/255.0) green:(132/255.0) blue:(132/255.0) alpha:1.0];
+        
+    }
+    
     if ([arrSelectedSectionIndex containsObject:[NSNumber numberWithInteger:section]])
     {
         cell.btnShowHide.selected = YES;
@@ -211,6 +222,17 @@
     cell.StoreName_LBL.text=[[[StockArr objectAtIndex:indexPath.section] objectAtIndex:indexPath.row]valueForKey:@"store_name"];
     ;
     cell.StoreQnt_LBL.text=[NSString stringWithFormat:@"%@",[[[StockArr objectAtIndex:indexPath.section] objectAtIndex:indexPath.row]valueForKey:@"stock_qty"]];
+    
+    NSInteger checkValue=[[[[StockArr objectAtIndex:indexPath.section] objectAtIndex:indexPath.row]valueForKey:@"stock_qty"]integerValue];
+    if (checkValue<50)
+    {
+        cell.StoreQnt_LBL.textColor=[UIColor redColor];
+    }
+    else
+    {
+        cell.StoreQnt_LBL.textColor=[UIColor colorWithRed:(132/255.0) green:(132/255.0) blue:(132/255.0) alpha:1.0];
+
+    }
     cell.PandingQnt_LBL.text=[NSString stringWithFormat:@"%@",[[[StockArr objectAtIndex:indexPath.section] objectAtIndex:indexPath.row]valueForKey:@"order_remaining_qty"]];
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     return cell;

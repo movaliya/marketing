@@ -59,6 +59,7 @@
         [dictParams setObject:Base_Key  forKey:@"key"];
         [dictParams setObject:Dispatch_Product  forKey:@"s"];
         [dictParams setObject:self.DispatchCutomerID  forKey:@"customer_id"];
+        [dictParams setObject:self.StoreID  forKey:@"store_id"];
     }
     else if ([self.CheckDispatch isEqualToString:@"INWARD"])
     {
@@ -173,6 +174,27 @@
         {
             cell.ProductNameLBL.text=[[ProductDict valueForKey:@"pro_name"]objectAtIndex:indexPath.section-1];
             cell.PriceLBL.text=[NSString stringWithFormat:@"%@",[[ProductDict valueForKey:@"unitprice"]objectAtIndex:indexPath.section-1]];
+            
+            if ([WithSelectArr containsObject:[[ProductDict valueForKey:@"pro_id"] objectAtIndex:indexPath.section-1]])
+            {
+                int idx=[WithSelectArr indexOfObject:[[ProductDict valueForKey:@"pro_id"] objectAtIndex:indexPath.section-1]];
+                
+                if ([[WithSelectArr objectAtIndex:idx] isEqualToString:[[ProductDict valueForKey:@"pro_id"] objectAtIndex:indexPath.section-1]])
+                {
+                    [cell.CheckBoxBtn setImage:[UIImage imageNamed:@"EnbleCheckBox"] forState:UIControlStateNormal];
+                }
+                else
+                {
+                    [cell.CheckBoxBtn setImage:[UIImage imageNamed:@"UncheckBox"] forState:UIControlStateNormal];
+                }
+                
+            }
+            else
+            {
+                [cell.CheckBoxBtn setImage:[UIImage imageNamed:@"UncheckBox"] forState:UIControlStateNormal];
+            }
+            
+            /*
             if ([[WithSelectArr objectAtIndex:indexPath.section-1] isEqualToString:[[ProductDict valueForKey:@"pro_id"] objectAtIndex:indexPath.section-1]])
             {
                 [cell.CheckBoxBtn setImage:[UIImage imageNamed:@"EnbleCheckBox"] forState:UIControlStateNormal];
@@ -180,13 +202,34 @@
             else
             {
                 [cell.CheckBoxBtn setImage:[UIImage imageNamed:@"UncheckBox"] forState:UIControlStateNormal];
-            }
+            }*/
         }
     }
     else if ([self.CheckDispatch isEqualToString:@"INWARD"])
     {
         cell.ProductNameLBL.text=[[ProductDict valueForKey:@"material_name"]objectAtIndex:indexPath.section];
         cell.PriceLBL.text=[NSString stringWithFormat:@"%@",[[ProductDict valueForKey:@"sell_price"]objectAtIndex:indexPath.section]];
+        
+        
+        if ([WithSelectArr containsObject:[[ProductDict valueForKey:@"product_id"] objectAtIndex:indexPath.section]])
+        {
+            int idx=[WithSelectArr indexOfObject:[[ProductDict valueForKey:@"product_id"] objectAtIndex:indexPath.section]];
+            
+            if ([[WithSelectArr objectAtIndex:idx] isEqualToString:[[ProductDict valueForKey:@"product_id"] objectAtIndex:indexPath.section]])
+            {
+                [cell.CheckBoxBtn setImage:[UIImage imageNamed:@"EnbleCheckBox"] forState:UIControlStateNormal];
+            }
+            else
+            {
+                [cell.CheckBoxBtn setImage:[UIImage imageNamed:@"UncheckBox"] forState:UIControlStateNormal];
+            }
+        
+        }
+        else
+        {
+             [cell.CheckBoxBtn setImage:[UIImage imageNamed:@"UncheckBox"] forState:UIControlStateNormal];
+        }
+        /*
         if ([[WithSelectArr objectAtIndex:indexPath.section] isEqualToString:[[ProductDict valueForKey:@"product_id"] objectAtIndex:indexPath.section]])
         {
             [cell.CheckBoxBtn setImage:[UIImage imageNamed:@"EnbleCheckBox"] forState:UIControlStateNormal];
@@ -194,7 +237,7 @@
         else
         {
             [cell.CheckBoxBtn setImage:[UIImage imageNamed:@"UncheckBox"] forState:UIControlStateNormal];
-        }
+        }*/
     }
     else
     {
@@ -252,7 +295,7 @@
                         [Productdict setObject:[[Searchdic valueForKey:@"pro_name"]objectAtIndex:i] forKey:@"name"];
                         [Productdict setObject:[[Searchdic valueForKey:@"pro_id"]objectAtIndex:i] forKey:@"id"];
                         [Productdict setObject:[[Searchdic valueForKey:@"unitprice"]objectAtIndex:i] forKey:@"price"];
-                        [Productdict setObject:@"1" forKey:@"qty"];
+                        [Productdict setObject:[[Searchdic valueForKey:@"remaining_qty"]objectAtIndex:i] forKey:@"qty"];
                          [Productdict setObject:[[ProductDict valueForKey:@"product_stock"]objectAtIndex:i] forKey:@"product_stock"];
                         [Productdict setObject:StoreID forKey:@"store_id"];
                         
@@ -296,7 +339,7 @@
                     [Productdict setObject:[[ProductDict valueForKey:@"pro_name"]objectAtIndex:indexPath.section-1] forKey:@"name"];
                     [Productdict setObject:[[ProductDict valueForKey:@"pro_id"]objectAtIndex:indexPath.section-1] forKey:@"id"];
                     [Productdict setObject:[[ProductDict valueForKey:@"unitprice"]objectAtIndex:indexPath.section-1] forKey:@"price"];
-                    [Productdict setObject:@"1" forKey:@"qty"];
+                    [Productdict setObject:[[ProductDict valueForKey:@"remaining_qty"]objectAtIndex:indexPath.section-1] forKey:@"qty"];
                     [Productdict setObject:[[ProductDict valueForKey:@"product_stock"]objectAtIndex:indexPath.section-1] forKey:@"product_stock"];
                     [Productdict setObject:StoreID forKey:@"store_id"];
                     [withSelectMain addObject:Productdict];
@@ -392,7 +435,7 @@
                     [Productdict setObject:[[Searchdic valueForKey:@"pro_name"]objectAtIndex:i] forKey:@"name"];
                     [Productdict setObject:[[Searchdic valueForKey:@"pro_id"]objectAtIndex:i] forKey:@"id"];
                     [Productdict setObject:[[Searchdic valueForKey:@"unitprice"]objectAtIndex:i] forKey:@"price"];
-                    [Productdict setObject:@"1" forKey:@"qty"];
+                    [Productdict setObject:[[Searchdic valueForKey:@"remaining_qty"]objectAtIndex:i] forKey:@"qty"];
                     [Productdict setObject:[[Searchdic valueForKey:@"product_stock"]objectAtIndex:i] forKey:@"product_stock"];
                     [Productdict setObject:StoreID forKey:@"store_id"];
                     [withSelectMain addObject:Productdict];
@@ -412,7 +455,6 @@
         }
         else
         {
-            
             
             NSString *ID=[[ProductDict valueForKey:@"pro_id"] objectAtIndex:senderButton.tag-1];
             
@@ -437,7 +479,7 @@
                 [Productdict setObject:[[ProductDict valueForKey:@"pro_id"]objectAtIndex:senderButton.tag-1] forKey:@"id"];
                 [Productdict setObject:[[ProductDict valueForKey:@"unitprice"]objectAtIndex:senderButton.tag-1] forKey:@"price"];
                 [Productdict setObject:[[Searchdic valueForKey:@"product_stock"]objectAtIndex:senderButton.tag-1] forKey:@"product_stock"];
-                [Productdict setObject:@"1" forKey:@"qty"];
+                [Productdict setObject:[[Searchdic valueForKey:@"remaining_qty"]objectAtIndex:senderButton.tag-1] forKey:@"qty"];
                 [Productdict setObject:StoreID forKey:@"store_id"];
                 [withSelectMain addObject:Productdict];
             }

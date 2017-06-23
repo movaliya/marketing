@@ -464,6 +464,18 @@
     }
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return YES if you want the specified item to be editable.
+    return YES;
+}
+
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        //add code here for when you hit delete
+    }
+}
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView==CustomerTBL)
@@ -496,16 +508,19 @@
     
     
     NSMutableArray *NewArr=[[NSMutableArray alloc]init];
-    NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
-    NSDictionary *oldDict = (NSDictionary *)[ProductDict objectAtIndex:0];
-    [newDict addEntriesFromDictionary:oldDict];
-    [newDict removeObjectForKey:@"product_stock"];
-    [NewArr addObject:newDict];
+    
+    for (NSInteger B=0; B<ProductDict.count; B++)
+    {
+        NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
+        NSDictionary *oldDict = (NSDictionary *)[ProductDict objectAtIndex:B];
+        [newDict addEntriesFromDictionary:oldDict];
+        [newDict removeObjectForKey:@"product_stock"];
+        [NewArr addObject:newDict];
+    }
     
     NSError * err;
     NSData * jsonData = [NSJSONSerialization dataWithJSONObject:NewArr options:0 error:&err];
     ProductJSONString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    
     
     [ProductTBL reloadData];
     
@@ -526,7 +541,7 @@
         BOOL Chk = NO;
         for (int i=0; i<ProductArry.count; i++)
         {
-            if ([[[[ProductArry objectAtIndex:i] valueForKey:@"product_stock"] stringValue] isEqualToString:@"-"] || [[[[ProductArry objectAtIndex:i] valueForKey:@"product_stock"] stringValue] isEqualToString:@"0"])
+            if ([[[ProductArry objectAtIndex:i] valueForKey:@"product_stock"] isEqualToString:@"-"] || [[[ProductArry objectAtIndex:i] valueForKey:@"product_stock"]  isEqualToString:@"0"])
             {
                 Chk=NO;
                 [AppDelegate showErrorMessageWithTitle:AlertTitleError message:[NSString stringWithFormat:@"Selected product quantity not available in stock."] delegate:nil];
@@ -559,7 +574,10 @@
     {
          dispatch_date = SelectDate_TXT.text;
     }
-    
+    if ([Remark_TextView.text isEqualToString:@"Enter Remark"])
+    {
+        Remark_TextView.text=@"";
+    }
     NSDictionary *UserSaveData=[[NSUserDefaults standardUserDefaults]objectForKey:@"LoginUserDic"];
     NSMutableDictionary *dictParams = [[NSMutableDictionary alloc] init];
     [dictParams setObject:Base_Key  forKey:@"key"];
@@ -570,6 +588,7 @@
     
     [dictParams setObject:dispatch_date  forKey:@"dispatch_date"];
     [dictParams setObject:LrNumber_TXT.text  forKey:@"lr_number"];
+    
     [dictParams setObject:Remark_TextView.text  forKey:@"remark"];
     [dictParams setObject:ProductJSONString  forKey:@"product"];
     
@@ -596,6 +615,7 @@
 
 - (IBAction)MoreDetail_Ok_Action:(id)sender
 {
+    [self.view endEditing:YES];
     MoreDetail_MainView.hidden=YES;
     
     BOOL internet=[AppDelegate connectedToNetwork];
@@ -609,6 +629,7 @@
 
 - (IBAction)MoreDetail_Cancel_Action:(id)sender
 {
+    [self.view endEditing:YES];
     MoreDetail_MainView.hidden=YES;
     
     BOOL internet=[AppDelegate connectedToNetwork];
@@ -699,81 +720,96 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
      [textField resignFirstResponder];
-    for (UIView *view in ProductTBL.subviews)
+    
+    NSIndexPath *pathOfTheCell=[NSIndexPath indexPathForRow:0 inSection:[textField tag]];
+    OrderDetail_Cell *cell = (OrderDetail_Cell *)[ProductTBL cellForRowAtIndexPath:pathOfTheCell];
+    
+    if (textField==cell.Qnt_TXT)
     {
-        for (OrderDetail_Cell *cell in view.subviews)
+        for (UIView *view in ProductTBL.subviews)
         {
-            cell.QntLine_LBL.backgroundColor=[UIColor colorWithRed:117.0f/255.0f green:117.0f/255.0f blue:117.0f/255.0f alpha:1.0f];
-        }
-    }
-    if ([textField.text isEqualToString:@""])
-    {
-        [ProductTBL reloadData];
-    }
-    else
-    {
-        NSString *Stock = [[ProductArry objectAtIndex:textField.tag] valueForKey:@"product_stock"];
-        if ([Stock floatValue]>=[textField.text floatValue])
-        {
-            NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
-            NSDictionary *oldDict = (NSDictionary *)[ProductArry objectAtIndex:textField.tag];
-            [newDict addEntriesFromDictionary:oldDict];
-            [newDict setObject:textField.text forKey:@"qty"];
-            [ProductArry replaceObjectAtIndex:textField.tag withObject:newDict];
-            
-            totalAmount=0;
-            totalQTY=0;
-            GrandAmount=0;
-            for (NSInteger jj=0; jj<ProductArry.count; jj++)
+            for (OrderDetail_Cell *cell in view.subviews)
             {
-                totalAmount=totalAmount+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:jj] integerValue];
-                
-                totalQTY=totalQTY+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue];
+                cell.QntLine_LBL.backgroundColor=[UIColor colorWithRed:117.0f/255.0f green:117.0f/255.0f blue:117.0f/255.0f alpha:1.0f];
             }
-            //  GrandAmount=totalAmount-DiscoutINT;
-            //self.Discount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",DiscoutINT];
-            self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%ld",(long)totalQTY];
-            //self.TotalAmount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
-            self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
-            
-            NSMutableArray *NewArr=[[NSMutableArray alloc]init];
-            NSMutableDictionary *newDict1 = [[NSMutableDictionary alloc] init];
-            NSDictionary *oldDict1 = (NSDictionary *)[ProductArry objectAtIndex:0];
-            [newDict1 addEntriesFromDictionary:oldDict1];
-            [newDict1 removeObjectForKey:@"product_stock"];
-            [NewArr addObject:newDict1];
-            
-            NSError * err;
-            NSData * jsonData = [NSJSONSerialization dataWithJSONObject:NewArr options:0 error:&err];
-            ProductJSONString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        }
+        if ([textField.text isEqualToString:@""])
+        {
+            [ProductTBL reloadData];
         }
         else
         {
-            
-            [AppDelegate showErrorMessageWithTitle:@"" message:[NSString stringWithFormat:@"%@ Qnt not available in stock.",textField.text] delegate:nil];
-           [textField resignFirstResponder];
+            NSString *Stock = [[ProductArry objectAtIndex:textField.tag] valueForKey:@"product_stock"];
+            if ([Stock floatValue]>=[textField.text floatValue])
+            {
+                NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
+                NSDictionary *oldDict = (NSDictionary *)[ProductArry objectAtIndex:textField.tag];
+                [newDict addEntriesFromDictionary:oldDict];
+                [newDict setObject:textField.text forKey:@"qty"];
+                [ProductArry replaceObjectAtIndex:textField.tag withObject:newDict];
+                
+                totalAmount=0;
+                totalQTY=0;
+                GrandAmount=0;
+                for (NSInteger jj=0; jj<ProductArry.count; jj++)
+                {
+                    totalAmount=totalAmount+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue]*[[[ProductArry valueForKey:@"price"] objectAtIndex:jj] integerValue];
+                    
+                    totalQTY=totalQTY+[[[ProductArry valueForKey:@"qty"] objectAtIndex:jj] integerValue];
+                }
+                //  GrandAmount=totalAmount-DiscoutINT;
+                //self.Discount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",DiscoutINT];
+                self.TotalQTY_LBL.text=[NSString stringWithFormat:@"Nos.%ld",(long)totalQTY];
+                //self.TotalAmount_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
+                self.GrantTotal_LBL.text=[NSString stringWithFormat:@"Rs.%ld",(long)totalAmount];
+                
+                NSMutableArray *NewArr=[[NSMutableArray alloc]init];
+                for (NSInteger B=0; B<ProductArry.count; B++)
+                {
+                    NSMutableDictionary *newDict1 = [[NSMutableDictionary alloc] init];
+                    NSDictionary *oldDict1 = (NSDictionary *)[ProductArry objectAtIndex:B];
+                    [newDict1 addEntriesFromDictionary:oldDict1];
+                    [newDict1 removeObjectForKey:@"product_stock"];
+                    [NewArr addObject:newDict1];
+                }
+                NSError * err;
+                NSData * jsonData = [NSJSONSerialization dataWithJSONObject:NewArr options:0 error:&err];
+                ProductJSONString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+            }
+            else
+            {
+                [AppDelegate showErrorMessageWithTitle:@"" message:[NSString stringWithFormat:@"%@ Qnt not available in stock.",textField.text] delegate:nil];
+                [textField resignFirstResponder];
+            }
+            [ProductTBL reloadData];
         }
-        [ProductTBL reloadData];
     }
+   
+    
     
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    NSString *fulltext = [textField.text stringByAppendingString:string];
-    NSString *charactersSetString = @"0123456789.";
+    NSIndexPath *pathOfTheCell=[NSIndexPath indexPathForRow:0 inSection:[textField tag]];
+    OrderDetail_Cell *cell = (OrderDetail_Cell *)[ProductTBL cellForRowAtIndexPath:pathOfTheCell];
     
-    
-    NSCharacterSet *numbersOnly = [NSCharacterSet characterSetWithCharactersInString:charactersSetString];
-    NSCharacterSet *characterSetFromTextField = [NSCharacterSet characterSetWithCharactersInString:fulltext];
-    
-    // If typed character is out of Set, ignore it.
-    BOOL stringIsValid = [numbersOnly isSupersetOfSet:characterSetFromTextField];
-    if(!stringIsValid) {
-        return NO;
-    }
-    
-    
+    if (textField==cell.Qnt_TXT)
+    {
+        NSString *fulltext = [textField.text stringByAppendingString:string];
+        NSString *charactersSetString = @"0123456789.";
+        
+        
+        NSCharacterSet *numbersOnly = [NSCharacterSet characterSetWithCharactersInString:charactersSetString];
+        NSCharacterSet *characterSetFromTextField = [NSCharacterSet characterSetWithCharactersInString:fulltext];
+        
+        // If typed character is out of Set, ignore it.
+        BOOL stringIsValid = [numbersOnly isSupersetOfSet:characterSetFromTextField];
+        if(!stringIsValid) {
+            return NO;
+        }
+        
+        
         NSString *currentText = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         
         // Change the "," (appears in other locale keyboards, such as russian) key ot "."
@@ -804,6 +840,8 @@
                 return NO;
             }
         }
+    }
+    
     return YES;
 }
 
