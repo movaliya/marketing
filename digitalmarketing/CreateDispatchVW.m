@@ -481,8 +481,24 @@
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
         //add code here for when you hit delete
+        [ProductArry removeObjectAtIndex: indexPath.section];
+        [ProductTBL reloadData];
+        
+        NSMutableArray *NewArr=[[NSMutableArray alloc]init];
+        for (NSInteger B=0; B<ProductArry.count; B++)
+        {
+            NSMutableDictionary *newDict1 = [[NSMutableDictionary alloc] init];
+            NSDictionary *oldDict1 = (NSDictionary *)[ProductArry objectAtIndex:B];
+            [newDict1 addEntriesFromDictionary:oldDict1];
+            [newDict1 removeObjectForKey:@"product_stock"];
+            [NewArr addObject:newDict1];
+        }
+        NSError * err;
+        NSData * jsonData = [NSJSONSerialization dataWithJSONObject:NewArr options:0 error:&err];
+        ProductJSONString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

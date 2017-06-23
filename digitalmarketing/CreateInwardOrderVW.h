@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CCKFNavDrawer.h"
 
 @interface CreateInwardOrderVW : UIViewController
 {
@@ -21,6 +22,8 @@
      BOOL CheckSTORELOAD;
     NSString *StoreID;
 }
+@property (strong, nonatomic) CCKFNavDrawer *rootNav;
+
 @property (weak, nonatomic) IBOutlet UIButton *SelectStore_BTN;
 @property (weak, nonatomic) IBOutlet UITableView *Store_TBL;
 @property (weak, nonatomic) IBOutlet UIView *Store_PopUp_View;

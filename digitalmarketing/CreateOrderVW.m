@@ -30,12 +30,16 @@
     return UIStatusBarStyleLightContent;
 }
 
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [IQKeyboardManager sharedManager].shouldHidePreviousNext = YES;
+    
+    self.rootNav= (CCKFNavDrawer *)self.navigationController;
+    [self.rootNav setCCKFNavDrawerDelegate:self];
+    [self.rootNav.pan_gr setEnabled:NO];
 }
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -287,7 +291,25 @@
         [self.view updateConstraintsIfNeeded];
     }
 }
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return YES if you want the specified item to be editable.
+    return YES;
+}
 
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        //add code here for when you hit delete
+        [ProductArry removeObjectAtIndex: indexPath.section];
+        [ProductTBL reloadData];
+        
+        NSError * err;
+        NSData * jsonData = [NSJSONSerialization dataWithJSONObject:ProductArry options:0 error:&err];
+        ProductJSONString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+}
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView==CustomerTBL)

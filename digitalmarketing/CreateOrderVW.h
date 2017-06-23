@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CCKFNavDrawer.h"
 
 @interface CreateOrderVW : UIViewController
 
@@ -21,6 +22,7 @@
     NSString *ProductJSONString;
     BOOL CheckSUCCESS;
 }
+@property (strong, nonatomic) CCKFNavDrawer *rootNav;
 
 @property (weak, nonatomic) IBOutlet UIButton *SelectCutomer_Button;
 @property (weak, nonatomic) IBOutlet UIView *SelectCustomerBackView;
