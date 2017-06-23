@@ -13,7 +13,8 @@
 #import "OrderDetail_Cell.h"
 #import "IQKeyboardManager.h"
 
-@interface CreateDispatchVW ()<SerachProductVWDelegate,UITextFieldDelegate>
+
+@interface CreateDispatchVW ()<SerachProductVWDelegate,UITextFieldDelegate,CCKFNavDrawerDelegate>
 
 
 @end
@@ -29,6 +30,10 @@
 
 @synthesize SelectDate_TXT,SelectDateView,LrNumber_TXT,LRNumber_View,Remark_view,Remark_TextView,MoreDetail_OK_Btn,MoreDetail_Cancel_Btn,AddMorDetail_view,MoreDetail_MainView;
 @synthesize StoreTBL,Store_PopupView;
+
+
+
+
 -(UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;
@@ -38,6 +43,10 @@
 {
     [super viewWillAppear:animated];
     [IQKeyboardManager sharedManager].shouldHidePreviousNext = YES;
+    
+     self.rootNav= (CCKFNavDrawer *)self.navigationController;
+    [self.rootNav setCCKFNavDrawerDelegate:self];
+    [self.rootNav.pan_gr setEnabled:NO];
 }
 
 - (void)viewDidLoad

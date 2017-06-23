@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CCKFNavDrawer.h"
 
 @interface CreateDispatchVW : UIViewController
 {
@@ -22,6 +23,8 @@
     BOOL CheckSUCCESS;
     BOOL CheckStoreServiceBOOL;
 }
+@property (strong, nonatomic) CCKFNavDrawer *rootNav;
+
 @property (weak, nonatomic) IBOutlet UIButton *SelectStore_BTN;
 @property (weak, nonatomic) IBOutlet UIView *Store_PopupView;
 @property (weak, nonatomic) IBOutlet UITableView *StoreTBL;
