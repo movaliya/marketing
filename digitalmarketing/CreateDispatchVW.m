@@ -180,6 +180,7 @@
     SelectDate_TXT.inputAccessoryView = toolbar;
     [SelectDate_TXT setInputView:datePicker];
     
+    
     //***************************************END*********************************************
     
 }
@@ -566,7 +567,8 @@
         BOOL Chk = NO;
         for (int i=0; i<ProductArry.count; i++)
         {
-            if ([[[ProductArry objectAtIndex:i] valueForKey:@"product_stock"] isEqualToString:@"-"] || [[[ProductArry objectAtIndex:i] valueForKey:@"product_stock"]  isEqualToString:@"0"])
+            NSString *CheckSTR=[NSString stringWithFormat:@"%@",[[ProductArry objectAtIndex:i] valueForKey:@"product_stock"]];
+            if ([CheckSTR isEqualToString:@"-"] || [CheckSTR  isEqualToString:@"0"])
             {
                 Chk=NO;
                 [AppDelegate showErrorMessageWithTitle:AlertTitleError message:[NSString stringWithFormat:@"Selected product quantity not available in stock."] delegate:nil];
@@ -666,6 +668,25 @@
         [AppDelegate showErrorMessageWithTitle:@"" message:@"Please check your internet connection or try again later." delegate:nil];
 }
 
+- (void)dateTextField:(id)sender
+{
+    UIDatePicker *picker = (UIDatePicker*)SelectDate_TXT.inputView;
+    SelectDate_TXT.text = [self formatDate:picker.date];
+}
+
+
+// Formats the date chosen with the date picker.
+- (NSString *)formatDate:(NSDate *)date
+{
+    UIDatePicker *picker = (UIDatePicker*)SelectDate_TXT.inputView;
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    NSDate *eventDate = picker.date;
+    [dateFormat setDateFormat:@"yyyy-MM-dd"];
+    
+    NSString *dateString = [dateFormat stringFromDate:eventDate];
+    return dateString;
+}
+/*
 -(void) dateTextField:(id)sender
 {
     UIDatePicker *picker = (UIDatePicker*)SelectDate_TXT.inputView;
@@ -676,7 +697,7 @@
     NSString *dateString = [dateFormat stringFromDate:eventDate];
     SelectDate_TXT.text = [NSString stringWithFormat:@"%@",dateString];
 }
-
+*/
 -(void)textViewDidBeginEditing:(UITextView *)textView
 {
     
@@ -725,6 +746,12 @@
 {
     // NSIndexPath *pathOfTheCell=[NSIndexPath indexPathForRow:0 inSection:[sender tag]];
     // OfferzoneCell *cell = (OfferzoneCell *)[TBL cellForRowAtIndexPath:pathOfTheCell];
+    
+    if (textField==SelectDate_TXT)
+    {
+        UIDatePicker *picker = (UIDatePicker*)SelectDate_TXT.inputView;
+        SelectDate_TXT.text = [self formatDate:picker.date];
+    }
     
     for (UIView *view in ProductTBL.subviews)
     {
